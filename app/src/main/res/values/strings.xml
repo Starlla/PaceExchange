@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">BarterApp</string>
+
+    <string name="home_button">HOME</string>
+    <string name="offer_button">OFFER</string>
+    <string name="search_button">SEARCH</string>
+</resources>
