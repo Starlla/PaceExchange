@@ -49,4 +49,18 @@
 
     </LinearLayout>
 
+    <!--Testing only-->
+
+    <TextView
+        android:id="@+id/test_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/sign_out_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Out"/>
+
+    <!--Testing block ends-->
 </LinearLayout>

@@ -4,4 +4,9 @@
     <string name="home_button">HOME</string>
     <string name="offer_button">OFFER</string>
     <string name="search_button">SEARCH</string>
+
+    <string name="do_not_have_an_account_sign_up">Do not have an account?</string>
+    <string name="unable_to_sign_in">Failed to sign in. Please check the inputs.</string>
+    <string name="already_have_an_account_sign_in">Already have an account?</string>
+    <string name="failed_to_sign_up">Failed to sign up.</string>
 </resources>
