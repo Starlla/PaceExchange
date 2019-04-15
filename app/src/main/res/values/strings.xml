@@ -4,6 +4,7 @@
     <string name="home_button">HOME</string>
     <string name="offer_button">OFFER</string>
     <string name="search_button">SEARCH</string>
+    <string name="profile_button">PROFILE</string>
 
     <string name="do_not_have_an_account_sign_up">Do not have an account?</string>
     <string name="unable_to_sign_in">Failed to sign in. Please check the inputs.</string>
