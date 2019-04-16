@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="10">
+    >
 
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9.8"
+        android:layout_height="match_parent"
         android:layout_above="@+id/tabPanel">
     </FrameLayout>
 
@@ -19,7 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="0.2">
+        android:background="#e8e5e5"
+        android:gravity="center"
+        android:layout_alignParentBottom="true">
 
         <TextView
             android:layout_width="0dp"
@@ -90,4 +90,4 @@
         <!--android:layout_height="wrap_content" />-->
 
     <!--Testing block ends-->
-</LinearLayout>
+</RelativeLayout>
