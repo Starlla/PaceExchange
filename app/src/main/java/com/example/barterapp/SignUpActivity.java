@@ -18,6 +18,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -69,6 +74,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     FirebaseUser user = auth.getCurrentUser();
+                    String user_id = user.getUid();
+                    String name = nameInput.getText().toString();
+
+                    DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
+
+                    Map newPost = new HashMap();
+                    newPost.put("name", name);
+                    current_user_db.setValue(newPost);
+
                     Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                     intent.putExtra("user", user);
                     startActivity(intent);

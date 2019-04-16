@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         userTest = findViewById(R.id.test_user);
         signOut = findViewById(R.id.sign_out_test);
 
@@ -33,9 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userTest.setText(email + "  " + uid);
         }
 
-
         signOut.setOnClickListener(this);
-
     }
 
 
