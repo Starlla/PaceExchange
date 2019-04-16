@@ -120,6 +120,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             passwordInput.setError(null);
         }
 
+        String name = nameInput.getText().toString();
+        if (name.isEmpty()) {
+            nameInput.setError("This field cannot be blank.");
+            isValid = false;
+        } else {
+            passwordInput.setError(null);
+        }
+
         return isValid;
     }
 

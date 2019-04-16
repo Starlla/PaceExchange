@@ -4,21 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="4">
+    android:weightSum="10">
 
     <FrameLayout
-        android:id="@+id/profile_container"
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <FrameLayout
-        android:id="@+id/inventory_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3" />
+        android:layout_weight="9.8"
+        android:layout_above="@+id/tabPanel">
+    </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/tabPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -47,6 +44,7 @@
             android:padding="5dp"
             android:text="@string/search_button"/>
         <TextView
+            android:id="@+id/profile_tab"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -63,11 +61,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/sign_out_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign Out"/>
 
     <!--Testing block ends-->
 </LinearLayout>

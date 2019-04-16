@@ -1,6 +1,8 @@
 package com.example.barterapp;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,10 +12,14 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements ProfileFragment.ProfileFragmentButtonClickHandler{
 
     private TextView userTest;
-    Button signOut;
+    private TextView currentTabView;
+    private TextView profileTab;
+    ProfileFragment profileFragment;
+    Fragment currentFragment;
+    String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +27,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         userTest = findViewById(R.id.test_user);
-        signOut = findViewById(R.id.sign_out_test);
+
+        profileTab = findViewById(R.id.profile_tab);
 
         Intent intent = getIntent();
         Bundle bd = intent.getExtras();
@@ -29,17 +36,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (user != null) {
             String email = user.getEmail();
-            String uid = user.getUid();
+            uid = user.getUid();
 
             userTest.setText(email + "  " + uid);
         }
+        configureFragment();
+        addTabClickListeners();
+    }
 
-        signOut.setOnClickListener(this);
+
+
+    private  void configureFragment(){
+        profileFragment = new ProfileFragment();
+        Bundle args = new Bundle();
+        args.putString("uid",uid);
+        profileFragment.setArguments(args);
+    }
+
+
+    private void addTabClickListeners() {
+
+        View.OnClickListener tabListener = view -> {
+
+            if(currentTabView != null)
+                currentTabView.setBackgroundColor(Color.WHITE);
+            currentTabView = currentTabView == null ? profileTab : (TextView)view;
+            currentTabView .setBackgroundColor(getResources().getColor(R.color.colorSelect));
+
+
+            int currentTabId = currentTabView == null ? 0 : currentTabView.getId();
+            switch (currentTabId) {
+                case R.id.profile_tab:
+                    currentFragment = profileFragment;
+                    break;
+            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
+        };
+        //add above listener to tabs
+        findViewById(R.id.profile_tab).setOnClickListener(tabListener);
     }
 
 
     @Override
-    public void onClick(View v) {
+    public void signOutButtonClicked() {
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(MainActivity.this, SignInActivity.class);
         startActivity(intent);
