@@ -2,7 +2,7 @@
     <string name="app_name">BarterApp</string>
 
     <string name="home_button">HOME</string>
-    <string name="offer_button">OFFER</string>
+    <string name="post_button">POST</string>
     <string name="search_button">SEARCH</string>
     <string name="shop_button">SHOP</string>
     <string name="profile_button">PROFILE</string>
