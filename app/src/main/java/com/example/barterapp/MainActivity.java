@@ -2,6 +2,7 @@ package com.example.barterapp;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.VectorDrawable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,13 +17,15 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity implements ProfileFragment.ProfileFragmentButtonClickHandler{
 
     private TextView userTest;
-    private View currentTabView;
+    private ImageView currentTabView;
     private TextView profileTabText;
     ImageView profileIconView;
     ImageView shopIconView;
+    ImageView postIconView;
 
     ProfileFragment profileFragment;
     ShopFragment shopFragment;
+    PostFragment postFragment;
     Fragment currentFragment;
     String uid;
 
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
         profileTabText = findViewById(R.id.profile_tab_text);
         profileIconView =findViewById(R.id.profile_tab_icon);
         shopIconView =findViewById(R.id.shop_tab_icon);
+        postIconView =findViewById(R.id.post_tab_icon);
 
         Intent intent = getIntent();
         Bundle bd = intent.getExtras();
@@ -59,7 +63,10 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
         profileFragment.setArguments(args);
 
         shopFragment = new ShopFragment();
+
+        postFragment = new PostFragment();
         currentFragment = shopFragment;
+        currentTabView = shopIconView;
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
 
     }
@@ -68,17 +75,13 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
 
         View.OnClickListener tabListener = view -> {
             if(currentTabView != null){
-                switch (currentTabView.getId()) {
-                    case R.id.profile_tab_icon:
-                        profileIconView.setImageResource(R.drawable.ic_person_outline_black_24dp);
-                        break;
-                    case R.id.shop_tab_icon:
-                        shopIconView.setColorFilter(getResources().getColor(R.color.colorUnSelect));
-                        break;
-                }
+                if(currentTabView.getId() == R.id.profile_tab_icon)
+                    profileIconView.setImageResource(R.drawable.ic_person_outline_black_24dp);
+                else
+                    currentTabView.setColorFilter(getResources().getColor(R.color.colorUnSelect));
             }
 
-            currentTabView = currentTabView == null ? shopIconView : view;
+            currentTabView = currentTabView == null ? shopIconView : (ImageView)view;
             int currentTabId = currentTabView == null ? 0 : currentTabView.getId();
 
             switch (currentTabId) {
@@ -90,6 +93,10 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
                     currentFragment = shopFragment;
                     shopIconView.setColorFilter(getResources().getColor(R.color.colorSelect));
                     break;
+                case R.id.post_tab_icon:
+                    currentFragment = postFragment;
+                    postIconView.setColorFilter(getResources().getColor(R.color.colorSelect));
+                    break;
             }
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
@@ -97,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
         //add above listener to tabs
         findViewById(R.id.profile_tab_icon).setOnClickListener(tabListener);
         findViewById(R.id.shop_tab_icon).setOnClickListener(tabListener);
+        findViewById(R.id.post_tab_icon).setOnClickListener(tabListener);
     }
 
 
