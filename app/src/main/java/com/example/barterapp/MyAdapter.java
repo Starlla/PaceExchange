@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -25,7 +26,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = View.inflate(mContext, R.layout.item_view_abstract, null);
         MyAdapterViewHolder holder =  new MyAdapterViewHolder(view);
-        // Add onClickListener here
         return holder;
     }
 
@@ -33,9 +33,14 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         TradeItem tradeItem = mList.get(i);
         MyAdapterViewHolder holder = (MyAdapterViewHolder) viewHolder;
-        // change into real time data
-        holder.mTextView.setText("Item");
+        holder.mTextView.setText(tradeItem.getTitle());
         // Set image with Glid here
+        holder.mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // to be filled
+            }
+        });
     }
 
     @Override

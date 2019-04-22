@@ -41,14 +41,14 @@ public class ShopFragment extends Fragment {
     RecyclerView mRecyclerView;
 
     DatabaseReference mDatabaseReference;
-    FirebaseRecyclerOptions<TradeItem> mOptions;
-    FirebaseRecyclerAdapter<TradeItem, RecyclerView.ViewHolder> mAdapter;
-
+    MyAdapter mMyAdapter;
     List<TradeItem> mItems;
 
     ShopFragmentButtonClickHandler mClickHandler;
 
     String mUid;
+
+    private static final int NUM_GRID_COLUMNS = 2;
 
     @Override
     public void onAttach(Context context) {
@@ -74,39 +74,18 @@ public class ShopFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        configureFirebaseConnection();
+
+        // "TradeItem" needs to comply with database structure
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("TradeItems");
         configureRecyclerView();
         configureSearchInput();
     }
 
-    private void configureFirebaseConnection() {
-        // "TradeItem" need to comply with database structure
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("TradeItems");
-        mOptions = new FirebaseRecyclerOptions.Builder<TradeItem>().setQuery(mDatabaseReference, TradeItem.class).build();
-        mAdapter = new FirebaseRecyclerAdapter<TradeItem, RecyclerView.ViewHolder>(mOptions) {
-            @Override
-            protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull TradeItem model) {
-                MyAdapter.MyAdapterViewHolder viewHolder = (MyAdapter.MyAdapterViewHolder) holder;
-                // set text with data in model
-                viewHolder.mTextView.setText("Item");
-                // set image here
-            }
-
-            @NonNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view = View.inflate(viewGroup.getContext(), R.layout.item_view_abstract, null);
-                return new MyAdapter.MyAdapterViewHolder(view);
-            }
-        };
-    }
-
     private void configureRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), NUM_GRID_COLUMNS);
         mRecyclerView.setLayoutManager(gridLayoutManager);
-        mAdapter.startListening();
-        mRecyclerView.setAdapter(mAdapter);
+        search("");
     }
 
     private void configureSearchInput() {
@@ -133,7 +112,7 @@ public class ShopFragment extends Fragment {
     }
 
     private void search(String input) {
-        Query query = mDatabaseReference.orderByChild("name").startAt(input).endAt(input + "\uf8ff");
+        Query query = mDatabaseReference.orderByChild("title").startAt(input).endAt(input + "\uf8ff");
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -144,9 +123,9 @@ public class ShopFragment extends Fragment {
                         final TradeItem tradeItem = dss.getValue(TradeItem.class);
                         mItems.add(tradeItem);
                     }
-                    MyAdapter myAdapter = new MyAdapter(getActivity(), mItems);
-                    mRecyclerView.setAdapter(myAdapter);
-                    myAdapter.notifyDataSetChanged();
+                    mMyAdapter = new MyAdapter(getActivity(), mItems);
+                    mRecyclerView.setAdapter(mMyAdapter);
+                    mMyAdapter.notifyDataSetChanged();
                 }
             }
 
