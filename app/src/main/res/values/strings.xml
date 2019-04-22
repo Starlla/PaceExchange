@@ -11,6 +11,7 @@
     <string name="unable_to_sign_in">Failed to sign in. Please check the inputs.</string>
     <string name="already_have_an_account_sign_in">Already have an account?</string>
     <string name="failed_to_sign_up">Failed to sign up.</string>
+    <string name="dialog_select_photo">SelectPhoto</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
