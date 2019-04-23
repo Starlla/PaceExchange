@@ -88,122 +88,122 @@
 
 
 
+                    <!--<RelativeLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/relLayout3"-->
+                        <!--android:background="@color/White"-->
+                        <!--android:id="@+id/relLayout4"-->
+                        <!--android:padding="10dp"-->
+                        <!--android:layout_marginTop="10dp">-->
+
+
+                        <!--<EditText-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:id="@+id/input_price"-->
+                            <!--android:layout_centerVertical="true"-->
+                            <!--android:background="@null"-->
+                            <!--android:inputType="numberDecimal"-->
+                            <!--android:hint="Price"-->
+                            <!--android:textColor="@color/Black"/>-->
+
+                    <!--</RelativeLayout>-->
+
+                    <!--<RelativeLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_below="@+id/relLayout4"-->
+                        <!--android:background="@color/White"-->
+                        <!--android:id="@+id/relLayout5"-->
+                        <!--android:padding="10dp"-->
+                        <!--android:layout_marginTop="10dp">-->
+
+
+                        <!--<EditText-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:id="@+id/input_country"-->
+                            <!--android:layout_centerVertical="true"-->
+                            <!--android:layout_marginLeft="10dp"-->
+                            <!--android:background="@null"-->
+                            <!--android:inputType="textCapWords"-->
+                            <!--android:hint="Country"-->
+                            <!--android:textColor="@color/Black"/>-->
+
+                    <!--</RelativeLayout>-->
+
+                    <!--<RelativeLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_below="@+id/relLayout5"-->
+                        <!--android:background="@color/White"-->
+                        <!--android:id="@+id/relLayout6"-->
+                        <!--android:padding="10dp">-->
+
+
+                        <!--<EditText-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:id="@+id/input_state_province"-->
+                            <!--android:layout_centerVertical="true"-->
+                            <!--android:layout_marginLeft="10dp"-->
+                            <!--android:background="@null"-->
+                            <!--android:inputType="textCapWords"-->
+                            <!--android:hint="State/Province/Region"-->
+                            <!--android:textColor="@color/Black"/>-->
+
+                    <!--</RelativeLayout>-->
+
+                    <!--<RelativeLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_below="@+id/relLayout6"-->
+                        <!--android:background="@color/White"-->
+                        <!--android:id="@+id/relLayout7"-->
+                        <!--android:padding="10dp">-->
+
+
+                        <!--<EditText-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:id="@+id/input_city"-->
+                            <!--android:layout_centerVertical="true"-->
+                            <!--android:layout_marginLeft="10dp"-->
+                            <!--android:background="@null"-->
+                            <!--android:inputType="textCapWords"-->
+                            <!--android:hint="City"-->
+                            <!--android:textColor="@color/Black"/>-->
+
+                    <!--</RelativeLayout>-->
+
+                    <!--<RelativeLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_below="@+id/relLayout7"-->
+                        <!--android:background="@color/White"-->
+                        <!--android:id="@+id/relLayout8"-->
+                        <!--android:padding="10dp"-->
+                        <!--android:layout_marginTop="10dp">-->
+
+
+                        <!--<EditText-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:id="@+id/input_email"-->
+                            <!--android:layout_centerVertical="true"-->
+                            <!--android:layout_marginLeft="10dp"-->
+                            <!--android:background="@null"-->
+                            <!--android:inputType="textEmailAddress"-->
+                            <!--android:hint="Your contact email"-->
+                            <!--android:textColor="@color/Black"/>-->
+
+                    <!--</RelativeLayout>-->
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/relLayout3"
-                        android:background="@color/White"
-                        android:id="@+id/relLayout4"
-                        android:padding="10dp"
-                        android:layout_marginTop="10dp">
-
-
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/input_price"
-                            android:layout_centerVertical="true"
-                            android:background="@null"
-                            android:inputType="numberDecimal"
-                            android:hint="Price"
-                            android:textColor="@color/Black"/>
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_below="@+id/relLayout4"
-                        android:background="@color/White"
-                        android:id="@+id/relLayout5"
-                        android:padding="10dp"
-                        android:layout_marginTop="10dp">
-
-
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/input_country"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"
-                            android:background="@null"
-                            android:inputType="textCapWords"
-                            android:hint="Country"
-                            android:textColor="@color/Black"/>
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_below="@+id/relLayout5"
-                        android:background="@color/White"
-                        android:id="@+id/relLayout6"
-                        android:padding="10dp">
-
-
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/input_state_province"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"
-                            android:background="@null"
-                            android:inputType="textCapWords"
-                            android:hint="State/Province/Region"
-                            android:textColor="@color/Black"/>
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_below="@+id/relLayout6"
-                        android:background="@color/White"
-                        android:id="@+id/relLayout7"
-                        android:padding="10dp">
-
-
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/input_city"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"
-                            android:background="@null"
-                            android:inputType="textCapWords"
-                            android:hint="City"
-                            android:textColor="@color/Black"/>
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_below="@+id/relLayout7"
-                        android:background="@color/White"
-                        android:id="@+id/relLayout8"
-                        android:padding="10dp"
-                        android:layout_marginTop="10dp">
-
-
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/input_email"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"
-                            android:background="@null"
-                            android:inputType="textEmailAddress"
-                            android:hint="Your contact email"
-                            android:textColor="@color/Black"/>
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/relLayout8"
                         android:background="@color/White"
                         android:layout_marginTop="10dp">
 
