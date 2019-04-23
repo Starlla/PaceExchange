@@ -50,8 +50,6 @@ public class ShopFragment extends Fragment {
 
     ShopFragmentButtonClickHandler mClickHandler;
 
-    String mUid;
-
     private static final int NUM_GRID_COLUMNS = 2;
 
     @Override

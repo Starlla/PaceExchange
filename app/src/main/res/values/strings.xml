@@ -6,6 +6,11 @@
     <string name="search_button">SEARCH</string>
     <string name="shop_button">SHOP</string>
     <string name="profile_button">PROFILE</string>
+    <string name="my_items">My Items</string>
+    <string name="my_likes">My Likes</string>
+    <string name="sign_out">Sign Out</string>
+
+
 
     <string name="do_not_have_an_account_sign_up">Do not have an account?</string>
     <string name="unable_to_sign_in">Failed to sign in. Please check the inputs.</string>
