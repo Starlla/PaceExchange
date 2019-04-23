@@ -39,4 +39,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.8'
     implementation 'com.firebase:firebase-client-android:2.5.2'
     implementation 'com.firebaseui:firebase-ui-database:3.2.2'
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }
