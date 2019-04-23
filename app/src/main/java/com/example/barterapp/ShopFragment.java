@@ -86,7 +86,7 @@ public class ShopFragment extends Fragment {
     }
 
     private void configureFirebaseConnection() {
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("posts");
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child(getString(R.string.node_posts));
     }
 
     private void configureRecyclerView() {
@@ -122,7 +122,7 @@ public class ShopFragment extends Fragment {
     }
 
     private void search(String input) {
-        Query query = mDatabaseReference.orderByChild("title").startAt(input).endAt(input + "\uf8ff");
+        Query query = mDatabaseReference.orderByChild(getString(R.string.field_title)).startAt(input).endAt(input + "\uf8ff");
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
