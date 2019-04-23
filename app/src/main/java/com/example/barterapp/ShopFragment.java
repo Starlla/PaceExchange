@@ -46,7 +46,7 @@ public class ShopFragment extends Fragment {
 
     DatabaseReference mDatabaseReference;
     MyAdapter mMyAdapter;
-    List<TradeItem> mItems;
+    List<Post> mItems;
 
     ShopFragmentButtonClickHandler mClickHandler;
 
@@ -129,8 +129,8 @@ public class ShopFragment extends Fragment {
                 if (dataSnapshot.hasChildren()) {
                     mItems.clear();
                     for (DataSnapshot dss : dataSnapshot.getChildren()) {
-                        final TradeItem tradeItem = dss.getValue(TradeItem.class);
-                        mItems.add(tradeItem);
+                        final Post post = dss.getValue(Post.class);
+                        mItems.add(post);
                     }
                     mMyAdapter = new MyAdapter(getActivity(), mItems);
                     mRecyclerView.setAdapter(mMyAdapter);

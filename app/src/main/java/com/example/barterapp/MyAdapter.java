@@ -19,11 +19,11 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context mContext;
-    List<TradeItem> mList;
+    List<Post> mList;
 
 //    private static final int NUM_GRID_COLUMNS = 2;
 
-    public MyAdapter(Context context, List<TradeItem> list) {
+    public MyAdapter(Context context, List<Post> list) {
         mContext = context;
         mList = list;
     }
@@ -38,10 +38,10 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         final int position = i;
-        TradeItem tradeItem = mList.get(position);
+        Post post = mList.get(position);
         MyAdapterViewHolder holder = (MyAdapterViewHolder) viewHolder;
-        holder.mTextView.setText(tradeItem.getTitle());
-        Glide.with(mContext).load(tradeItem.getImage()).into(holder.mImageView);
+        holder.mTextView.setText(post.getTitle());
+        Glide.with(mContext).load(post.getImage()).into(holder.mImageView);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
