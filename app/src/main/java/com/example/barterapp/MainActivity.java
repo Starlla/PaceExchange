@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
         postFragment = new PostFragment();
         currentFragment = shopFragment;
         currentTabView = shopIconView;
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment, getString(R.string.fragment_search)).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
 
     }
 

@@ -52,7 +52,6 @@ public class ShopFragment extends Fragment {
 
     String mUid;
 
-    private static final String TAG = "SearchFragment";
     private static final int NUM_GRID_COLUMNS = 2;
 
     @Override
@@ -159,5 +158,4 @@ public class ShopFragment extends Fragment {
 
         mFrameLayout.setVisibility(View.VISIBLE);
     }
-
 }
