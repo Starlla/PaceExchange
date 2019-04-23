@@ -74,17 +74,21 @@ public class ShopFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        // "TradeItem" needs to comply with database structure
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("TradeItems");
+        configureFirebaseConnection();
         configureRecyclerView();
         configureSearchInput();
+    }
+
+    private void configureFirebaseConnection() {
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("posts");
     }
 
     private void configureRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), NUM_GRID_COLUMNS);
         mRecyclerView.setLayoutManager(gridLayoutManager);
+        mMyAdapter = new MyAdapter(getActivity(), mItems);
+        mRecyclerView.setAdapter(mMyAdapter);
         search("");
     }
 
