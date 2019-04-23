@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +42,7 @@ public class ShopFragment extends Fragment {
 
     EditText mSearchInput;
     RecyclerView mRecyclerView;
+    FrameLayout mFrameLayout;
 
     DatabaseReference mDatabaseReference;
     MyAdapter mMyAdapter;
@@ -48,6 +52,7 @@ public class ShopFragment extends Fragment {
 
     String mUid;
 
+    private static final String TAG = "SearchFragment";
     private static final int NUM_GRID_COLUMNS = 2;
 
     @Override
@@ -67,6 +72,7 @@ public class ShopFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_shop, container, false);
         mSearchInput = view.findViewById(R.id.search_input);
         mRecyclerView = view.findViewById(R.id.recycler_view);
+        mFrameLayout = view.findViewById(R.id.container);
         mItems = new ArrayList<>();
         return view;
     }
@@ -138,6 +144,20 @@ public class ShopFragment extends Fragment {
 
             }
         });
+    }
+
+    public void viewPost(String postId) {
+        Bundle args = new Bundle();
+        args.putString(getString(R.string.arg_post_id), postId);
+        ViewPostFragment fragment = new ViewPostFragment();
+        fragment.setArguments(args);
+
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment, getString(R.string.fragment_view_post));
+        fragmentTransaction.addToBackStack(getString(R.string.fragment_view_post));
+        fragmentTransaction.commit();
+
+        mFrameLayout.setVisibility(View.VISIBLE);
     }
 
 }

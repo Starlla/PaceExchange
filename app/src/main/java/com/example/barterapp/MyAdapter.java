@@ -2,6 +2,7 @@ package com.example.barterapp;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,8 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        TradeItem tradeItem = mList.get(i);
+        final int position = i;
+        TradeItem tradeItem = mList.get(position);
         MyAdapterViewHolder holder = (MyAdapterViewHolder) viewHolder;
         holder.mTextView.setText(tradeItem.getTitle());
         Glide.with(mContext).load(tradeItem.getImage()).into(holder.mImageView);
@@ -43,6 +45,11 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onClick(View v) {
                 // to be filled
+                ShopFragment shopFragment = (ShopFragment) ((MainActivity)mContext).getSupportFragmentManager()
+                        .findFragmentByTag(mContext.getString(R.string.fragment_search));
+                if (shopFragment != null && shopFragment.isVisible()) {
+                    shopFragment.viewPost(mList.get(position).getPost_id());
+                }
             }
         });
     }
