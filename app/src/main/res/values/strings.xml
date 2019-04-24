@@ -9,6 +9,9 @@
     <string name="my_items">My Items</string>
     <string name="my_likes">My Likes</string>
     <string name="sign_out">Sign Out</string>
+    <string name="fist_name">First Name:</string>
+    <string name="last_name">Last Name:</string>
+    <string name="two_string_with_space">%1$s %2$s</string>
 
 
     <string name="do_not_have_an_account_sign_up">Do not have an account?</string>
@@ -16,6 +19,7 @@
     <string name="already_have_an_account_sign_in">Already have an account?</string>
     <string name="failed_to_sign_up">Failed to sign up.</string>
     <string name="dialog_select_photo">SelectPhoto</string>
+    <string name="this_field_cannot_be_blank">This field cannot be blank.</string>
 
     <!-- Database nodes -->
     <string name="node_users">Users</string>

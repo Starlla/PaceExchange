@@ -8,8 +8,7 @@ public class Post {
     private String title;
     private String description;
 
-    public Post(String post_id, String user_id, String image, String title, String description,
-                String price, String country, String state_province, String city, String contact_email) {
+    public Post(String post_id, String user_id, String image, String title, String description) {
         this.post_id = post_id;
         this.user_id = user_id;
         this.image = image;

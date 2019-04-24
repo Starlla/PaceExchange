@@ -2,13 +2,15 @@ package com.example.barterapp;
 
 public class User {
     private String user_id;
-    private String name;
+    private String first_name;
+    private String last_name;
 
     // change structure to first name, last name, email address, graduation year & reputation later
 
-    public User(String user_id, String name) {
+    public User(String user_id, String first_name,String last_name) {
         this.user_id = user_id;
-        this.name = name;
+        this.first_name = first_name;
+        this.last_name = last_name;
     }
 
     public User() {
@@ -22,19 +24,28 @@ public class User {
         this.user_id = user_id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "user_id='" + user_id + '\'' +
-                ", name='" + name + '\'' +
+                ", first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
                 '}';
     }
 }

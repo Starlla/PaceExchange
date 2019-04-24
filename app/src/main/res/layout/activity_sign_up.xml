@@ -17,7 +17,7 @@
         android:clickable="true"/>
 
     <LinearLayout
-        android:id="@+id/name_layout"
+        android:id="@+id/first_name_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -25,27 +25,48 @@
         android:layout_centerHorizontal="true">
 
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="Name:"/>
+            android:text="@string/fist_name"/>
 
         <EditText
-            android:id="@+id/name_field"
+            android:id="@+id/first_name_field"
             android:layout_width="200dp"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/last_name_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/first_name_layout"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/last_name"/>
+
+        <EditText
+            android:id="@+id/last_name_field"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:id="@+id/sign_up_email_layout"
-        android:layout_below="@id/name_layout"
+        android:layout_below="@id/last_name_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true">
 
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:text="Email:"
             android:textSize="20sp"/>
@@ -65,7 +86,7 @@
         android:layout_centerHorizontal="true">
 
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:text="Password:"/>

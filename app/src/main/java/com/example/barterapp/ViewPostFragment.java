@@ -113,7 +113,7 @@ public class ViewPostFragment extends Fragment {
                     DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
                     if(singleSnapshot != null){
                         User user = singleSnapshot.getValue(User.class);
-                        mProfileName.setText(user.getName());
+                        mProfileName.setText(getString(R.string.two_string_with_space,user.getFirst_name(),user.getLast_name()));
                     }
                 }
             }

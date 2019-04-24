@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
@@ -34,6 +35,7 @@ public class ProfileFragment extends Fragment {
     String mUid;
     View mMyItemsTab;
     FrameLayout mFrameLayout;
+    User user;
 
     @Override
     public void onAttach(Context context) {
@@ -76,17 +78,20 @@ public class ProfileFragment extends Fragment {
         if (args != null)
             mUid = args.getString("uid");
 
-        DatabaseReference current_user_db_rf = FirebaseDatabase.getInstance().getReference().child("Users").child(mUid);
-        current_user_db_rf.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mProfileNameView.setText((String)dataSnapshot.child("name").getValue());
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+//        DatabaseReference current_user_db_rf = FirebaseDatabase.getInstance().getReference().child("Users").child(mUid);
+//        current_user_db_rf.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                mProfileNameView.setText((String)dataSnapshot.child("first_name").getValue());
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
-            }
-        });
+        getUserInfo();
+
     }
 
     public void setMyItemsTabOnClickListener(){
@@ -105,6 +110,28 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+
+    private void getUserInfo() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference.child(getString(R.string.node_users)).orderByKey().equalTo(mUid);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                    if(dataSnapshot != null){
+                        User user = singleSnapshot.getValue(User.class);
+                        mProfileNameView.setText(getString(R.string.two_string_with_space,user.getFirst_name(),user.getLast_name()));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 
 }

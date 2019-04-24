@@ -28,7 +28,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private ImageView profile;
     private Uri imgUri;
-    private EditText nameInput;
+    private EditText firstNameInput;
+    private EditText lastNameInput;
     private EditText emailInput;
     private EditText passwordInput;
 
@@ -42,7 +43,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         profile = findViewById(R.id.profile_image);
-        nameInput = findViewById(R.id.name_field);
+        firstNameInput = findViewById(R.id.first_name_field);
+        lastNameInput = findViewById(R.id.last_name_field);
         emailInput = findViewById(R.id.sign_up_email_field);
         passwordInput = findViewById(R.id.sign_up_password_field);
 
@@ -75,12 +77,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 if (task.isSuccessful()) {
                     FirebaseUser user = auth.getCurrentUser();
                     String user_id = user.getUid();
-                    String name = nameInput.getText().toString();
+                    String first_name = firstNameInput.getText().toString();
+                    String last_name = lastNameInput.getText().toString();
 
                     DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
 
                     Map newPost = new HashMap();
-                    newPost.put("name", name);
+                    newPost.put("first_name", first_name);
+                    newPost.put("last_name", last_name);
                     current_user_db.setValue(newPost);
 
                     Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
@@ -120,9 +124,17 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             passwordInput.setError(null);
         }
 
-        String name = nameInput.getText().toString();
-        if (name.isEmpty()) {
-            nameInput.setError("This field cannot be blank.");
+        String firstName = firstNameInput.getText().toString();
+        if (firstName.isEmpty()) {
+            firstNameInput.setError(this.getString(R.string.this_field_cannot_be_blank));
+            isValid = false;
+        } else {
+            passwordInput.setError(null);
+        }
+
+        String lastName = lastNameInput.getText().toString();
+        if (firstName.isEmpty()) {
+            lastNameInput.setError(this.getString(R.string.this_field_cannot_be_blank));
             isValid = false;
         } else {
             passwordInput.setError(null);
