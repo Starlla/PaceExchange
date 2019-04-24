@@ -28,7 +28,7 @@ public class ProfileFragment extends Fragment {
         void signOutButtonClicked();
     }
 
-    Button mSignOutButton;
+    View mSignOutTab;
     TextView mProfileNameView;
     ProfileFragmentButtonClickHandler mClickHandler;
     String mUid;
@@ -50,7 +50,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        mSignOutButton = view.findViewById(R.id.sign_out_test);
+        mSignOutTab = view.findViewById(R.id.relLayout_sign_out);
         mProfileNameView = view.findViewById(R.id.profile_name);
         mMyItemsTab = view.findViewById(R.id.relLayout_my_items);
         mFrameLayout = view.findViewById(R.id.fragment_container);
@@ -62,7 +62,7 @@ public class ProfileFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mSignOutButton.setOnClickListener(v -> {
+        mSignOutTab.setOnClickListener(v -> {
             mClickHandler.signOutButtonClicked();
         });
 

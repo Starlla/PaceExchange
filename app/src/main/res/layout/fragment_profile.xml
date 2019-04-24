@@ -53,16 +53,6 @@
                 android:text="@string/app_name"
                 android:textSize="16sp"/>
 
-            <Button
-                android:id="@+id/sign_out_test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sign_out"
-                android:layout_marginEnd="10dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"/>
-
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -100,6 +90,28 @@
                 android:layout_centerVertical="true"
                 android:maxLines="20"
                 android:text="@string/my_likes"
+                android:background="@null"
+                android:textColor="@color/Black"
+                android:padding="10dp"
+                android:gravity="start"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/White"
+            android:layout_below="@+id/relLayout_my_likes"
+            android:id="@+id/relLayout_sign_out"
+            android:layout_marginTop="10dp"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:id="@+id/sign_description"
+                android:layout_centerVertical="true"
+                android:maxLines="20"
+                android:text="@string/sign_out"
                 android:background="@null"
                 android:textColor="@color/Black"
                 android:padding="10dp"
