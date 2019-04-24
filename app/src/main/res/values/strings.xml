@@ -11,7 +11,6 @@
     <string name="sign_out">Sign Out</string>
 
 
-
     <string name="do_not_have_an_account_sign_up">Do not have an account?</string>
     <string name="unable_to_sign_in">Failed to sign in. Please check the inputs.</string>
     <string name="already_have_an_account_sign_in">Already have an account?</string>
@@ -37,4 +36,5 @@
     <!-- Fragment names -->
     <string name="fragment_search">Search</string>
     <string name="fragment_view_post">ViewPost</string>
+    <string name="fragment_my_items">MyItems</string>
 </resources>

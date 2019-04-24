@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +32,8 @@ public class ProfileFragment extends Fragment {
     TextView mProfileNameView;
     ProfileFragmentButtonClickHandler mClickHandler;
     String mUid;
+    View mMyItemsTab;
+    FrameLayout mFrameLayout;
 
     @Override
     public void onAttach(Context context) {
@@ -48,6 +52,8 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         mSignOutButton = view.findViewById(R.id.sign_out_test);
         mProfileNameView = view.findViewById(R.id.profile_name);
+        mMyItemsTab = view.findViewById(R.id.relLayout_my_items);
+        mFrameLayout = view.findViewById(R.id.fragment_container);
 
         return view;
     }
@@ -61,6 +67,8 @@ public class ProfileFragment extends Fragment {
         });
 
         populateView();
+        setMyItemsTabOnClickListener();
+
     }
 
     private void populateView(){
@@ -80,5 +88,23 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
+
+    public void setMyItemsTabOnClickListener(){
+        mMyItemsTab.setOnClickListener(v->{
+            Bundle args = new Bundle();
+            args.putString("Uid",mUid);
+            MyItemsFragment fragment = new MyItemsFragment();
+            fragment.setArguments(args);
+
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_my_items));
+            fragmentTransaction.addToBackStack(getString(R.string.fragment_my_items));
+            fragmentTransaction.commit();
+
+//            mFrameLayout.setVisibility(View.VISIBLE);
+        });
+    }
+
+
 
 }
