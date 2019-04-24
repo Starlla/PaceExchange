@@ -46,8 +46,9 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onClick(View v) {
                 try {
+                    Post post = mList.get(position);
                     ShopFragment shopFragment = (ShopFragment) ((MainActivity) mContext).currentFragment;
-                    shopFragment.viewPost(mList.get(position).getPost_id());
+                    shopFragment.viewPost(post.getPost_id(), post.getUser_id());
                 } catch (ClassCastException e) {
                     e.printStackTrace();
                 }

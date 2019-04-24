@@ -143,9 +143,10 @@ public class ShopFragment extends Fragment {
         });
     }
 
-    public void viewPost(String postId) {
+    public void viewPost(String postId, String userId) {
         Bundle args = new Bundle();
         args.putString(getString(R.string.arg_post_id), postId);
+        args.putString(getString(R.string.arg_user_id), userId);
         ViewPostFragment fragment = new ViewPostFragment();
         fragment.setArguments(args);
 

@@ -39,11 +39,13 @@ public class ViewPostFragment extends Fragment {
     ImageView mImage;
     ImageView mPostClose;
     ImageView mLike;
+    TextView mProfileName;
     TextView mTitle;
     TextView mDescription;
     TextView mPostStartOffer;
 
     private String mPostId;
+    private String mUserId;
     private Post mPost;
     private boolean mIsInMyLikes;
 
@@ -51,6 +53,7 @@ public class ViewPostFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPostId = (String) getArguments().get(getString(R.string.arg_post_id));
+        mUserId = (String) getArguments().get(getString(R.string.arg_user_id));
     }
 
     @Nullable
@@ -60,6 +63,7 @@ public class ViewPostFragment extends Fragment {
         mImage = view.findViewById(R.id.post_image);
         mPostClose = view.findViewById(R.id.post_close);
         mLike = view.findViewById(R.id.add_watch_list);
+        mProfileName = view.findViewById(R.id.profile_name);
         mPostStartOffer = view.findViewById(R.id.post_start_offer);
         mTitle = view.findViewById(R.id.post_title);
         mDescription = view.findViewById(R.id.post_description);
@@ -70,6 +74,7 @@ public class ViewPostFragment extends Fragment {
 
     private void init() {
         getPostInfo();
+        getUserInfo();
         getLikeInfo();
         addClickListeners();
         hideSoftKeyboard();
@@ -88,6 +93,28 @@ public class ViewPostFragment extends Fragment {
                     mTitle.setText(mPost.getTitle());
                     mDescription.setText(mPost.getDescription());
                     Glide.with(getActivity()).load(mPost.getImage()).into(mImage);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getUserInfo() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference.child(getString(R.string.node_users)).orderByKey().equalTo(mUserId);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                    if(singleSnapshot != null){
+                        User user = singleSnapshot.getValue(User.class);
+                        mProfileName.setText(user.getName());
+                    }
                 }
             }
 

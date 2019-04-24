@@ -18,6 +18,7 @@
     <string name="dialog_select_photo">SelectPhoto</string>
 
     <!-- Database nodes -->
+    <string name="node_users">Users</string>
     <string name="node_posts">posts</string>
     <string name="node_likes">likes</string>
 
@@ -35,6 +36,7 @@
     <string name="toast_remove_from_likes">Post is removed</string>
 
     <!-- Intent extras and Bundle arguments -->
+    <string name="arg_user_id">arg_user_id</string>
     <string name="arg_post_id">arg_post_id</string>
 
     <!-- Fragment names -->
