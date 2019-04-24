@@ -80,7 +80,6 @@ public class MyItemsFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null)
             mUid = args.getString("Uid");
-        System.out.println(mUid);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child(getString(R.string.node_posts));
         configureRecyclerView();
 
@@ -107,10 +106,10 @@ public class MyItemsFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), NUM_GRID_COLUMNS);
         mRecyclerView.setLayoutManager(gridLayoutManager);
-
+        mMyAdapter = new MyAdapter(getActivity(), mItems);
+        mRecyclerView.setAdapter(mMyAdapter);
 
         Query query = mDatabaseReference.orderByChild("user_id").equalTo(mUid);
-
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
