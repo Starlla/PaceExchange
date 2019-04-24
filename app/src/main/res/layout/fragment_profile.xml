@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProfileFragment">
 
     <android.support.v4.widget.NestedScrollView
@@ -18,28 +19,33 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
             android:id="@+id/relLayout_profile_image"
             android:layout_marginTop="10dp"
             android:background="@color/White">
 
-
-        <ImageView
-            android:layout_marginStart="10dp"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:id="@+id/profile_image"
-            android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_foreground"
-            android:background="@drawable/ic_launcher_background"/>
+            <android.support.v7.widget.CardView
+                android:layout_marginStart="10dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:elevation="12dp"
+                android:id="@+id/card_view_circle"
+                app:cardCornerRadius="40dp"
+                android:layout_centerVertical="true">
+                <ImageView
+                    android:layout_height="80dp"
+                    android:layout_width="match_parent"
+                    android:id="@+id/profile_image"
+                    android:src="@mipmap/ic_launcher"
+                    android:scaleType="centerCrop"/>
+            </android.support.v7.widget.CardView>
 
             <TextView
                 android:id="@+id/profile_name"
-                android:layout_alignTop="@+id/profile_image"
+                android:layout_alignTop="@+id/card_view_circle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/profile_image"
+                android:layout_toEndOf="@id/card_view_circle"
                 android:layout_marginStart="20dp"
                 android:text="@string/app_name"
                 android:textSize="16sp"/>
@@ -60,7 +66,7 @@
             android:layout_height="60dp"
             android:layout_below="@+id/relLayout_profile_image"
             android:id="@+id/relLayout_my_items"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:background="@color/White">
             <TextView
                 android:layout_width="match_parent"
