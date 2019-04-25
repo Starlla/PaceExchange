@@ -50,6 +50,7 @@ public class OfferInventoryActivity extends AppCompatActivity {
 
     private void init() {
         mItems = new ArrayList<>();
+        mPostIds = new ArrayList<>();
         configureRecyclerView();
 
         //reference for listening when data change in my inventory
@@ -89,11 +90,11 @@ public class OfferInventoryActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
                     for (DataSnapshot snapshot : singleSnapshot.getChildren()) {
-                        String postId = snapshot.child(getString(R.string.field_post_id)).toString();
+                        String postId = snapshot.child(getString(R.string.field_post_id)).getValue().toString();
                         mPostIds.add(postId);
                     }
-                    getPosts();
                 }
+                getPosts();
             }
 
             @Override
@@ -114,10 +115,16 @@ public class OfferInventoryActivity extends AppCompatActivity {
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
-                        Post post = singleSnapshot.getValue(Post.class);
-                        mItems.add(post);
-                        mMyAdapter.notifyDataSetChanged();
+                        if (dataSnapshot.exists()) {
+                            DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                            if (singleSnapshot != null) {
+                                Post post = singleSnapshot.getValue(Post.class);
+                                mItems.add(post);
+                                mMyAdapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            mMyAdapter.notifyDataSetChanged();
+                        }
                     }
 
                     @Override
