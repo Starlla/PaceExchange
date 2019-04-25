@@ -177,8 +177,8 @@ public class ViewPostFragment extends Fragment {
         mPostStartOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Add onClickListener for "START OFFER" here
                 Intent intent = new Intent(getActivity(), OfferInventoryActivity.class);
+                intent.putExtra(getString(R.string.extra_post_id), mPostId);
                 startActivity(intent);
             }
         });

@@ -45,12 +45,26 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    Post post = mList.get(position);
-                    ShopFragment shopFragment = (ShopFragment) ((MainActivity) mContext).currentFragment;
-                    shopFragment.viewPost(post.getPost_id(), post.getUser_id());
-                } catch (ClassCastException e) {
-                    e.printStackTrace();
+                Post post = mList.get(position);
+                if (mContext.getClass() == MainActivity.class) {
+                    try {
+                        ShopFragment shopFragment = (ShopFragment) ((MainActivity) mContext).currentFragment;
+                        shopFragment.viewPost(post.getPost_id(), post.getUser_id());
+                    } catch (ClassCastException e) {
+                        e.printStackTrace();
+                    }
+                } else if (mContext.getClass() == OfferInventoryActivity.class) {
+                    OfferInventoryActivity currentActivity = (OfferInventoryActivity) mContext;
+                    String selectedPostId = currentActivity.getSelectedPostId();
+                    if (selectedPostId == post.getPost_id()) {
+                        // add change on itemview
+                        selectedPostId = "";
+                    } else {
+                        //add change on previous itemview
+                        selectedPostId = post.getPost_id();
+                        //add change on currenty itemview
+                    }
+                    currentActivity.setSelectedPostId(selectedPostId);
                 }
             }
         });

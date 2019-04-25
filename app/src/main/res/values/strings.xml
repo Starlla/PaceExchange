@@ -31,12 +31,15 @@
     <string name="choose_my_item_to_barter">Choose my item</string>
     <string name="cancel_offer">CANCEL</string>
     <string name="confirm_offer">CONFIRM</string>
+    <string name="toast_please_select_an_item">Please select an item to barter.</string>
+    <string name="toast_offer_created">An offer is created.</string>
 
     <!-- Database nodes -->
     <string name="node_users">Users</string>
     <string name="node_posts">posts</string>
     <string name="node_likes">likes</string>
     <string name="node_inventories">inventories</string>
+    <string name="node_offers">offers</string>
 
     <!-- Database field names -->
     <string name="field_title">title</string>
@@ -48,6 +51,7 @@
     <!-- Intent extras and Bundle arguments -->
     <string name="arg_user_id">arg_user_id</string>
     <string name="arg_post_id">arg_post_id</string>
+    <string name="extra_post_id">extra_post_id</string>
 
     <!-- Fragment names -->
     <string name="fragment_search">Search</string>

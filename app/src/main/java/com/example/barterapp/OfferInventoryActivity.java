@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -23,17 +24,19 @@ import java.util.List;
 
 public class OfferInventoryActivity extends AppCompatActivity {
 
-    //widgets
+    // Widgets
     private ImageView mBackArrow;
     private RecyclerView mRecyclerView;
     private TextView mConfirmOffer;
     private TextView mCancelOffer;
 
-    //vars
+    // Vars
     private MyAdapter mMyAdapter;
     private List<Post> mItems;
     private List<String> mPostIds;
     private DatabaseReference mReference;
+    private String mPostIdWant;
+    private String mSelectedPostId;
     private static final int NUM_GRID_COLUMNS = 2;
 
     @Override
@@ -45,6 +48,8 @@ public class OfferInventoryActivity extends AppCompatActivity {
         mConfirmOffer = findViewById(R.id.confirm_offer_button);
         mCancelOffer = findViewById(R.id.cancel_offer_button);
         mReference = FirebaseDatabase.getInstance().getReference();
+        mPostIdWant = getIntent().getExtras().getString(getString(R.string.extra_post_id));
+        mSelectedPostId = "";
         init();
     }
 
@@ -53,12 +58,12 @@ public class OfferInventoryActivity extends AppCompatActivity {
         mPostIds = new ArrayList<>();
         configureRecyclerView();
 
-        //reference for listening when data change in my inventory
+        // Reference for listening when data change in my inventory
         mReference = FirebaseDatabase.getInstance().getReference()
                 .child(getString(R.string.node_inventories))
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        //set listener to the reference
+        // Set listener to the reference
         mReference.addValueEventListener(mListener);
 
         addClickListeners();
@@ -149,7 +154,21 @@ public class OfferInventoryActivity extends AppCompatActivity {
         mConfirmOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // to be filled
+                if (mSelectedPostId == "") {
+                    Toast.makeText(OfferInventoryActivity.this,
+                            R.string.toast_please_select_an_item, Toast.LENGTH_SHORT).show();
+                } else {
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                    databaseReference.child(getString(R.string.node_offers))
+                            .child(mPostIdWant)
+                            .child(mSelectedPostId)
+                            .child(getString(R.string.field_post_id))
+                            .setValue(mSelectedPostId);
+                    finish();
+                    // Or redirect to other pages 
+                    Toast.makeText(OfferInventoryActivity.this,
+                            R.string.toast_offer_created, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -159,6 +178,14 @@ public class OfferInventoryActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public String getSelectedPostId() {
+        return mSelectedPostId;
+    }
+
+    public void setSelectedPostId(String postId) {
+        mSelectedPostId = postId;
     }
 
     @Override
