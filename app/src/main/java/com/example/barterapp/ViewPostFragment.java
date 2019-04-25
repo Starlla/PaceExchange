@@ -2,6 +2,7 @@ package com.example.barterapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -177,6 +178,8 @@ public class ViewPostFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Add onClickListener for "START OFFER" here
+                Intent intent = new Intent(getActivity(), OfferInventoryActivity.class);
+                startActivity(intent);
             }
         });
     }
