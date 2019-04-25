@@ -20,6 +20,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context mContext;
     List<Post> mList;
+    int mSelectedPosition = -1;
 
 //    private static final int NUM_GRID_COLUMNS = 2;
 
@@ -42,6 +43,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         MyAdapterViewHolder holder = (MyAdapterViewHolder) viewHolder;
         holder.mTextView.setText(post.getTitle());
         Glide.with(mContext).load(post.getImage()).into(holder.mImageView);
+        holder.mChecked.setVisibility(mSelectedPosition == position ? View.VISIBLE : View.GONE);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,17 +56,8 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         e.printStackTrace();
                     }
                 } else if (mContext.getClass() == OfferInventoryActivity.class) {
-                    OfferInventoryActivity currentActivity = (OfferInventoryActivity) mContext;
-                    String selectedPostId = currentActivity.getSelectedPostId();
-                    if (selectedPostId == post.getPost_id()) {
-                        // add change on itemview
-                        selectedPostId = "";
-                    } else {
-                        //add change on previous itemview
-                        selectedPostId = post.getPost_id();
-                        //add change on currenty itemview
-                    }
-                    currentActivity.setSelectedPostId(selectedPostId);
+                    mSelectedPosition = mSelectedPosition == position ? -1 : position;
+                    notifyDataSetChanged();
                 }
             }
         });
@@ -75,15 +68,21 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return mList.size();
     }
 
+    public String getSelectedPostId() {
+        return mSelectedPosition == -1 ? "" : mList.get(mSelectedPosition).getPost_id();
+    }
+
     public class MyAdapterViewHolder extends RecyclerView.ViewHolder {
 
         TextView mTextView;
         SquareImageView mImageView;
+        ImageView mChecked;
 
         public MyAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             mTextView = itemView.findViewById(R.id.item_name);
             mImageView = itemView.findViewById(R.id.item_image);
+            mChecked = itemView.findViewById(R.id.item_checked);
 
             // speed up performance
 //            int gridWidth = mContext.getResources().getDisplayMetrics().widthPixels;
