@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -126,12 +127,13 @@ public class ShopFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChildren()) {
                     mItems.clear();
+                    String myId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     for (DataSnapshot dss : dataSnapshot.getChildren()) {
                         final Post post = dss.getValue(Post.class);
-                        mItems.add(post);
+                        if (!post.getUser_id().equals(myId)) {
+                            mItems.add(post);
+                        }
                     }
-                    mMyAdapter = new MyAdapter(getActivity(), mItems);
-                    mRecyclerView.setAdapter(mMyAdapter);
                     mMyAdapter.notifyDataSetChanged();
                 }
             }
