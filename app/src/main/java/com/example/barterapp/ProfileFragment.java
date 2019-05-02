@@ -25,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ProfileFragment extends Fragment {
 
+    private static final String ARG_UID = "UID";
+
     interface ProfileFragmentButtonClickHandler{
         void signOutButtonClicked();
     }
@@ -34,6 +36,7 @@ public class ProfileFragment extends Fragment {
     ProfileFragmentButtonClickHandler mClickHandler;
     String mUid;
     View mMyItemsTab;
+    View mMyProfileTab;
     FrameLayout mFrameLayout;
     User user;
 
@@ -55,6 +58,7 @@ public class ProfileFragment extends Fragment {
         mSignOutTab = view.findViewById(R.id.relLayout_sign_out);
         mProfileNameView = view.findViewById(R.id.profile_name);
         mMyItemsTab = view.findViewById(R.id.relLayout_my_items);
+        mMyProfileTab = view.findViewById(R.id.relLayout_my_profile);
         mFrameLayout = view.findViewById(R.id.fragment_container);
 
         return view;
@@ -70,6 +74,7 @@ public class ProfileFragment extends Fragment {
 
         populateView();
         setMyItemsTabOnClickListener();
+        setMyProfileTabOnClickedListener();
 
     }
 
@@ -97,7 +102,7 @@ public class ProfileFragment extends Fragment {
     public void setMyItemsTabOnClickListener(){
         mMyItemsTab.setOnClickListener(v->{
             Bundle args = new Bundle();
-            args.putString("Uid",mUid);
+            args.putString(ARG_UID,mUid);
             MyItemsFragment fragment = new MyItemsFragment();
             fragment.setArguments(args);
 
@@ -105,9 +110,24 @@ public class ProfileFragment extends Fragment {
             fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_my_items));
             fragmentTransaction.addToBackStack(getString(R.string.fragment_my_items));
             fragmentTransaction.commit();
-
 //            mFrameLayout.setVisibility(View.VISIBLE);
         });
+    }
+
+    public void setMyProfileTabOnClickedListener(){
+        mMyProfileTab.setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putString(ARG_UID,mUid);
+            MyProfileFragment fragment = new MyProfileFragment();
+            fragment.setArguments(args);
+
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_my_profile_2));
+            fragmentTransaction.addToBackStack(getString(R.string.fragment_my_profile_2));
+            fragmentTransaction.commit();
+
+        });
+
     }
 
 
