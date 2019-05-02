@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -79,10 +80,9 @@ public class MyItemsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Bundle args = getArguments();
         if (args != null)
-            mUid = args.getString("Uid");
+            mUid = args.getString(ProfileFragment.ARG_UID);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child(getString(R.string.node_posts));
         configureRecyclerView();
-
     }
 
     @Override
@@ -119,8 +119,6 @@ public class MyItemsFragment extends Fragment {
                         final Post post = dss.getValue(Post.class);
                         mItems.add(post);
                     }
-                    mMyAdapter = new MyAdapter(getActivity(), mItems);
-                    mRecyclerView.setAdapter(mMyAdapter);
                     mMyAdapter.notifyDataSetChanged();
                 }
             }

@@ -37,6 +37,7 @@ public class ProfileFragment extends Fragment {
     String mUid;
     View mMyItemsTab;
     View mMyProfileTab;
+    View mMyLikesTab;
     FrameLayout mFrameLayout;
     User user;
 
@@ -58,6 +59,7 @@ public class ProfileFragment extends Fragment {
         mSignOutTab = view.findViewById(R.id.relLayout_sign_out);
         mProfileNameView = view.findViewById(R.id.profile_name);
         mMyItemsTab = view.findViewById(R.id.relLayout_my_items);
+        mMyLikesTab = view.findViewById(R.id.relLayout_my_likes);
         mMyProfileTab = view.findViewById(R.id.relLayout_my_profile);
         mFrameLayout = view.findViewById(R.id.fragment_container);
 
@@ -75,6 +77,7 @@ public class ProfileFragment extends Fragment {
         populateView();
         setMyItemsTabOnClickListener();
         setMyProfileTabOnClickedListener();
+        setMyLikesTabOnClickListener();
 
     }
 
@@ -113,6 +116,22 @@ public class ProfileFragment extends Fragment {
 //            mFrameLayout.setVisibility(View.VISIBLE);
         });
     }
+
+    public void setMyLikesTabOnClickListener(){
+        mMyLikesTab.setOnClickListener(v->{
+            Bundle args = new Bundle();
+            args.putString(ARG_UID,mUid);
+            MyLikesFragment fragment = new MyLikesFragment();
+            fragment.setArguments(args);
+
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_my_likes));
+            fragmentTransaction.addToBackStack(getString(R.string.fragment_my_items));
+            fragmentTransaction.commit();
+        });
+    }
+
+
 
     public void setMyProfileTabOnClickedListener(){
         mMyProfileTab.setOnClickListener(v -> {

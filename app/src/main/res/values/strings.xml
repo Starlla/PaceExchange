@@ -63,4 +63,5 @@
     <string name="optional">Optional</string>
     <string name="graduation_year">Graduation Year</string>
     <string name="email">Email</string>
+    <string name="fragment_my_likes">MyLikesFragment</string>
 </resources>
