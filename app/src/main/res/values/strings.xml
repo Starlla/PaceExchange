@@ -58,4 +58,9 @@
     <string name="fragment_view_post">ViewPost</string>
     <string name="fragment_my_items">MyItems</string>
     <string name="fragment_my_profile_2">MyProfile2</string>
+    <string name="name">Name</string>
+    <string name="gender">Gender</string>
+    <string name="optional">Optional</string>
+    <string name="graduation_year">Graduation Year</string>
+    <string name="email">Email</string>
 </resources>

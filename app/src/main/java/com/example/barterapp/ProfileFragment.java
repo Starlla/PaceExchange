@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ProfileFragment extends Fragment {
 
-    private static final String ARG_UID = "UID";
+    static final String ARG_UID = "UID";
 
     interface ProfileFragmentButtonClickHandler{
         void signOutButtonClicked();

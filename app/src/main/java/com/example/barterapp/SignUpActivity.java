@@ -77,6 +77,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 if (task.isSuccessful()) {
                     FirebaseUser user = auth.getCurrentUser();
                     String user_id = user.getUid();
+                    String email = user.getEmail();
                     String first_name = firstNameInput.getText().toString();
                     String last_name = lastNameInput.getText().toString();
 
@@ -85,6 +86,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     Map newPost = new HashMap();
                     newPost.put("first_name", first_name);
                     newPost.put("last_name", last_name);
+                    newPost.put("email",email);
                     current_user_db.setValue(newPost);
 
                     Intent intent = new Intent(SignUpActivity.this, MainActivity.class);

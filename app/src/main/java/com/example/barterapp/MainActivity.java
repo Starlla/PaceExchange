@@ -24,7 +24,6 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity implements ProfileFragment.ProfileFragmentButtonClickHandler, ShopFragment.ShopFragmentButtonClickHandler{
     private static final int REQUEST_CODE = 1;
 
-    private TextView userTest;
     private ImageView currentTabView;
     private TextView profileTabText;
     ImageView profileIconView;
@@ -41,8 +40,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        userTest = findViewById(R.id.test_user);
 
         profileTabText = findViewById(R.id.profile_tab_text);
         profileIconView =findViewById(R.id.profile_tab_icon);

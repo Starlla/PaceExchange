@@ -1,14 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyProfileFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context=".MyProfileFragment"
+    android:background="@color/lightGrey">
+<RelativeLayout
+    android:layout_marginTop="50dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
     <TextView
+        android:padding="10dp"
+        android:id="@+id/my_profile_name_text"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:gravity="end"
+        android:text="@string/name"
+        android:paddingEnd="10dp"
+        android:background="@color/White"
+        />
+    <TextView
+        android:padding="10dp"
+        android:layout_marginStart="1dp"
+        android:id="@+id/my_profile_name"
+        android:layout_alignTop="@id/my_profile_name_text"
+        android:paddingStart="10dp"
+        android:layout_toEndOf="@+id/my_profile_name_text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Barterapp"
+        android:background="@color/White"
+        />
+    <TextView
+        android:padding="10dp"
+        android:layout_marginTop="1dp"
+        android:id="@+id/my_profile_email_text"
+        android:layout_below="@id/my_profile_name_text"
+        android:layout_width="match_parent"
+        android:layout_alignEnd="@id/my_profile_name_text"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:gravity="end"
+        android:text="@string/email"
+        android:paddingEnd="10dp"
+        android:background="@color/White"
+        />
+    <TextView
+        android:padding="10dp"
+        android:layout_marginStart="1dp"
+        android:id="@+id/my_profile_email"
+        android:layout_alignTop="@id/my_profile_email_text"
+        android:paddingStart="10dp"
+        android:layout_toEndOf="@+id/my_profile_email_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Barterapp"
+        android:background="@color/White"
+        />
+    <TextView
+        android:padding="10dp"
+        android:layout_marginTop="1dp"
+        android:id="@+id/my_profile_gender_text"
+        android:layout_below="@id/my_profile_email_text"
+        android:layout_alignEnd="@id/my_profile_email_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:gravity="end"
+        android:text="@string/gender"
+        android:paddingEnd="10dp"
+        android:background="@color/White"
+        />
+    <TextView
+        android:padding="10dp"
+        android:layout_marginStart="1dp"
+        android:id="@+id/my_profile_gender"
+        android:layout_toEndOf="@+id/my_profile_gender_text"
+        android:layout_alignTop="@id/my_profile_gender_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:paddingStart="10dp"
+        android:hint="@string/optional"
+        android:background="@color/White"
+        />
+    <TextView
+        android:padding="10dp"
+        android:layout_marginTop="1dp"
+        android:id="@+id/my_profile_graduation_year_text"
+        android:layout_below="@id/my_profile_gender_text"
+        android:layout_alignEnd="@id/my_profile_gender_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:gravity="end"
+        android:text="@string/graduation_year"
+        android:paddingEnd="10dp"
+        android:background="@color/White"
+        />
+    <TextView
+        android:padding="10dp"
+        android:layout_marginStart="1dp"
+        android:id="@+id/my_profile_graduation_year"
+        android:layout_toEndOf="@+id/my_profile_graduation_year_text"
+        android:layout_alignTop="@id/my_profile_graduation_year_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:paddingStart="10dp"
+        android:hint="@string/optional"
+        android:background="@color/White"
+        android:layout_alignBottom="@id/my_profile_graduation_year_text"
+        />
+    </RelativeLayout>
 
-</FrameLayout>
+
+</RelativeLayout>
