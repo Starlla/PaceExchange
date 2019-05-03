@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
 
     >
 
@@ -13,11 +13,24 @@
         android:layout_height="wrap_content"
         >
 
+        <RelativeLayout
+            android:id="@+id/relLayout_item_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Grey"
+            android:paddingTop="1dp"
+            android:paddingStart="1dp"
+            android:paddingEnd="1dp"
+            android:paddingBottom="0.5dp">
+
         <com.example.barterapp.SquareImageView
             android:id="@+id/item_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:background="@color/White"
+            />
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/item_checked"
@@ -29,14 +42,26 @@
             android:visibility="gone"
             android:elevation="5dp" />
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relLayout_item_image"
+            android:paddingTop="0.5dp"
+            android:paddingStart="1dp"
+            android:paddingEnd="1dp"
+            android:paddingBottom="1dp"
+            android:background="@color/Grey">
         <TextView
+            android:paddingStart="10dp"
+            android:gravity="center_vertical"
             android:id="@+id/item_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/item_image"
+            android:layout_height="40dp"
+            android:background="@color/White"
             android:textSize="16sp"
             android:text="@string/app_name"
             android:textColor="@android:color/black"/>
+        </RelativeLayout>
 
     </RelativeLayout>
 

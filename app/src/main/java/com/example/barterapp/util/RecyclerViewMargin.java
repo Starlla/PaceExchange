@@ -18,15 +18,24 @@ public class RecyclerViewMargin extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         int position = parent.getChildAdapterPosition(view);
-        outRect.right = margin;
-        outRect.bottom = margin;
+
+
 
         if(position < columns){
             outRect.top = margin;
+        }else
+            outRect.bottom = margin;
+
+        if(position % columns == 1){
+            outRect.right = margin;
+            outRect.left = margin/2;
         }
 
         if(position % columns == 0) {
             outRect.left = margin;
+            outRect.right = margin/2;
         }
+
+
     }
 }
