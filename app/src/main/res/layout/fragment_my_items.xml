@@ -7,12 +7,28 @@
     tools:context=".MyItemsFragment"
     android:background="@color/lightGrey">
 
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/my_items_tool_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        >
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_items_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            />
+    </android.support.design.widget.AppBarLayout>
+
+
     <RelativeLayout
+        android:layout_below="@+id/my_items_tool_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:id="@+id/my_items_profile"
-        android:layout_marginTop="10dp"
-        android:background="@color/White">
+        android:layout_marginTop="2dp"
+        android:background="@drawable/grey_border_bottom">
 
         <android.support.v7.widget.CardView
             android:layout_marginStart="10dp"
@@ -51,21 +67,12 @@
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-
+        android:layout_marginTop="5dp"
         android:id="@+id/my_items_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/my_items_profile"/>
 
-
-    <ImageView
-        android:id="@+id/my_items_close"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/ic_quit_white"
-        android:elevation="5dp"/>
 
 
 

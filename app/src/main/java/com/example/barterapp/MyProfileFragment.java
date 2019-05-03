@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ public class MyProfileFragment extends Fragment {
     String mUid;
     TextView mMyProfileNameView;
     TextView mMyProfileEmailView;
+    Toolbar toolbar;
 
     public MyProfileFragment() {
     }
@@ -48,9 +51,10 @@ public class MyProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_profile, container, false);
-
+        toolbar = view.findViewById(R.id.my_profile_toolbar);
         mMyProfileNameView = view.findViewById(R.id.my_profile_name);
         mMyProfileEmailView = view.findViewById(R.id.my_profile_email);
+        setToolbar();
         return view;
     }
 
@@ -108,6 +112,20 @@ public class MyProfileFragment extends Fragment {
             }
         });
     }
+
+    private void setToolbar(){
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        getActivity().setTitle("My Profile");
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+    }
+
 
 
 }

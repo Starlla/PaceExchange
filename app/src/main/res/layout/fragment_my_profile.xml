@@ -3,9 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MyProfileFragment"
     android:background="@color/lightGrey">
+
+
+    <android.support.design.widget.AppBarLayout
+            android:id="@+id/my_profile_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            >
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_profile_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            />
+    </android.support.design.widget.AppBarLayout>
+
+
 <RelativeLayout
+    android:layout_below="@id/my_profile_toolbar_layout"
     android:layout_marginTop="50dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"

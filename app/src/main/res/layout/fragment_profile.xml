@@ -5,10 +5,34 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProfileFragment">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/profile_tool_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        >
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/profile_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            >
+            <TextView
+                android:id="@+id/profile_toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_gravity="center" />
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/profile_tool_bar_layout"
+        >
 
 
     <RelativeLayout
@@ -19,10 +43,10 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="90dp"
             android:id="@+id/relLayout_profile_image"
             android:layout_marginTop="10dp"
-            android:background="@color/White">
+            android:background="@drawable/grey_border_bottom">
 
             <android.support.v7.widget.CardView
                 android:layout_marginStart="10dp"

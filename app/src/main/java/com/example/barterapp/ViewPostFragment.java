@@ -136,8 +136,9 @@ public class ViewPostFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     mIsInMyLikes = true;
-                    ImageViewCompat.setImageTintList(mLike, ColorStateList.valueOf(ContextCompat
-                            .getColor(getActivity(), R.color.colorAccent)));
+//                    ImageViewCompat.setImageTintList(mLike, ColorStateList.valueOf(ContextCompat
+//                            .getColor(getActivity(), R.color.colorAccent)));
+                    mLike.setImageResource(R.drawable.ic_favorite_red_24dp);
                 } else {
                     mIsInMyLikes = false;
                 }
@@ -163,12 +164,14 @@ public class ViewPostFragment extends Fragment {
             public void onClick(View v) {
                 if (mIsInMyLikes) {
                     removeItemFromMyLikes();
-                    ImageViewCompat.setImageTintList(mLike, ColorStateList.valueOf(ContextCompat
-                            .getColor(getActivity(), R.color.White)));
+//                    ImageViewCompat.setImageTintList(mLike, ColorStateList.valueOf(ContextCompat
+//                            .getColor(getActivity(), R.color.White)));
+                    mLike.setImageResource(R.drawable.ic_favorite_border_gray_24dp);
                 } else {
                     addItemToMyLikes();
-                    ImageViewCompat.setImageTintList(mLike, ColorStateList.valueOf(ContextCompat
-                            .getColor(getActivity(), R.color.colorAccent)));
+//                    ImageViewCompat.setImageTintList(mLike, ColorStateList.valueOf(ContextCompat
+//                            .getColor(getActivity(), R.color.colorAccent)));
+                    mLike.setImageResource(R.drawable.ic_favorite_red_24dp);
                 }
                 mIsInMyLikes = !mIsInMyLikes;
             }

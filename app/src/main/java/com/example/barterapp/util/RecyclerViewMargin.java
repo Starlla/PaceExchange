@@ -21,10 +21,9 @@ public class RecyclerViewMargin extends RecyclerView.ItemDecoration {
 
 
 
-        if(position < columns){
-            outRect.top = margin;
-        }else
-            outRect.bottom = margin;
+        outRect.top = margin/2;
+        outRect.bottom = margin/2;
+
 
         if(position % columns == 1){
             outRect.right = margin;

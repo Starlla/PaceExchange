@@ -7,8 +7,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,13 +32,14 @@ import java.util.List;
 
 public class MyItemsFragment extends Fragment {
 
-    ImageView mClose;
     TextView mMyItemsProfileNameView;
     DatabaseReference mDatabaseReference;
     List<Post> mItems;
     String mUid;
     MyAdapter mMyAdapter;
     RecyclerView mRecyclerView;
+    Toolbar toolbar;
+
     private static final int NUM_GRID_COLUMNS = 2;
     private static final int GRID_ITEM_MARGIN = Util.dpToPx(10);
 
@@ -64,17 +67,11 @@ public class MyItemsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_my_items, container, false);
-        mClose = view.findViewById(R.id.my_items_close);
         mRecyclerView = view.findViewById(R.id.my_items_recycler_view);
         mMyItemsProfileNameView = view.findViewById(R.id.my_items_profile_name);
         mItems = new ArrayList<>();
-
-        mClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
+        toolbar =view.findViewById(R.id.my_items_toolbar);
+        setToolbar();
 
         return view;
     }
@@ -172,6 +169,19 @@ public class MyItemsFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    private void setToolbar(){
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        getActivity().setTitle("My Items");
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
     }

@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +42,7 @@ public class MyLikesFragment extends Fragment {
     RecyclerView mRecyclerView;
     private ArrayList<Post> mPosts;
     private ArrayList<String> mPostsIds;
-//    private ArrayList<String> mPostsIds;
+    Toolbar toolbar;
 
     private static final int NUM_GRID_COLUMNS = 2;
     private static final int GRID_ITEM_MARGIN = Util.dpToPx(10);
@@ -57,6 +59,8 @@ public class MyLikesFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_my_likes, container, false);
         mRecyclerView = view.findViewById(R.id.my_likes_recycler_view);
+        toolbar = view.findViewById(R.id.my_likes_toolbar);
+        setToolbar();
         return view;
     }
 
@@ -213,6 +217,19 @@ public class MyLikesFragment extends Fragment {
         }else{
             mMyAdapter.notifyDataSetChanged(); //still need to notify the adapter if the list is empty
         }
+    }
+
+    private void setToolbar(){
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        getActivity().setTitle("My Likes");
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
     }
 
 
