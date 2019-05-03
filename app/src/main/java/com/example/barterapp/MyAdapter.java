@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -48,17 +49,38 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onClick(View v) {
                 Post post = mList.get(position);
+
                 if (mContext.getClass() == MainActivity.class) {
-                    try {
-                        ShopFragment shopFragment = (ShopFragment) ((MainActivity) mContext).currentFragment;
-                        shopFragment.viewPost(post.getPost_id(), post.getUser_id());
-                    } catch (ClassCastException e) {
-                        e.printStackTrace();
+
+                    Fragment fragment = ((MainActivity) mContext).currentFragment;
+                    System.out.println(fragment.getTag());
+
+                    if(fragment.getTag().equals(mContext.getString(R.string.fragment_shop))){
+                        try {
+                            ShopFragment mFragment = (ShopFragment) fragment;
+                            mFragment.viewPost(post.getPost_id(), post.getUser_id());
+                        } catch (ClassCastException e) {
+                            e.printStackTrace();
+                        }
                     }
+
+                    if(fragment.getTag().equals(mContext.getString(R.string.fragment_profile))){
+                        Log.d("Adapter","Leave MyItemsFragment");
+                        try {
+                            ProfileFragment mFragment = (ProfileFragment) fragment;
+                            mFragment.viewPost(post.getPost_id(),post.getUser_id());
+                        } catch (ClassCastException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
                 } else if (mContext.getClass() == OfferInventoryActivity.class) {
                     mSelectedPosition = mSelectedPosition == position ? -1 : position;
                     notifyDataSetChanged();
                 }
+
+
             }
         });
     }

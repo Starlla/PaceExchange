@@ -126,7 +126,7 @@ public class ProfileFragment extends Fragment {
 
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_my_likes));
-            fragmentTransaction.addToBackStack(getString(R.string.fragment_my_items));
+            fragmentTransaction.addToBackStack(getString(R.string.fragment_my_likes));
             fragmentTransaction.commit();
         });
     }
@@ -170,6 +170,20 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+    }
+
+    public void viewPost(String postId, String userId) {
+        Bundle args = new Bundle();
+        args.putString(getString(R.string.arg_post_id), postId);
+        args.putString(getString(R.string.arg_user_id), userId);
+        ViewPostFragment fragment = new ViewPostFragment();
+        fragment.setArguments(args);
+
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_view_post));
+        fragmentTransaction.addToBackStack(getString(R.string.fragment_view_post));
+        fragmentTransaction.commit();
+//        mFrameLayout.setVisibility(View.VISIBLE);
     }
 
 

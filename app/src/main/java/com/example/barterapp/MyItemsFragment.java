@@ -42,6 +42,7 @@ public class MyItemsFragment extends Fragment {
 
     private static final int NUM_GRID_COLUMNS = 2;
     private static final int GRID_ITEM_MARGIN = Util.dpToPx(10);
+    static final String ARG_UID = "UID";
 
     interface MyItemsFragmentButtonClickHandler{
         void signOutButtonClicked();
@@ -137,19 +138,6 @@ public class MyItemsFragment extends Fragment {
 
     }
 
-    public void viewPost(String postId) {
-        Bundle args = new Bundle();
-        args.putString(getString(R.string.arg_post_id), postId);
-        ViewPostFragment fragment = new ViewPostFragment();
-        fragment.setArguments(args);
-
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, fragment, getString(R.string.fragment_view_post));
-        fragmentTransaction.addToBackStack(getString(R.string.fragment_view_post));
-        fragmentTransaction.commit();
-
-//        mFrameLayout.setVisibility(View.VISIBLE);
-    }
 
     private void getUserInfo() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();

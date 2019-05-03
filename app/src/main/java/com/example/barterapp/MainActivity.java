@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
     PostFragment postFragment;
     Fragment currentFragment;
     String uid;
+    String currentTag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
         postFragment = new PostFragment();
         currentFragment = shopFragment;
         currentTabView = shopIconView;
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
+        currentTag = getString(R.string.fragment_shop);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment,currentTag).commit();
 
     }
 
@@ -92,19 +94,22 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
             switch (currentTabId) {
                 case R.id.profile_tab_icon:
                     currentFragment = profileFragment;
+                    currentTag = getString(R.string.fragment_profile);
                     profileIconView.setImageResource(R.drawable.ic_person_black_24dp);
                     break;
                 case R.id.shop_tab_icon:
                     currentFragment = shopFragment;
+                    currentTag = getString(R.string.fragment_shop);
                     shopIconView.setColorFilter(getResources().getColor(R.color.colorSelect));
                     break;
                 case R.id.post_tab_icon:
                     currentFragment = postFragment;
+                    currentTag = getString(R.string.fragment_post);
                     postIconView.setColorFilter(getResources().getColor(R.color.colorSelect));
                     break;
             }
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment,currentTag).commit();
         };
         //add above listener to tabs
         findViewById(R.id.profile_tab_icon).setOnClickListener(tabListener);
