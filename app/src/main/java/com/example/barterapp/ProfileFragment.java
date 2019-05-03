@@ -1,7 +1,6 @@
 package com.example.barterapp;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,9 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -29,10 +26,14 @@ public class ProfileFragment extends Fragment {
 
     interface ProfileFragmentButtonClickHandler{
         void signOutButtonClicked();
+        void myItemsTabClicked(MyItemsFragment fragment);
+        void myLikesTabClicked(MyLikesFragment fragment);
+        void myProfileTabClicked(MyProfileFragment fragment);
     }
 
     View mSignOutTab;
     TextView mProfileNameView;
+    TextView mProfileEmailView;
     ProfileFragmentButtonClickHandler mClickHandler;
     String mUid;
     View mMyItemsTab;
@@ -50,6 +51,7 @@ public class ProfileFragment extends Fragment {
             new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
 
         }
+
     }
 
     @Nullable
@@ -58,6 +60,7 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         mSignOutTab = view.findViewById(R.id.relLayout_sign_out);
         mProfileNameView = view.findViewById(R.id.profile_name);
+        mProfileEmailView = view.findViewById(R.id.profile_email);
         mMyItemsTab = view.findViewById(R.id.relLayout_my_items);
         mMyLikesTab = view.findViewById(R.id.relLayout_my_likes);
         mMyProfileTab = view.findViewById(R.id.relLayout_my_profile);
@@ -114,6 +117,8 @@ public class ProfileFragment extends Fragment {
             fragmentTransaction.addToBackStack(getString(R.string.fragment_my_items));
             fragmentTransaction.commit();
 //            mFrameLayout.setVisibility(View.VISIBLE);
+            mClickHandler.myItemsTabClicked(fragment);
+
         });
     }
 
@@ -123,11 +128,12 @@ public class ProfileFragment extends Fragment {
             args.putString(ARG_UID,mUid);
             MyLikesFragment fragment = new MyLikesFragment();
             fragment.setArguments(args);
-
+            mClickHandler.myLikesTabClicked(fragment);
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_my_likes));
             fragmentTransaction.addToBackStack(getString(R.string.fragment_my_likes));
             fragmentTransaction.commit();
+
         });
     }
 
@@ -139,11 +145,13 @@ public class ProfileFragment extends Fragment {
             args.putString(ARG_UID,mUid);
             MyProfileFragment fragment = new MyProfileFragment();
             fragment.setArguments(args);
+            mClickHandler.myProfileTabClicked(fragment);
 
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_my_profile_2));
             fragmentTransaction.addToBackStack(getString(R.string.fragment_my_profile_2));
             fragmentTransaction.commit();
+
 
         });
 
@@ -161,6 +169,7 @@ public class ProfileFragment extends Fragment {
                     if(dataSnapshot != null){
                         User user = singleSnapshot.getValue(User.class);
                         mProfileNameView.setText(getString(R.string.two_string_with_space,user.getFirst_name(),user.getLast_name()));
+                        mProfileEmailView.setText(user.getEmail());
                     }
                 }
             }
@@ -172,19 +181,7 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    public void viewPost(String postId, String userId) {
-        Bundle args = new Bundle();
-        args.putString(getString(R.string.arg_post_id), postId);
-        args.putString(getString(R.string.arg_user_id), userId);
-        ViewPostFragment fragment = new ViewPostFragment();
-        fragment.setArguments(args);
 
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_view_post));
-        fragmentTransaction.addToBackStack(getString(R.string.fragment_view_post));
-        fragmentTransaction.commit();
-//        mFrameLayout.setVisibility(View.VISIBLE);
-    }
 
 
 }

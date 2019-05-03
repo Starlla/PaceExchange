@@ -16,6 +16,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ImageViewCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,12 +40,13 @@ import java.util.Iterator;
 public class ViewPostFragment extends Fragment {
 
     ImageView mImage;
-    ImageView mPostClose;
+//    ImageView mPostClose;
     ImageView mLike;
     TextView mProfileName;
     TextView mTitle;
     TextView mDescription;
     TextView mPostStartOffer;
+    Toolbar toolbar;
 
     private String mPostId;
     private String mUserId;
@@ -55,6 +58,7 @@ public class ViewPostFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mPostId = (String) getArguments().get(getString(R.string.arg_post_id));
         mUserId = (String) getArguments().get(getString(R.string.arg_user_id));
+
     }
 
     @Nullable
@@ -62,13 +66,14 @@ public class ViewPostFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_view_post, container, false);
         mImage = view.findViewById(R.id.post_image);
-        mPostClose = view.findViewById(R.id.post_close);
+//        mPostClose = view.findViewById(R.id.post_close);
         mLike = view.findViewById(R.id.add_watch_list);
         mProfileName = view.findViewById(R.id.profile_name);
         mPostStartOffer = view.findViewById(R.id.post_start_offer);
         mTitle = view.findViewById(R.id.post_title);
         mDescription = view.findViewById(R.id.post_description);
-
+        toolbar =view.findViewById(R.id.view_post_toolbar);
+        setToolbar();
         init();
         return view;
     }
@@ -152,12 +157,12 @@ public class ViewPostFragment extends Fragment {
     }
 
     private void addClickListeners() {
-        mPostClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
+//        mPostClose.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getActivity().getSupportFragmentManager().popBackStack();
+//            }
+//        });
 
         mLike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,5 +222,18 @@ public class ViewPostFragment extends Fragment {
             inputMethodManager.hideSoftInputFromWindow(
                     activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    private void setToolbar(){
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        getActivity().setTitle("ViewPost");
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
     }
 }

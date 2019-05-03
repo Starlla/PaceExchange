@@ -33,6 +33,7 @@ import java.util.List;
 public class MyItemsFragment extends Fragment {
 
     TextView mMyItemsProfileNameView;
+    TextView mMyItemsEmailView;
     DatabaseReference mDatabaseReference;
     List<Post> mItems;
     String mUid;
@@ -70,6 +71,7 @@ public class MyItemsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_my_items, container, false);
         mRecyclerView = view.findViewById(R.id.my_items_recycler_view);
         mMyItemsProfileNameView = view.findViewById(R.id.my_items_profile_name);
+        mMyItemsEmailView = view.findViewById(R.id.my_items_profile_email);
         mItems = new ArrayList<>();
         toolbar =view.findViewById(R.id.my_items_toolbar);
         setToolbar();
@@ -150,6 +152,7 @@ public class MyItemsFragment extends Fragment {
                     if(dataSnapshot != null){
                         User user = singleSnapshot.getValue(User.class);
                         mMyItemsProfileNameView.setText(getString(R.string.two_string_with_space,user.getFirst_name(),user.getLast_name()));
+                        mMyItemsEmailView.setText(user.getEmail());
                     }
                 }
             }
@@ -172,6 +175,20 @@ public class MyItemsFragment extends Fragment {
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
+    }
+
+    public void viewPost(String postId, String userId) {
+        Bundle args = new Bundle();
+        args.putString(getString(R.string.arg_post_id), postId);
+        args.putString(getString(R.string.arg_user_id), userId);
+        ViewPostFragment fragment = new ViewPostFragment();
+        fragment.setArguments(args);
+
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_view_post));
+        fragmentTransaction.addToBackStack(getString(R.string.fragment_view_post));
+        fragmentTransaction.commit();
+//        mFrameLayout.setVisibility(View.VISIBLE);
     }
 
 

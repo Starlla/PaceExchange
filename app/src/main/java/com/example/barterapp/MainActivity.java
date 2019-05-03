@@ -3,18 +3,13 @@ package com.example.barterapp;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.VectorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -123,6 +118,21 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(MainActivity.this, SignInActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void myItemsTabClicked(MyItemsFragment fragment) {
+        currentFragment = fragment;
+    }
+
+    @Override
+    public void myLikesTabClicked(MyLikesFragment fragment) {
+        currentFragment = fragment;
+    }
+
+    @Override
+    public void myProfileTabClicked(MyProfileFragment fragment) {
+        currentFragment = fragment;
     }
 
 

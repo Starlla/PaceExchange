@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +50,6 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
 
     private EditText mTitle, mDescription;
     private double mProgress = 0;
-
 
     @Override
     public void getImagePath(Uri imagePath) {
@@ -97,6 +98,7 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
         mDescription = view.findViewById(R.id.input_description);
         mPost = view.findViewById(R.id.btn_post);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+
 
 
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
@@ -295,5 +297,7 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
         mTitle.setText("");
         mDescription.setText("");
     }
+
+
 
 }
