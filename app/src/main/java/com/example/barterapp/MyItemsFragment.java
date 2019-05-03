@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.barterapp.util.RecyclerViewMargin;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +31,7 @@ import java.util.List;
 public class MyItemsFragment extends Fragment {
 
     ImageView mClose;
+    TextView mMyItemsProfileNameView;
     DatabaseReference mDatabaseReference;
     List<Post> mItems;
     String mUid;
@@ -64,6 +66,7 @@ public class MyItemsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_my_items, container, false);
         mClose = view.findViewById(R.id.my_items_close);
         mRecyclerView = view.findViewById(R.id.my_items_recycler_view);
+        mMyItemsProfileNameView = view.findViewById(R.id.my_items_profile_name);
         mItems = new ArrayList<>();
 
         mClose.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +86,8 @@ public class MyItemsFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null)
             mUid = args.getString(ProfileFragment.ARG_UID);
+
+        getUserInfo();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child(getString(R.string.node_posts));
         configureRecyclerView();
     }
@@ -147,6 +152,28 @@ public class MyItemsFragment extends Fragment {
         fragmentTransaction.commit();
 
 //        mFrameLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void getUserInfo() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference.child(getString(R.string.node_users)).orderByKey().equalTo(mUid);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                    if(dataSnapshot != null){
+                        User user = singleSnapshot.getValue(User.class);
+                        mMyItemsProfileNameView.setText(getString(R.string.two_string_with_space,user.getFirst_name(),user.getLast_name()));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
