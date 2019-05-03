@@ -1,7 +1,6 @@
 package com.example.barterapp;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.barterapp.util.RecyclerViewMargin;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,6 +52,7 @@ public class ShopFragment extends Fragment {
     ShopFragmentButtonClickHandler mClickHandler;
 
     private static final int NUM_GRID_COLUMNS = 2;
+    private static final int GRID_ITEM_MARGIN = Util.dpToPx(10);
 
     @Override
     public void onAttach(Context context) {
@@ -89,6 +90,8 @@ public class ShopFragment extends Fragment {
 
     private void configureRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
+        RecyclerViewMargin itemDecorator = new RecyclerViewMargin(GRID_ITEM_MARGIN, NUM_GRID_COLUMNS);
+        mRecyclerView.addItemDecoration(itemDecorator);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), NUM_GRID_COLUMNS);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mMyAdapter = new MyAdapter(getActivity(), mItems);

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.barterapp.util.RecyclerViewMargin;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,6 +43,7 @@ public class MyLikesFragment extends Fragment {
 //    private ArrayList<String> mPostsIds;
 
     private static final int NUM_GRID_COLUMNS = 2;
+    private static final int GRID_ITEM_MARGIN = Util.dpToPx(10);
     private static final String TAG = "MyLikesFragment";
 
     public MyLikesFragment() {
@@ -100,6 +102,8 @@ public class MyLikesFragment extends Fragment {
 
     private void setUpRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
+        RecyclerViewMargin itemDecorator = new RecyclerViewMargin(GRID_ITEM_MARGIN, NUM_GRID_COLUMNS);
+        mRecyclerView.addItemDecoration(itemDecorator);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), NUM_GRID_COLUMNS);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mMyAdapter = new MyAdapter(getActivity(), mPosts);
