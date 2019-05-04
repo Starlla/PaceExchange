@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.barterapp.util.RecyclerViewMargin;
@@ -42,6 +43,7 @@ public class ShopFragment extends Fragment {
     }
 
     EditText mSearchInput;
+    SearchView mSearchView;
     RecyclerView mRecyclerView;
     FrameLayout mFrameLayout;
 
@@ -69,7 +71,8 @@ public class ShopFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shop, container, false);
-        mSearchInput = view.findViewById(R.id.search_input);
+//        mSearchInput = view.findViewById(R.id.search_input);
+        mSearchView = view.findViewById(R.id.shop_search_view);
         mRecyclerView = view.findViewById(R.id.recycler_view);
         mFrameLayout = view.findViewById(R.id.container);
         mItems = new ArrayList<>();
@@ -100,26 +103,43 @@ public class ShopFragment extends Fragment {
     }
 
     private void configureSearchInput() {
-        mSearchInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//        mSearchInput.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                if (!s.toString().isEmpty()) {
+//                    search(s.toString());
+//                } else {
+//                    search("");
+//                }
+//            }
+//        });
 
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!s.toString().isEmpty()) {
-                    search(s.toString());
-                } else {
-                    search("");
-                }
+            public boolean onQueryTextChange(String newText) {
+                search(newText);
+                return false;
             }
         });
+
+
+
+
     }
 
     private void search(String input) {

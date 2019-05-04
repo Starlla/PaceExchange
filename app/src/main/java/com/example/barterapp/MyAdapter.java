@@ -43,6 +43,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Post post = mList.get(position);
         MyAdapterViewHolder holder = (MyAdapterViewHolder) viewHolder;
         holder.mTextView.setText(post.getTitle());
+        System.out.println(post.getImage());
         Glide.with(mContext).load(post.getImage()).into(holder.mImageView);
         holder.mChecked.setVisibility(mSelectedPosition == position ? View.VISIBLE : View.GONE);
         holder.itemView.setOnClickListener(new View.OnClickListener() {

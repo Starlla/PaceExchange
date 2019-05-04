@@ -17,31 +17,44 @@
             android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             >
-            <TextView
-                android:id="@+id/shop_toolbar_title"
-                android:layout_width="wrap_content"
+            <!--<TextView-->
+                <!--android:id="@+id/shop_toolbar_title"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/shop"-->
+                <!--style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"-->
+                <!--android:layout_gravity="center" />-->
+            <SearchView
+                android:id="@+id/shop_search_view"
+                android:layout_below="@id/shop_tool_bar_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/shop"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:layout_gravity="center" />
+                android:queryHint="Search"
+                android:iconifiedByDefault="false"
+                />
+
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
-    <EditText
-        android:layout_below="@+id/shop_tool_bar_layout"
-        android:id="@+id/search_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textNoSuggestions"
-        android:textSize="16sp"
-        android:background="@color/White"/>
+
+
+
+
+    <!--<EditText-->
+        <!--android:layout_below="@+id/shop_tool_bar_layout"-->
+        <!--android:id="@+id/search_input"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:inputType="textNoSuggestions"-->
+        <!--android:textSize="16sp"-->
+        <!--android:background="@color/White"/>-->
 
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="5dp"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search_input"/>
+        android:layout_below="@id/shop_tool_bar_layout"/>
 
     <FrameLayout
         android:id="@+id/container"
