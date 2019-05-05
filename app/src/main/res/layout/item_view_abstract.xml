@@ -16,11 +16,11 @@
             android:id="@+id/relLayout_item_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/Grey"
+            android:background="@color/PurpleBlue"
             android:paddingTop="1dp"
             android:paddingStart="1dp"
             android:paddingEnd="1dp"
-            android:paddingBottom="0.5dp">
+            >
 
         <com.example.barterapp.SquareImageView
             android:id="@+id/item_image"
@@ -45,11 +45,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/relLayout_item_image"
-            android:paddingTop="0.5dp"
             android:paddingStart="1dp"
             android:paddingEnd="1dp"
             android:paddingBottom="1dp"
-            android:background="@color/Grey">
+            android:background="@color/PurpleBlue">
         <TextView
             android:paddingStart="10dp"
             android:gravity="center_vertical"

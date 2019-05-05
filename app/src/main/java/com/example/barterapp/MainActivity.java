@@ -21,9 +21,12 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
 
     private ImageView currentTabView;
     private TextView profileTabText;
-    ImageView profileIconView;
-    ImageView shopIconView;
-    ImageView postIconView;
+    private TextView shopTabText;
+    private TextView postTabText;
+    private ImageView profileIconView;
+    private ImageView shopIconView;
+    private ImageView postIconView;
+
 
     ProfileFragment profileFragment;
     ShopFragment shopFragment;
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
     Fragment currentFragment;
     String uid;
     String currentTag;
+    TextView currentTabText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
         setContentView(R.layout.activity_main);
 
         profileTabText = findViewById(R.id.profile_tab_text);
+        shopTabText = findViewById(R.id.shop_tab_text);
+        postTabText = findViewById(R.id.post_tab_text);
         profileIconView =findViewById(R.id.profile_tab_icon);
         shopIconView =findViewById(R.id.shop_tab_icon);
         postIconView =findViewById(R.id.post_tab_icon);
@@ -69,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
         currentFragment = shopFragment;
         currentTabView = shopIconView;
         currentTag = getString(R.string.fragment_shop);
+        currentTabText = shopTabText;
+
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment,currentTag).commit();
 
     }
@@ -83,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
                     currentTabView.setColorFilter(getResources().getColor(R.color.colorUnSelect));
             }
 
+            currentTabText.setTextColor(ContextCompat.getColor(this, R.color.colorUnSelect));
+
             currentTabView = currentTabView == null ? shopIconView : (ImageView)view;
             int currentTabId = currentTabView == null ? 0 : currentTabView.getId();
 
@@ -90,20 +100,25 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
                 case R.id.profile_tab_icon:
                     currentFragment = profileFragment;
                     currentTag = getString(R.string.fragment_profile);
+                    currentTabText = profileTabText;
                     profileIconView.setImageResource(R.drawable.ic_person_black_24dp);
                     break;
                 case R.id.shop_tab_icon:
                     currentFragment = shopFragment;
+                    currentTabText = shopTabText;
                     currentTag = getString(R.string.fragment_shop);
                     shopIconView.setColorFilter(getResources().getColor(R.color.colorSelect));
                     break;
                 case R.id.post_tab_icon:
                     currentFragment = postFragment;
                     currentTag = getString(R.string.fragment_post);
+                    currentTabText = postTabText;
                     postIconView.setColorFilter(getResources().getColor(R.color.colorSelect));
                     break;
             }
-
+            if(currentTabText != null) {
+                currentTabText.setTextColor(ContextCompat.getColor(this, R.color.colorSelect));
+            }
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment,currentTag).commit();
         };
         //add above listener to tabs

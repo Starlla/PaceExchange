@@ -54,7 +54,7 @@ public class ShopFragment extends Fragment {
     ShopFragmentButtonClickHandler mClickHandler;
 
     private static final int NUM_GRID_COLUMNS = 2;
-    private static final int GRID_ITEM_MARGIN = Util.dpToPx(10);
+    private static final int GRID_ITEM_MARGIN = Util.dpToPx(14);
 
     @Override
     public void onAttach(Context context) {
@@ -143,7 +143,8 @@ public class ShopFragment extends Fragment {
     }
 
     private void search(String input) {
-        Query query = mDatabaseReference.orderByChild(getString(R.string.field_title)).startAt(input).endAt(input + "\uf8ff");
+        Query query = mDatabaseReference.orderByChild(getString(R.string.field_title)).startAt(input)
+                .endAt(input + "\uf8ff");
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -153,9 +154,9 @@ public class ShopFragment extends Fragment {
                     String myId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     for (DataSnapshot dss : dataSnapshot.getChildren()) {
                         final Post post = dss.getValue(Post.class);
-                        if (!post.getUser_id().equals(myId)) {
+//                        if (!post.getUser_id().equals(myId)) {
                             mItems.add(post);
-                        }
+//                        }
                     }
                     mMyAdapter.notifyDataSetChanged();
                 }
@@ -176,7 +177,7 @@ public class ShopFragment extends Fragment {
         fragment.setArguments(args);
 
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, fragment, getString(R.string.fragment_view_post));
+        fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_view_post));
         fragmentTransaction.addToBackStack(getString(R.string.fragment_view_post));
         fragmentTransaction.commit();
 

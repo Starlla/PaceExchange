@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.barterapp.util.RecyclerViewMargin;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -34,6 +35,7 @@ public class MyItemsFragment extends Fragment {
 
     TextView mMyItemsProfileNameView;
     TextView mMyItemsEmailView;
+    ImageView mMyItemsProfilePhoto;
     DatabaseReference mDatabaseReference;
     List<Post> mItems;
     String mUid;
@@ -42,7 +44,7 @@ public class MyItemsFragment extends Fragment {
     Toolbar toolbar;
 
     private static final int NUM_GRID_COLUMNS = 2;
-    private static final int GRID_ITEM_MARGIN = Util.dpToPx(10);
+    private static final int GRID_ITEM_MARGIN = Util.dpToPx(14);
     static final String ARG_UID = "UID";
 
     interface MyItemsFragmentButtonClickHandler{
@@ -72,10 +74,12 @@ public class MyItemsFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.my_items_recycler_view);
         mMyItemsProfileNameView = view.findViewById(R.id.my_items_profile_name);
         mMyItemsEmailView = view.findViewById(R.id.my_items_profile_email);
+        mMyItemsProfilePhoto = view.findViewById(R.id.profile_image2);
         mItems = new ArrayList<>();
         toolbar =view.findViewById(R.id.my_items_toolbar);
-        setToolbar();
 
+
+        setToolbar();
         return view;
     }
 
@@ -153,6 +157,8 @@ public class MyItemsFragment extends Fragment {
                         User user = singleSnapshot.getValue(User.class);
                         mMyItemsProfileNameView.setText(getString(R.string.two_string_with_space,user.getFirst_name(),user.getLast_name()));
                         mMyItemsEmailView.setText(user.getEmail());
+//                        UniversalImageLoader.setImage(user.getProfile_photo(),mMyItemsProfilePhoto);
+                        Glide.with(getContext()).load(user.getProfile_photo()).into(mMyItemsProfilePhoto);
                     }
                 }
             }

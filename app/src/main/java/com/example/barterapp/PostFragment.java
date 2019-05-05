@@ -70,6 +70,11 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
 
     }
 
+    @Override
+    public void triggerImageUpload() {
+
+    }
+
     interface PostFragmentButtonClickHandler{
         void signOutButtonClicked();
     }
@@ -100,7 +105,6 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
 
-
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
 
         init();
@@ -111,11 +115,6 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        populateView();
-    }
-
-    private void populateView(){
 
     }
 
@@ -156,14 +155,14 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
 
     private void uploadNewPhoto(Bitmap bitmap){
         Log.d(TAG, "uploadNewPhoto: uploading a new image bitmap to storage");
-        BackgroundImageResize resize = new BackgroundImageResize(bitmap);
+        PostFragment.BackgroundImageResize resize = new PostFragment.BackgroundImageResize(bitmap);
         Uri uri = null;
         resize.execute(uri);
     }
 
     private void uploadNewPhoto(Uri imagePath){
         Log.d(TAG, "uploadNewPhoto: uploading a new image uri to storage.");
-        BackgroundImageResize resize = new BackgroundImageResize(null);
+        PostFragment.BackgroundImageResize resize = new PostFragment.BackgroundImageResize(null);
         resize.execute(imagePath);
     }
 
@@ -198,7 +197,7 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
             }
             byte[] bytes = null;
             Log.d(TAG, "doInBackground: megabytes before compression: " + mBitmap.getByteCount() / 1000000 );
-            bytes = getBytesFromBitmap(mBitmap, 100);
+            bytes = Util.getBytesFromBitmap(mBitmap, 100);
             Log.d(TAG, "doInBackground: megabytes before compression: " + bytes.length / 1000000 );
             return bytes;
         }
@@ -224,11 +223,7 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
         }
     }
 
-    public static byte[] getBytesFromBitmap(Bitmap bitmap, int quality){
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, quality,stream);
-        return stream.toByteArray();
-    }
+
 
     private void executeUploadTask(){
         Toast.makeText(getActivity(), "uploading image", Toast.LENGTH_SHORT).show();

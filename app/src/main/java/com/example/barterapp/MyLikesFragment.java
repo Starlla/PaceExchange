@@ -46,7 +46,7 @@ public class MyLikesFragment extends Fragment {
     Toolbar toolbar;
 
     private static final int NUM_GRID_COLUMNS = 2;
-    private static final int GRID_ITEM_MARGIN = Util.dpToPx(10);
+    private static final int GRID_ITEM_MARGIN = Util.dpToPx(14);
     private static final String TAG = "MyLikesFragment";
 
     public MyLikesFragment() {
@@ -139,7 +139,7 @@ public class MyLikesFragment extends Fragment {
     ValueEventListener mValueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            Log.d(TAG, "onDataChange: a change was made to this users watch lits node.");
+            Log.d(TAG, "onDataChange: a change was made to this users watch list node.");
             getLikesListIds();
         }
 

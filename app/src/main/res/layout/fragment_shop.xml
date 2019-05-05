@@ -32,13 +32,8 @@
                 android:queryHint="Search"
                 android:iconifiedByDefault="false"
                 />
-
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
-
-
-
-
 
     <!--<EditText-->
         <!--android:layout_below="@+id/shop_tool_bar_layout"-->
@@ -50,7 +45,8 @@
         <!--android:background="@color/White"/>-->
 
     <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

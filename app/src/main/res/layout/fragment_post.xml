@@ -233,12 +233,15 @@
 
                         <Button
                             android:id="@+id/btn_post"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="35dp"
                             android:layout_marginBottom="35dp"
                             android:text="post"
-                            android:background="@drawable/white_onclick_grey"
+                            android:layout_marginRight="100dp"
+                            android:layout_marginLeft="100dp"
+                            android:textColor="@color/White"
+                            android:background="@drawable/post_bt_ui"
                             android:layout_centerHorizontal="true"/>
                     </RelativeLayout>
 

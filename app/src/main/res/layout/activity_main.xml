@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#e8e5e5"
+        android:background="@color/PurpleBlue"
         android:gravity="center"
         android:layout_alignParentBottom="true">
 
@@ -36,7 +36,9 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:paddingBottom="2dp"
+            android:paddingTop="1dp">
             <ImageView
                 android:id="@+id/shop_tab_icon"
                 android:layout_width="40dp"
@@ -44,10 +46,12 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_search_black_24dp"/>
             <TextView
-                android:id="@+id/search_tab_text"
+                android:id="@+id/shop_tab_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorSelect"
                 android:text="@string/shop_button"/>
 
         </LinearLayout>
@@ -72,6 +76,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
+                android:textColor="@color/Grey"
+                android:textStyle="bold"
                 android:text="@string/post_button"/>
         </LinearLayout>
 
@@ -95,8 +101,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/Grey"
                 android:text="@string/profile_button"/>
-
         </LinearLayout>
 
 

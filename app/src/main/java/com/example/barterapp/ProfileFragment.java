@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 public class ProfileFragment extends Fragment {
 
     static final String ARG_UID = "UID";
+
 
     interface ProfileFragmentButtonClickHandler{
         void signOutButtonClicked();
@@ -170,6 +173,7 @@ public class ProfileFragment extends Fragment {
                         User user = singleSnapshot.getValue(User.class);
                         mProfileNameView.setText(getString(R.string.two_string_with_space,user.getFirst_name(),user.getLast_name()));
                         mProfileEmailView.setText(user.getEmail());
+                        Glide.with(getContext()).load(user.getProfile_photo()).into((ImageView)getView().findViewById(R.id.profile_image));
                     }
                 }
             }

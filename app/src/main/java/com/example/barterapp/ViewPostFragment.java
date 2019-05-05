@@ -120,6 +120,7 @@ public class ViewPostFragment extends Fragment {
                     if(singleSnapshot != null){
                         User user = singleSnapshot.getValue(User.class);
                         mProfileName.setText(getString(R.string.two_string_with_space,user.getFirst_name(),user.getLast_name()));
+                        Glide.with(getContext()).load(user.getProfile_photo()).into((ImageView)getView().findViewById(R.id.view_post_profile_image));
                     }
                 }
             }

@@ -2,6 +2,7 @@ package com.example.barterapp;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -75,7 +76,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         String email = emailInput.getText().toString();
         if (email.isEmpty()) {
-            emailInput.setError("This field cannot be blank.");
+            emailInput.setError("This field cannot be blank.", ContextCompat.getDrawable(this, R.drawable.ic_error_24dp));
             isValid = false;
         } else if (!email.endsWith("@pace.edu")) {
             emailInput.setError("Please sign in with your pace email.");

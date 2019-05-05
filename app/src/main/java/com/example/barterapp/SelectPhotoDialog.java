@@ -23,6 +23,7 @@ public class SelectPhotoDialog extends DialogFragment{
     public interface OnPhotoSelectedListener{
         void getImagePath(Uri imagePath);
         void getImageBitmap(Bitmap bitmap);
+        void triggerImageUpload();
     }
     OnPhotoSelectedListener mOnPhotoSelectedListener;
 
@@ -81,6 +82,7 @@ public class SelectPhotoDialog extends DialogFragment{
             mOnPhotoSelectedListener.getImageBitmap(bitmap);
             getDialog().dismiss();
         }
+        mOnPhotoSelectedListener.triggerImageUpload();
     }
 
     @Override

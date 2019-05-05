@@ -60,7 +60,8 @@
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
                     android:id="@+id/profile_image"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/ic_launcher_foreground"
+                    android:background="@color/PurpleBlue"
                     android:scaleType="centerCrop"/>
             </android.support.v7.widget.CardView>
 
