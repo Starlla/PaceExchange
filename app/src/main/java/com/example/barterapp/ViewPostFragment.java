@@ -58,7 +58,6 @@ public class ViewPostFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mPostId = (String) getArguments().get(getString(R.string.arg_post_id));
         mUserId = (String) getArguments().get(getString(R.string.arg_user_id));
-
     }
 
     @Nullable
@@ -74,6 +73,8 @@ public class ViewPostFragment extends Fragment {
         mDescription = view.findViewById(R.id.post_description);
         toolbar =view.findViewById(R.id.view_post_toolbar);
         setToolbar();
+        mPostStartOffer.setVisibility(mUserId.equals(FirebaseAuth.getInstance().getCurrentUser()
+                .getUid())?View.INVISIBLE:View.VISIBLE);
         init();
         return view;
     }
@@ -83,7 +84,7 @@ public class ViewPostFragment extends Fragment {
         getUserInfo();
         getLikeInfo();
         addClickListeners();
-        hideSoftKeyboard();
+//        hideSoftKeyboard();
     }
 
     private void getPostInfo() {
@@ -158,13 +159,6 @@ public class ViewPostFragment extends Fragment {
     }
 
     private void addClickListeners() {
-//        mPostClose.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getActivity().getSupportFragmentManager().popBackStack();
-//            }
-//        });
-
         mLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
