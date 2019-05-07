@@ -19,6 +19,7 @@
     <string name="already_have_an_account_sign_in">Already have an account?</string>
     <string name="failed_to_sign_up">Failed to sign up.</string>
     <string name="dialog_select_photo">SelectPhoto</string>
+    <string name="dialog_select_gender">SelectGender</string>
     <string name="this_field_cannot_be_blank">This field cannot be blank.</string>
 
     <!-- Tags in layout fragment_view_post -->
@@ -70,4 +71,7 @@
     <string name="post">Post</string>
     <string name="shop">Shop</string>
     <string name="profile">Profile</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="unspecified">Unspecified</string>
 </resources>

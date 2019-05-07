@@ -5,15 +5,17 @@ public class User {
     private String email;
     private String first_name;
     private String last_name;
+    private String gender;
     private String profile_photo;
 
     // change structure to first name, last name, email address, graduation year & reputation later
 
-    public User(String user_id,String email, String first_name,String last_name,String profile_photo) {
+    public User(String user_id,String email, String first_name,String last_name,String gender,String profile_photo) {
         this.user_id = user_id;
         this.email = email;
         this.first_name = first_name;
         this.last_name = last_name;
+        this.gender = gender;
         this.profile_photo = profile_photo;
     }
 
@@ -52,6 +54,14 @@ public class User {
         this.last_name = last_name;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public String getProfile_photo() {
         return profile_photo;
     }
@@ -65,6 +75,7 @@ public class User {
         return "User{" +
                 "user_id='" + user_id + '\'' +
                 ", email='" + email + '\'' +
+                ", gender='" +gender + '\'' +
                 ", first_name='" + first_name + '\'' +
                 ", last_name='" + last_name + '\'' +
                 ", profile_photo='" + profile_photo + '\'' +

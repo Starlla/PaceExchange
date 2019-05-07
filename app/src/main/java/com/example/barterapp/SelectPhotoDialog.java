@@ -19,6 +19,8 @@ public class SelectPhotoDialog extends DialogFragment{
     private static final String TAG = "SelectPhotoDialog";
     private static final int PICKFILE_REQUEST_CODE = 1234;
     private static final int CAMERA_REQUEST_CODE = 4321;
+    TextView selectPhoto;
+    TextView takePhoto;
 
     public interface OnPhotoSelectedListener{
         void getImagePath(Uri imagePath);
@@ -32,7 +34,26 @@ public class SelectPhotoDialog extends DialogFragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_selectphoto, container, false);
 
-        TextView selectPhoto = (TextView) view.findViewById(R.id.dialogChoosePhoto);
+        selectPhoto = (TextView) view.findViewById(R.id.dialogChoosePhoto);
+        takePhoto = (TextView) view.findViewById(R.id.dialogOpenCamera);
+
+        setSelectPhotoOnclickListener();
+        setTakePhotoOnclickListener();
+        return view;
+    }
+
+    private void setTakePhotoOnclickListener() {
+
+        takePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: starting camera.");
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, CAMERA_REQUEST_CODE);
+            }
+        });
+    }
+    private void setSelectPhotoOnclickListener() {
         selectPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,26 +63,14 @@ public class SelectPhotoDialog extends DialogFragment{
                 startActivityForResult(intent, PICKFILE_REQUEST_CODE);
             }
         });
-
-        TextView takePhoto = (TextView) view.findViewById(R.id.dialogOpenCamera);
-        takePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: starting camera.");
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, CAMERA_REQUEST_CODE);
-            }
-        });
-        return view;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        /*
-            Results when selecting a new image from memory
-         */
+
+        //Results when selecting a new image from memory
         if(requestCode == PICKFILE_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             Uri selectedImageUri = data.getData();
             Log.d(TAG, "onActivityResult: image uri: " + selectedImageUri);
@@ -70,9 +79,8 @@ public class SelectPhotoDialog extends DialogFragment{
             mOnPhotoSelectedListener.getImagePath(selectedImageUri);
             getDialog().dismiss();
         }
-        /*
-            Results when taking a new photo with camera
-         */
+
+        // Results when taking a new photo with camera
         else if(requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             Log.d(TAG, "onActivityResult: done taking new photo");
             Bitmap bitmap;
@@ -88,7 +96,7 @@ public class SelectPhotoDialog extends DialogFragment{
     @Override
     public void onAttach(Context context) {
         try{
-            mOnPhotoSelectedListener = (OnPhotoSelectedListener) getTargetFragment();
+            mOnPhotoSelectedListener = (SelectPhotoDialog.OnPhotoSelectedListener) getTargetFragment();
         }catch (ClassCastException e){
             Log.e(TAG, "onAttach: ClassCastException: " + e.getMessage() );
         }

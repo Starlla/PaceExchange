@@ -44,8 +44,38 @@ import java.util.Map;
 import static android.support.constraint.Constraints.TAG;
 
 
-public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnPhotoSelectedListener {
+public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnPhotoSelectedListener,SelectGenderDialog.OnGenderSelectedListener {
 
+
+    @Override
+    public void setGenderFemale() {
+        Map newValue = new HashMap();
+        newValue.put("gender", "Female");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.child(getString(R.string.node_users)).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .updateChildren(newValue);
+        mMyProfileGenderView.setText(getString(R.string.female));
+    }
+
+    @Override
+    public void setGenderMale() {
+        Map newValue = new HashMap();
+        newValue.put("gender", "Male");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.child(getString(R.string.node_users)).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .updateChildren(newValue);
+        mMyProfileGenderView.setText(getString(R.string.male));
+    }
+
+    @Override
+    public void setGenderUnspecified() {
+        Map newValue = new HashMap();
+        newValue.put("gender", "Unspecified");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.child(getString(R.string.node_users)).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .updateChildren(newValue);
+        mMyProfileGenderView.setText(getString(R.string.unspecified));
+    }
 
     interface MyProfileFragmentButtonClickHandler {
 
@@ -55,6 +85,7 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
     String mUid;
     TextView mMyProfileNameView;
     TextView mMyProfileEmailView;
+    TextView mMyProfileGenderView;
     Toolbar toolbar;
     ImageView mMyProfilePhoto;
     private byte[] mUploadBytes;
@@ -79,13 +110,13 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
     public void getImageBitmap(Bitmap bitmap) {
         Log.d(TAG, "getImageBitmap: setting the image to imageview");
         mMyProfilePhoto.setImageBitmap(bitmap);
-
         mSelectedUri = null;
         mSelectedBitmap = bitmap;
     }
 
     @Override
     public void triggerImageUpload() {
+        //we have a uri and no bitmap
         if(mSelectedBitmap != null && mSelectedUri == null){
             uploadNewPhoto(mSelectedBitmap);
         }
@@ -93,7 +124,6 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
         else if(mSelectedBitmap == null && mSelectedUri != null){
             uploadNewPhoto(mSelectedUri);
         }
-
         mSelectedBitmap = null;
         mSelectedUri = null;
     }
@@ -113,12 +143,11 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
         toolbar = view.findViewById(R.id.my_profile_toolbar);
         mMyProfileNameView = view.findViewById(R.id.my_profile_name);
         mMyProfileEmailView = view.findViewById(R.id.my_profile_email);
+        mMyProfileGenderView = view.findViewById(R.id.my_profile_gender);
         mMyProfilePhoto = view.findViewById(R.id.my_profile_photo);
 
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-
         init();
-
         setToolbar();
         return view;
     }
@@ -131,10 +160,19 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
                 SelectPhotoDialog dialog = new SelectPhotoDialog();
                 dialog.show(getFragmentManager(), getString(R.string.dialog_select_photo));
                 dialog.setTargetFragment(MyProfileFragment.this, 2);
-                //we have a bitmap and no Uri
-
             }
         });
+
+        mMyProfileGenderView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                SelectGenderDialog dialog = new SelectGenderDialog();
+                dialog.show(getFragmentManager(), getString(R.string.dialog_select_gender));
+                dialog.setTargetFragment(MyProfileFragment.this, 3);
+            }
+        });
+
+
 
     }
 
@@ -193,6 +231,7 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
                         User user = singleSnapshot.getValue(User.class);
                         mMyProfileNameView.setText(getString(R.string.two_string_with_space, user.getFirst_name(), user.getLast_name()));
                         mMyProfileEmailView.setText(user.getEmail());
+                        mMyProfileGenderView.setText(user.getGender());
                         Glide.with(getContext()).load(user.getProfile_photo()).into((ImageView)getView().findViewById(R.id.my_profile_photo));
                     }
                 }
@@ -296,8 +335,6 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
 
                 Log.d(TAG, "onSuccess: firebase download url: " + firebaseUri.toString());
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
-
 
                 Map newValue = new HashMap();
                 newValue.put("profile_photo", firebaseUri.toString());

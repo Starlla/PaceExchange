@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/female"
+        android:textSize="15sp"
+        android:textColor="@color/Black"
+        android:id="@+id/dialog_female"
+        android:gravity="center_vertical"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/male"
+        android:textSize="15sp"
+        android:textColor="@color/Black"
+        android:id="@+id/dialog_male"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/dialog_female"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/unspecified"
+        android:textSize="15sp"
+        android:textColor="@color/Black"
+        android:id="@+id/dialog_unspecified"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/dialog_male"/>
+
+
+</RelativeLayout>
