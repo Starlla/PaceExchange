@@ -47,7 +47,7 @@ import static android.support.constraint.Constraints.TAG;
 
 
 public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnPhotoSelectedListener,
-        SelectGenderDialog.OnGenderSelectedListener{
+        SelectGenderDialog.OnGenderSelectedListener,SelectYearDialog.OnYearSelectedListener{
 
 
     @Override
@@ -78,6 +78,17 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
         reference.child(getString(R.string.node_users)).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .updateChildren(newValue);
         mMyProfileGenderView.setText(getString(R.string.unspecified));
+    }
+
+    @Override
+    public void onDateSet(Context mContext, int year) {
+        Map newValue = new HashMap();
+        newValue.put("graduation_year", year);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.child(getString(R.string.node_users)).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .updateChildren(newValue);
+        mMyProfileGraduationYearView.setText(String.valueOf(year));
+
     }
 
     interface MyProfileFragmentButtonClickHandler {
@@ -182,17 +193,6 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
             @Override
             public void onClick(View v) {
                 SelectYearDialog dialog = new SelectYearDialog();
-                dialog.setListener(new SelectYearDialog.OnYearSelectedListener() {
-                    @Override
-                    public void onDateSet(Context mContext, int year) {
-                        Map newValue = new HashMap();
-                        newValue.put("graduation_year", year);
-                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-                        reference.child(getString(R.string.node_users)).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                .updateChildren(newValue);
-                        mMyProfileGraduationYearView.setText(String.valueOf(year));
-                    }
-                });
                 dialog.setTargetFragment(MyProfileFragment.this, 4);
                 dialog.show(getFragmentManager(), getString(R.string.dialog_select_graduation_year));
             }
