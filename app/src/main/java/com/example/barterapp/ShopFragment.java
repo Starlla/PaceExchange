@@ -137,9 +137,6 @@ public class ShopFragment extends Fragment {
             }
         });
 
-
-
-
     }
 
     private void search(String input) {

@@ -15,7 +15,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +46,8 @@ import java.util.Map;
 import static android.support.constraint.Constraints.TAG;
 
 
-public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnPhotoSelectedListener,SelectGenderDialog.OnGenderSelectedListener {
+public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnPhotoSelectedListener,
+        SelectGenderDialog.OnGenderSelectedListener{
 
 
     @Override
@@ -86,6 +89,7 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
     TextView mMyProfileNameView;
     TextView mMyProfileEmailView;
     TextView mMyProfileGenderView;
+    TextView mMyProfileGraduationYearView;
     Toolbar toolbar;
     ImageView mMyProfilePhoto;
     private byte[] mUploadBytes;
@@ -144,6 +148,7 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
         mMyProfileNameView = view.findViewById(R.id.my_profile_name);
         mMyProfileEmailView = view.findViewById(R.id.my_profile_email);
         mMyProfileGenderView = view.findViewById(R.id.my_profile_gender);
+        mMyProfileGraduationYearView = view.findViewById(R.id.my_profile_graduation_year);
         mMyProfilePhoto = view.findViewById(R.id.my_profile_photo);
 
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
@@ -172,6 +177,26 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
             }
         });
 
+
+        mMyProfileGraduationYearView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                SelectYearDialog dialog = new SelectYearDialog();
+                dialog.setListener(new SelectYearDialog.OnYearSelectedListener() {
+                    @Override
+                    public void onDateSet(Context mContext, int year) {
+                        Map newValue = new HashMap();
+                        newValue.put("graduation_year", year);
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+                        reference.child(getString(R.string.node_users)).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .updateChildren(newValue);
+                        mMyProfileGraduationYearView.setText(String.valueOf(year));
+                    }
+                });
+                dialog.setTargetFragment(MyProfileFragment.this, 4);
+                dialog.show(getFragmentManager(), getString(R.string.dialog_select_graduation_year));
+            }
+        });
 
 
     }
@@ -232,6 +257,7 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
                         mMyProfileNameView.setText(getString(R.string.two_string_with_space, user.getFirst_name(), user.getLast_name()));
                         mMyProfileEmailView.setText(user.getEmail());
                         mMyProfileGenderView.setText(user.getGender());
+                        mMyProfileGraduationYearView.setText(String.valueOf(user.getGraduation_year()));
                         Glide.with(getContext()).load(user.getProfile_photo()).into((ImageView)getView().findViewById(R.id.my_profile_photo));
                     }
                 }
@@ -365,6 +391,11 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
 
         });
     }
+
+
+
+
+
 
 
 

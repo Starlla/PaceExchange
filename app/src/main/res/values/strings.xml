@@ -20,6 +20,7 @@
     <string name="failed_to_sign_up">Failed to sign up.</string>
     <string name="dialog_select_photo">SelectPhoto</string>
     <string name="dialog_select_gender">SelectGender</string>
+    <string name="dialog_select_graduation_year">SelectGraduationYear</string>
     <string name="this_field_cannot_be_blank">This field cannot be blank.</string>
 
     <!-- Tags in layout fragment_view_post -->
