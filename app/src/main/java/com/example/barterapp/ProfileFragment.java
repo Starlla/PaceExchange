@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -37,6 +38,7 @@ public class ProfileFragment extends Fragment {
     View mSignOutTab;
     TextView mProfileNameView;
     TextView mProfileEmailView;
+    RatingBar mProfileRating;
     ProfileFragmentButtonClickHandler mClickHandler;
     String mUid;
     View mMyItemsTab;
@@ -64,6 +66,7 @@ public class ProfileFragment extends Fragment {
         mSignOutTab = view.findViewById(R.id.relLayout_sign_out);
         mProfileNameView = view.findViewById(R.id.profile_name);
         mProfileEmailView = view.findViewById(R.id.profile_email);
+        mProfileRating = view.findViewById(R.id.profile_rating_bar);
         mMyItemsTab = view.findViewById(R.id.relLayout_my_items);
         mMyLikesTab = view.findViewById(R.id.relLayout_my_likes);
         mMyProfileTab = view.findViewById(R.id.relLayout_my_profile);
@@ -173,6 +176,7 @@ public class ProfileFragment extends Fragment {
                         User user = singleSnapshot.getValue(User.class);
                         mProfileNameView.setText(getString(R.string.two_string_with_space,user.getFirst_name(),user.getLast_name()));
                         mProfileEmailView.setText(user.getEmail());
+                        mProfileRating.setRating(user.getRating() == 0.0f ? 5.0f : user.getRating());
                         Glide.with(getContext()).load(user.getProfile_photo()).into((ImageView)getView().findViewById(R.id.profile_image));
                     }
                 }

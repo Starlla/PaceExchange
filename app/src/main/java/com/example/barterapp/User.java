@@ -8,10 +8,10 @@ public class User {
     private String gender;
     private String profile_photo;
     private int graduation_year;
+    private float rating;
 
-    // change structure to first name, last name, email address, graduation year & reputation later
-
-    public User(String user_id,String email, String first_name,String last_name,String gender,String profile_photo,int graduation_year) {
+    public User(String user_id, String email, String first_name, String last_name, String gender,
+                String profile_photo, int graduation_year, float rating) {
         this.user_id = user_id;
         this.email = email;
         this.first_name = first_name;
@@ -19,6 +19,7 @@ public class User {
         this.gender = gender;
         this.profile_photo = profile_photo;
         this.graduation_year = graduation_year;
+        this.rating = rating;
     }
 
     public User() {
@@ -67,6 +68,15 @@ public class User {
     public int getGraduation_year() {
         return graduation_year;
     }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
     public void setGraduation_year(int graduation_year) {
         this.graduation_year = graduation_year;
     }
@@ -84,12 +94,12 @@ public class User {
         return "User{" +
                 "user_id='" + user_id + '\'' +
                 ", email='" + email + '\'' +
-                ", gender='" +gender + '\'' +
                 ", first_name='" + first_name + '\'' +
                 ", last_name='" + last_name + '\'' +
-                ", graduation_year='" + graduation_year + '\'' +
+                ", gender='" + gender + '\'' +
                 ", profile_photo='" + profile_photo + '\'' +
-
+                ", graduation_year=" + graduation_year +
+                ", rating=" + rating +
                 '}';
     }
 }

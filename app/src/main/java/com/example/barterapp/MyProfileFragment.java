@@ -257,7 +257,7 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
                         mMyProfileNameView.setText(getString(R.string.two_string_with_space, user.getFirst_name(), user.getLast_name()));
                         mMyProfileEmailView.setText(user.getEmail());
                         mMyProfileGenderView.setText(user.getGender());
-                        mMyProfileGraduationYearView.setText(String.valueOf(user.getGraduation_year()));
+                        mMyProfileGraduationYearView.setText(user.getGraduation_year() == 0 ? "" : String.valueOf(user.getGraduation_year()));
                         Glide.with(getContext()).load(user.getProfile_photo()).into((ImageView)getView().findViewById(R.id.my_profile_photo));
                     }
                 }

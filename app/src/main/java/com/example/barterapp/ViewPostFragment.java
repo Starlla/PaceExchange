@@ -3,19 +3,10 @@ package com.example.barterapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BlurMaskFilter;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -23,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,18 +27,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Iterator;
 
 public class ViewPostFragment extends Fragment {
 
     ImageView mImage;
-//    ImageView mPostClose;
     ImageView mLike;
     TextView mProfileName;
+    RatingBar mProfileRating;
     TextView mTitle;
     TextView mDescription;
     TextView mPostStartOffer;
-    Toolbar toolbar;
+    Toolbar mToolbar;
 
     private String mPostId;
     private String mUserId;
@@ -65,16 +56,15 @@ public class ViewPostFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_view_post, container, false);
         mImage = view.findViewById(R.id.post_image);
-//        mPostClose = view.findViewById(R.id.post_close);
         mLike = view.findViewById(R.id.add_watch_list);
         mProfileName = view.findViewById(R.id.profile_name);
+        mProfileRating = view.findViewById(R.id.profile_rating_bar);
         mPostStartOffer = view.findViewById(R.id.post_start_offer);
         mTitle = view.findViewById(R.id.post_title);
         mDescription = view.findViewById(R.id.post_description);
-        toolbar =view.findViewById(R.id.view_post_toolbar);
+        mToolbar =view.findViewById(R.id.view_post_toolbar);
         setToolbar();
-        mPostStartOffer.setVisibility(mUserId.equals(FirebaseAuth.getInstance().getCurrentUser()
-                .getUid())?View.INVISIBLE:View.VISIBLE);
+        mPostStartOffer.setVisibility(mUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) ? View.INVISIBLE : View.VISIBLE);
         init();
         return view;
     }
@@ -121,6 +111,7 @@ public class ViewPostFragment extends Fragment {
                     if(singleSnapshot != null){
                         User user = singleSnapshot.getValue(User.class);
                         mProfileName.setText(getString(R.string.two_string_with_space,user.getFirst_name(),user.getLast_name()));
+                        mProfileRating.setRating(user.getRating() == 0.0f ? 5.0f : user.getRating());
                         Glide.with(getContext()).load(user.getProfile_photo()).into((ImageView)getView().findViewById(R.id.view_post_profile_image));
                     }
                 }
@@ -220,11 +211,10 @@ public class ViewPostFragment extends Fragment {
     }
 
     private void setToolbar(){
-
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         getActivity().setTitle("ViewPost");
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().popBackStack();
