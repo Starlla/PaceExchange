@@ -5,26 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import com.example.barterapp.util.RecyclerViewMargin;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +34,6 @@ public class ShopFragment extends Fragment {
 
     }
 
-    EditText mSearchInput;
     SearchView mSearchView;
     RecyclerView mRecyclerView;
     FrameLayout mFrameLayout;
@@ -71,7 +62,6 @@ public class ShopFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shop, container, false);
-//        mSearchInput = view.findViewById(R.id.search_input);
         mSearchView = view.findViewById(R.id.shop_search_view);
         mRecyclerView = view.findViewById(R.id.recycler_view);
         mFrameLayout = view.findViewById(R.id.container);
@@ -103,27 +93,6 @@ public class ShopFragment extends Fragment {
     }
 
     private void configureSearchInput() {
-//        mSearchInput.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                if (!s.toString().isEmpty()) {
-//                    search(s.toString());
-//                } else {
-//                    search("");
-//                }
-//            }
-//        });
-
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -136,24 +105,25 @@ public class ShopFragment extends Fragment {
                 return false;
             }
         });
-
     }
 
     private void search(String input) {
-        Query query = mDatabaseReference.orderByChild(getString(R.string.field_title)).startAt(input)
-                .endAt(input + "\uf8ff");
+        Query query = mDatabaseReference.orderByChild(getString(R.string.field_title)).startAt(input).endAt(input + "\uf8ff");
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChildren()) {
                     mItems.clear();
-                    String myId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    for (DataSnapshot dss : dataSnapshot.getChildren()) {
-                        final Post post = dss.getValue(Post.class);
-//                        if (!post.getUser_id().equals(myId)) {
-                            mItems.add(post);
-//                        }
+                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    if (currentUser != null) {
+                        String myId = currentUser.getUid();
+                        for (DataSnapshot dss : dataSnapshot.getChildren()) {
+                            final Post post = dss.getValue(Post.class);
+                            if (!post.getUser_id().equals(myId)) {
+                                mItems.add(post);
+                            }
+                        }
                     }
                     mMyAdapter.notifyDataSetChanged();
                 }
@@ -161,7 +131,6 @@ public class ShopFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }

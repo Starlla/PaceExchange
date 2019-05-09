@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.barterapp.util.RecyclerViewMargin;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,7 +37,9 @@ public class OfferInventoryActivity extends AppCompatActivity {
     private List<String> mPostIds;
     private DatabaseReference mReference;
     private String mPostIdWant;
+
     private static final int NUM_GRID_COLUMNS = 2;
+    private static final int GRID_ITEM_MARGIN = Util.dpToPx(14);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +72,8 @@ public class OfferInventoryActivity extends AppCompatActivity {
 
     private void configureRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
+        RecyclerViewMargin itemDecorator = new RecyclerViewMargin(GRID_ITEM_MARGIN, NUM_GRID_COLUMNS);
+        mRecyclerView.addItemDecoration(itemDecorator);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, NUM_GRID_COLUMNS);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mMyAdapter = new MyAdapter(this, mItems);
