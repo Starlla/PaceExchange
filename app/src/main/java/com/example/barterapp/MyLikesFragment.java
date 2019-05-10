@@ -202,11 +202,16 @@ public class MyLikesFragment extends Fragment {
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
-                        Post post = singleSnapshot.getValue(Post.class);
-                        Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
-                        mPosts.add(post);
-                        mMyAdapter.notifyDataSetChanged();
+                        if (dataSnapshot.hasChildren()) {
+                            DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                            Post post = singleSnapshot.getValue(Post.class);
+                            Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
+                            mPosts.add(post);
+                            mMyAdapter.notifyDataSetChanged();
+                        } else {
+                            // Post is deleted by its author. Delete the record in table likes in DB.
+                            deleteLikeRecord(mPostsIds.get(mPosts.size()));
+                        }
                     }
 
                     @Override
@@ -247,7 +252,13 @@ public class MyLikesFragment extends Fragment {
 //        mFrameLayout.setVisibility(View.VISIBLE);
     }
 
-
+    private void deleteLikeRecord(String postId) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(getString(R.string.node_likes))
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child(postId)
+                .removeValue();
+    }
 
 
 }

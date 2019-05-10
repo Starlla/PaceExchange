@@ -37,6 +37,7 @@ public class ViewPostFragment extends Fragment {
     TextView mTitle;
     TextView mDescription;
     TextView mPostStartOffer;
+    TextView mPostRemove;
     Toolbar mToolbar;
 
     private String mPostId;
@@ -60,11 +61,14 @@ public class ViewPostFragment extends Fragment {
         mProfileName = view.findViewById(R.id.profile_name);
         mProfileRating = view.findViewById(R.id.profile_rating_bar);
         mPostStartOffer = view.findViewById(R.id.post_start_offer);
+        mPostRemove = view.findViewById(R.id.post_remove);
         mTitle = view.findViewById(R.id.post_title);
         mDescription = view.findViewById(R.id.post_description);
-        mToolbar =view.findViewById(R.id.view_post_toolbar);
+        mToolbar = view.findViewById(R.id.view_post_toolbar);
         setToolbar();
+        mLike.setVisibility(mUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) ? View.INVISIBLE : View.VISIBLE);
         mPostStartOffer.setVisibility(mUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) ? View.INVISIBLE : View.VISIBLE);
+        mPostRemove.setVisibility(mUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) ? View.VISIBLE : View.INVISIBLE);
         init();
         return view;
     }
@@ -134,8 +138,6 @@ public class ViewPostFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     mIsInMyLikes = true;
-//                    ImageViewCompat.setImageTintList(mLike, ColorStateList.valueOf(ContextCompat
-//                            .getColor(getActivity(), R.color.colorAccent)));
                     mLike.setImageResource(R.drawable.ic_favorite_red_24dp);
                 } else {
                     mIsInMyLikes = false;
@@ -155,13 +157,9 @@ public class ViewPostFragment extends Fragment {
             public void onClick(View v) {
                 if (mIsInMyLikes) {
                     removeItemFromMyLikes();
-//                    ImageViewCompat.setImageTintList(mLike, ColorStateList.valueOf(ContextCompat
-//                            .getColor(getActivity(), R.color.White)));
                     mLike.setImageResource(R.drawable.ic_favorite_border_gray_24dp);
                 } else {
                     addItemToMyLikes();
-//                    ImageViewCompat.setImageTintList(mLike, ColorStateList.valueOf(ContextCompat
-//                            .getColor(getActivity(), R.color.colorAccent)));
                     mLike.setImageResource(R.drawable.ic_favorite_red_24dp);
                 }
                 mIsInMyLikes = !mIsInMyLikes;
@@ -174,6 +172,31 @@ public class ViewPostFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), OfferInventoryActivity.class);
                 intent.putExtra(getString(R.string.extra_post_id), mPostId);
                 startActivity(intent);
+            }
+        });
+
+        mPostRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Delete from posts table.
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference.child(getString(R.string.node_posts))
+                        .child(mPostId)
+                        .removeValue();
+
+                // Delete from offers table.
+                databaseReference.child(getString(R.string.node_offers))
+                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .child(mPostId)
+                        .removeValue();
+
+                // Delete from inventories table.
+                databaseReference.child(getString(R.string.node_inventories))
+                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .child(mPostId)
+                        .removeValue();
+                Toast.makeText(getActivity(), R.string.toast_post_removed, Toast.LENGTH_SHORT).show();
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
     }

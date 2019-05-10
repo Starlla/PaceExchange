@@ -75,4 +75,6 @@
     <string name="female">Female</string>
     <string name="male">Male</string>
     <string name="unspecified">Unspecified</string>
+    <string name="remove_post">REMOVE POST</string>
+    <string name="toast_post_removed">Your post is removed successfully.</string>
 </resources>
