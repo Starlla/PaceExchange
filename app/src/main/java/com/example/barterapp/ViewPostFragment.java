@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -30,15 +31,15 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ViewPostFragment extends Fragment {
 
-    ImageView mImage;
+    Toolbar mToolbar;
     ImageView mLike;
-    TextView mProfileName;
     RatingBar mProfileRating;
+    ImageView mImage;
     TextView mTitle;
     TextView mDescription;
     TextView mPostStartOffer;
+    TextView mPostUpdate;
     TextView mPostRemove;
-    Toolbar mToolbar;
 
     private String mPostId;
     private String mUserId;
@@ -54,31 +55,64 @@ public class ViewPostFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_view_post, container, false);
-        mImage = view.findViewById(R.id.post_image);
+        mToolbar = view.findViewById(R.id.view_post_toolbar);
         mLike = view.findViewById(R.id.add_watch_list);
-        mProfileName = view.findViewById(R.id.profile_name);
         mProfileRating = view.findViewById(R.id.profile_rating_bar);
-        mPostStartOffer = view.findViewById(R.id.post_start_offer);
-        mPostRemove = view.findViewById(R.id.post_remove);
+        mImage = view.findViewById(R.id.post_image);
         mTitle = view.findViewById(R.id.post_title);
         mDescription = view.findViewById(R.id.post_description);
-        mToolbar = view.findViewById(R.id.view_post_toolbar);
+        mPostStartOffer = view.findViewById(R.id.post_start_offer);
+        mPostUpdate = view.findViewById(R.id.post_update);
+        mPostRemove = view.findViewById(R.id.post_remove);
         setToolbar();
-        mLike.setVisibility(mUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) ? View.INVISIBLE : View.VISIBLE);
-        mPostStartOffer.setVisibility(mUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) ? View.INVISIBLE : View.VISIBLE);
-        mPostRemove.setVisibility(mUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) ? View.VISIBLE : View.INVISIBLE);
         init();
         return view;
     }
 
     private void init() {
-        getPostInfo();
         getUserInfo();
-        getLikeInfo();
-        addClickListeners();
+        getPostInfo();
+        if (mUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            mLike.setVisibility(View.INVISIBLE);
+            mPostStartOffer.setVisibility(View.GONE);
+            addUpdateClickListener();
+            addRemoveClickListener();
+        } else {
+            mPostUpdate.setVisibility(View.INVISIBLE);
+            mPostRemove.setVisibility(View.INVISIBLE);
+            getLikeInfo();
+            addLikeAndOfferClickListener();
+        }
 //        hideSoftKeyboard();
+    }
+
+    private void getUserInfo() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference.child(getString(R.string.node_users)).orderByKey().equalTo(mUserId);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                    if(singleSnapshot != null){
+                        User user = singleSnapshot.getValue(User.class);
+                        ((TextView) getView().findViewById(R.id.profile_name)).setText(getString(
+                                R.string.two_string_with_space, user.getFirst_name(), user.getLast_name()));
+                        ((RatingBar) getView().findViewById(R.id.profile_rating_bar))
+                                .setRating(user.getRating() == 0.0f ? 5.0f : user.getRating());
+                        Glide.with(getContext()).load(user.getProfile_photo()).into((ImageView)getView().findViewById(R.id.view_post_profile_image));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void getPostInfo() {
@@ -94,30 +128,6 @@ public class ViewPostFragment extends Fragment {
                     mTitle.setText(mPost.getTitle());
                     mDescription.setText(mPost.getDescription());
                     Glide.with(getActivity()).load(mPost.getImage()).into(mImage);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void getUserInfo() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        Query query = reference.child(getString(R.string.node_users)).orderByKey().equalTo(mUserId);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
-                    if(singleSnapshot != null){
-                        User user = singleSnapshot.getValue(User.class);
-                        mProfileName.setText(getString(R.string.two_string_with_space,user.getFirst_name(),user.getLast_name()));
-                        mProfileRating.setRating(user.getRating() == 0.0f ? 5.0f : user.getRating());
-                        Glide.with(getContext()).load(user.getProfile_photo()).into((ImageView)getView().findViewById(R.id.view_post_profile_image));
-                    }
                 }
             }
 
@@ -151,7 +161,7 @@ public class ViewPostFragment extends Fragment {
         });
     }
 
-    private void addClickListeners() {
+    private void addLikeAndOfferClickListener() {
         mLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,7 +184,26 @@ public class ViewPostFragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
 
+    private void addUpdateClickListener() {
+        mPostUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Change to use Interface to pass args!!!
+
+                Bundle args = new Bundle();
+                args.putString(getString(R.string.arg_user_id), mPostId);
+                PostFragment fragment = new PostFragment();
+                fragment.setArguments(args);
+
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment).commit();
+            }
+        });
+    }
+
+    private void addRemoveClickListener() {
         mPostRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

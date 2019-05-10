@@ -31,7 +31,7 @@
 
     <!-- Tags in layout activity offer inventory -->
     <string name="choose_my_item_to_barter">Choose my item</string>
-    <string name="cancel_offer">CANCEL</string>
+    <string name="cancel_button">CANCEL</string>
     <string name="confirm_offer">CONFIRM</string>
     <string name="toast_please_select_an_item">Please select an item to barter.</string>
     <string name="toast_offer_created">An offer is created.</string>
@@ -75,6 +75,9 @@
     <string name="female">Female</string>
     <string name="male">Male</string>
     <string name="unspecified">Unspecified</string>
-    <string name="remove_post">REMOVE POST</string>
+    <string name="remove_post">REMOVE</string>
     <string name="toast_post_removed">Your post is removed successfully.</string>
+    <string name="update_post">UPDATE</string>
+    <string name="save_button">SAVE</string>
+    <string name="hint_title">Title</string>
 </resources>

@@ -20,12 +20,17 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -45,6 +50,8 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
     private Uri mSelectedUri;
     private ImageView mPostImage;
     private Button mPost;
+    private Button mSave;
+    private Button mCancel;
     private ProgressBar mProgressBar;
     private byte[] mUploadBytes;
 
@@ -81,6 +88,7 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
 
     PostFragmentButtonClickHandler mClickHandler;
     String mUid;
+    String mPostId;
 
     @Override
     public void onAttach(Context context) {
@@ -98,12 +106,14 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post, container, false);
         mPostImage = view.findViewById(R.id.post_image);
-        mPostImage = view.findViewById(R.id.post_image);
         mTitle = view.findViewById(R.id.input_title);
         mDescription = view.findViewById(R.id.input_description);
         mPost = view.findViewById(R.id.btn_post);
+        mSave = view.findViewById(R.id.btn_save);
+        mCancel = view.findViewById(R.id.btn_cancel);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
+        mPostId = getArguments() == null ? "" : getArguments().getString(getString(R.string.arg_user_id));
 
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
 
@@ -119,6 +129,13 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
     }
 
     private void init(){
+        // For edit in view post fragment in my items fragment
+        if (!mPostId.isEmpty()) {
+            getPostInfo();
+            mPost.setVisibility(View.GONE);
+            mSave.setVisibility(View.VISIBLE);
+            mCancel.setVisibility(View.VISIBLE);
+        }
 
         mPostImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,6 +166,22 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
                 }else{
                     Toast.makeText(getActivity(), "You must fill out all the fields", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        mSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // To be revise!!!
+
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+
+        mCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
     }
@@ -293,6 +326,27 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
         mDescription.setText("");
     }
 
+    private void getPostInfo() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference.child(getString(R.string.node_posts)).orderByKey().equalTo(mPostId);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                if (singleSnapshot != null) {
+                    Post post = singleSnapshot.getValue(Post.class);
+                    mTitle.setText(post.getTitle());
+                    mDescription.setText(post.getDescription());
+                    // Add show image later
 
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 }

@@ -125,7 +125,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/White"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    android:gravity="center">
 
                     <TextView
                         android:id="@+id/post_start_offer"
@@ -135,7 +136,6 @@
                         android:layout_marginBottom="20dp"
                         android:layout_marginRight="100dp"
                         android:layout_marginLeft="100dp"
-                        android:layout_centerInParent="true"
                         android:textSize="18sp"
                         android:textColor="@color/White"
                         android:text="@string/start_offer"
@@ -147,14 +147,29 @@
                         android:background="@drawable/post_bt_ui" />
 
                     <TextView
-                        android:id="@+id/post_remove"
-                        android:layout_width="match_parent"
+                        android:id="@+id/post_update"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:layout_marginBottom="20dp"
-                        android:layout_marginRight="100dp"
-                        android:layout_marginLeft="100dp"
-                        android:layout_centerInParent="true"
+                        android:textSize="18sp"
+                        android:textColor="@color/White"
+                        android:text="@string/update_post"
+                        android:textAlignment="center"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:background="@drawable/post_bt_ui" />
+
+                    <TextView
+                        android:id="@+id/post_remove"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/post_update"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginStart="20dp"
                         android:textSize="18sp"
                         android:textColor="@color/White"
                         android:text="@string/remove_post"
