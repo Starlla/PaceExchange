@@ -65,7 +65,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
 
                     if(fragment.getTag().equals(mContext.getString(R.string.fragment_my_items))){
-                        Log.d("Adapter","Leave MyItemsFragment");
                         try {
                             MyItemsFragment mFragment = (MyItemsFragment) fragment;
                             mFragment.viewPost(post.getPost_id(),post.getUser_id());
@@ -75,7 +74,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
 
                     if(fragment.getTag().equals(mContext.getString(R.string.fragment_my_likes))){
-                        Log.d("Adapter","Leave MyItemsFragment");
                         try {
                             MyLikesFragment mFragment = (MyLikesFragment) fragment;
                             mFragment.viewPost(post.getPost_id(),post.getUser_id());

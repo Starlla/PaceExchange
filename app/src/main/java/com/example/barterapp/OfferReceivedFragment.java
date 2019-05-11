@@ -92,12 +92,11 @@ public class OfferReceivedFragment extends Fragment {
         init();
     }
 
-        @Override
-        public void onDetach () {
-            super.onDetach();
-            mListener = null;
-        }
-
+    @Override
+    public void onDetach () {
+        super.onDetach();
+        mListener = null;
+    }
 
     private void init () {
         mPosts = new ArrayList<>();

@@ -114,25 +114,6 @@ public class MyLikesFragment extends Fragment {
         mMyAdapter = new MyAdapter(getActivity(), mPosts);
         mRecyclerView.setAdapter(mMyAdapter);
 
-//        Query query = mDatabaseReference.orderByChild("user_id").equalTo(mUid);
-//        query.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.hasChildren()) {
-//                    mItems.clear();
-//                    for (DataSnapshot dss : dataSnapshot.getChildren()) {
-//                        final Post post = dss.getValue(Post.class);
-//                        mItems.add(post);
-//                    }
-//                    mMyAdapter.notifyDataSetChanged();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
 
     }
 
@@ -150,7 +131,7 @@ public class MyLikesFragment extends Fragment {
     };
 
     private void getLikesListIds(){
-        Log.d(TAG, "getWatchListIds: getting users watch list.");
+        Log.d(TAG, "Getting my likes list.");
         if(mPosts != null){
             mPosts.clear();
         }
@@ -180,7 +161,6 @@ public class MyLikesFragment extends Fragment {
                     getPosts();
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
