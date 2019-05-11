@@ -47,9 +47,6 @@
     <string name="field_title">title</string>
     <string name="field_post_id">post_id</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- Intent extras and Bundle arguments -->
     <string name="arg_user_id">arg_user_id</string>
     <string name="arg_post_id">arg_post_id</string>
@@ -66,6 +63,7 @@
     <string name="graduation_year">Graduation Year</string>
     <string name="email">Email</string>
     <string name="fragment_my_likes">MyLikesFragment</string>
+    <string name="fragment_offer_received">OfferReceivedFragment</string>
     <string name="fragment_shop">ShopFragment</string>
     <string name="fragment_post">PostFragment</string>
     <string name="fragment_profile">ProfileFragment</string>
@@ -76,8 +74,10 @@
     <string name="male">Male</string>
     <string name="unspecified">Unspecified</string>
     <string name="remove_post">REMOVE</string>
+
     <string name="toast_post_removed">Your post is removed successfully.</string>
     <string name="update_post">UPDATE</string>
     <string name="save_button">SAVE</string>
     <string name="hint_title">Title</string>
+    <string name="offer_received">Offer Received</string>
 </resources>

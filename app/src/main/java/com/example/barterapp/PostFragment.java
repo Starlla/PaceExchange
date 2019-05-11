@@ -87,7 +87,6 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
     }
 
     PostFragmentButtonClickHandler mClickHandler;
-    String mUid;
     String mPostId;
 
     @Override

@@ -42,15 +42,17 @@ public class ViewPostFragment extends Fragment {
     TextView mPostRemove;
 
     private String mPostId;
-    private String mUserId;
+    private String mPostUserId;
     private Post mPost;
     private boolean mIsInMyLikes;
+
+    public static final String WANT_POST_USER_UID = "want_post_user_uid";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPostId = (String) getArguments().get(getString(R.string.arg_post_id));
-        mUserId = (String) getArguments().get(getString(R.string.arg_user_id));
+        mPostUserId = (String) getArguments().get(getString(R.string.arg_user_id));
     }
 
     @Nullable
@@ -75,7 +77,7 @@ public class ViewPostFragment extends Fragment {
     private void init() {
         getUserInfo();
         getPostInfo();
-        if (mUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+        if (mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             mLike.setVisibility(View.INVISIBLE);
             mPostStartOffer.setVisibility(View.GONE);
             addUpdateClickListener();
@@ -91,7 +93,7 @@ public class ViewPostFragment extends Fragment {
 
     private void getUserInfo() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        Query query = reference.child(getString(R.string.node_users)).orderByKey().equalTo(mUserId);
+        Query query = reference.child(getString(R.string.node_users)).orderByKey().equalTo(mPostUserId);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -181,6 +183,7 @@ public class ViewPostFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), OfferInventoryActivity.class);
                 intent.putExtra(getString(R.string.extra_post_id), mPostId);
+                intent.putExtra(WANT_POST_USER_UID,mPostUserId);
                 startActivity(intent);
             }
         });

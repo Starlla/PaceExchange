@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class OfferInventoryActivity extends AppCompatActivity {
     private List<String> mPostIds;
     private DatabaseReference mReference;
     private String mPostIdWant;
+    private String mWantPostUserId;
 
     private static final int NUM_GRID_COLUMNS = 2;
     private static final int GRID_ITEM_MARGIN = Util.dpToPx(14);
@@ -51,8 +53,12 @@ public class OfferInventoryActivity extends AppCompatActivity {
         mCancelOffer = findViewById(R.id.cancel_offer_button);
         mReference = FirebaseDatabase.getInstance().getReference();
         mPostIdWant = getIntent().getExtras().getString(getString(R.string.extra_post_id));
+        mWantPostUserId = getIntent().getStringExtra(ViewPostFragment.WANT_POST_USER_UID);
+        Log.d("TAG","Target User Id:"+ mWantPostUserId);
         init();
     }
+
+
 
     private void init() {
         mItems = new ArrayList<>();
@@ -164,7 +170,9 @@ public class OfferInventoryActivity extends AppCompatActivity {
                 } else {
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                     databaseReference.child(getString(R.string.node_offers))
+                            .child(mWantPostUserId)
                             .child(mPostIdWant)
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .child(selectedPostId)
                             .child(getString(R.string.field_post_id))
                             .setValue(selectedPostId);

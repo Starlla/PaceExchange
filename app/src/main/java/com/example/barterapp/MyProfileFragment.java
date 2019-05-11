@@ -111,6 +111,31 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
     public MyProfileFragment() {
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_my_profile, container, false);
+        toolbar = view.findViewById(R.id.my_profile_toolbar);
+        mMyProfileNameView = view.findViewById(R.id.my_profile_name);
+        mMyProfileEmailView = view.findViewById(R.id.my_profile_email);
+        mMyProfileGenderView = view.findViewById(R.id.my_profile_gender);
+        mMyProfileGraduationYearView = view.findViewById(R.id.my_profile_graduation_year);
+        mMyProfilePhoto = view.findViewById(R.id.my_profile_photo);
+
+        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
+        init();
+        setToolbar();
+        return view;
+    }
+
 
     @Override
     public void getImagePath(Uri imagePath) {
@@ -143,30 +168,6 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
         mSelectedUri = null;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_profile, container, false);
-        toolbar = view.findViewById(R.id.my_profile_toolbar);
-        mMyProfileNameView = view.findViewById(R.id.my_profile_name);
-        mMyProfileEmailView = view.findViewById(R.id.my_profile_email);
-        mMyProfileGenderView = view.findViewById(R.id.my_profile_gender);
-        mMyProfileGraduationYearView = view.findViewById(R.id.my_profile_graduation_year);
-        mMyProfilePhoto = view.findViewById(R.id.my_profile_photo);
-
-        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-        init();
-        setToolbar();
-        return view;
-    }
 
     private void init() {
         mMyProfilePhoto.setOnClickListener(new View.OnClickListener() {
@@ -187,7 +188,6 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
                 dialog.setTargetFragment(MyProfileFragment.this, 3);
             }
         });
-
 
         mMyProfileGraduationYearView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -262,10 +262,8 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
                     }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }

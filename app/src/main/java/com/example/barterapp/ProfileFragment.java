@@ -32,6 +32,7 @@ public class ProfileFragment extends Fragment {
         void signOutButtonClicked();
         void myItemsTabClicked(MyItemsFragment fragment);
         void myLikesTabClicked(MyLikesFragment fragment);
+        void myOfferReceivedTabClicked(OfferReceivedFragment fragment);
         void myProfileTabClicked(MyProfileFragment fragment);
     }
 
@@ -44,6 +45,7 @@ public class ProfileFragment extends Fragment {
     View mMyItemsTab;
     View mMyProfileTab;
     View mMyLikesTab;
+    View mOfferReceivedTab;
     FrameLayout mFrameLayout;
     User user;
 
@@ -69,6 +71,7 @@ public class ProfileFragment extends Fragment {
         mProfileRating = view.findViewById(R.id.profile_rating_bar);
         mMyItemsTab = view.findViewById(R.id.relLayout_my_items);
         mMyLikesTab = view.findViewById(R.id.relLayout_my_likes);
+        mOfferReceivedTab= view.findViewById(R.id.relLayout_offer_received);
         mMyProfileTab = view.findViewById(R.id.relLayout_my_profile);
         mFrameLayout = view.findViewById(R.id.fragment_container);
 
@@ -87,7 +90,7 @@ public class ProfileFragment extends Fragment {
         setMyItemsTabOnClickListener();
         setMyProfileTabOnClickedListener();
         setMyLikesTabOnClickListener();
-
+        setMyOfferReceivedTabOnClickListener();
     }
 
     private void populateView(){
@@ -143,6 +146,21 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    public void setMyOfferReceivedTabOnClickListener(){
+        mOfferReceivedTab.setOnClickListener(v->{
+            Bundle args = new Bundle();
+            args.putString(ARG_UID,mUid);
+            OfferReceivedFragment fragment = new OfferReceivedFragment();
+            fragment.setArguments(args);
+            mClickHandler.myOfferReceivedTabClicked(fragment);
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_offer_received));
+            fragmentTransaction.addToBackStack(getString(R.string.fragment_offer_received));
+            fragmentTransaction.commit();
+
+        });
+    }
+
 
 
     public void setMyProfileTabOnClickedListener(){
@@ -162,7 +180,6 @@ public class ProfileFragment extends Fragment {
         });
 
     }
-
 
     private void getUserInfo() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
