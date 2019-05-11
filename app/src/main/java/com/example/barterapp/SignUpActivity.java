@@ -42,15 +42,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        profile = findViewById(R.id.profile_image);
-        firstNameInput = findViewById(R.id.first_name_field);
-        lastNameInput = findViewById(R.id.last_name_field);
+//        profile = findViewById(R.id.profile_image);
+        firstNameInput = findViewById(R.id.sign_up_first_name_field);
+        lastNameInput = findViewById(R.id.sign_up_last_name_field);
         emailInput = findViewById(R.id.sign_up_email_field);
         passwordInput = findViewById(R.id.sign_up_password_field);
 
         findViewById(R.id.sign_up_button_in_activity_sign_up).setOnClickListener(this);
         findViewById(R.id.sign_in_button_in_activity_sign_up).setOnClickListener(this);
-        profile.setOnClickListener(this);
+//        profile.setOnClickListener(this);
 
         auth = FirebaseAuth.getInstance();
     }
@@ -154,23 +154,24 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         } else if (i == R.id.sign_in_button_in_activity_sign_up) {
             Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
             startActivity(intent);
-        } else if (i == R.id.profile_image) {
-            selectImage();
         }
+//        else if (i == R.id.profile_image) {
+//            selectImage();
+//        }
     }
 
-    private void selectImage() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        startActivityForResult(intent, 5);
-    }
+//    private void selectImage() {
+//        Intent intent = new Intent(Intent.ACTION_PICK);
+//        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+//        startActivityForResult(intent, 5);
+//    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 5 && resultCode == RESULT_OK) {
-            profile.setImageURI(data.getData());
-            imgUri = data.getData();
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == 5 && resultCode == RESULT_OK) {
+//            profile.setImageURI(data.getData());
+//            imgUri = data.getData();
+//        }
+//    }
 }

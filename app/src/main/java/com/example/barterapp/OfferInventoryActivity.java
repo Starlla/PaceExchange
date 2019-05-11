@@ -22,7 +22,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OfferInventoryActivity extends AppCompatActivity {
 
@@ -168,14 +170,18 @@ public class OfferInventoryActivity extends AppCompatActivity {
                     Toast.makeText(OfferInventoryActivity.this,
                             R.string.toast_please_select_an_item, Toast.LENGTH_SHORT).show();
                 } else {
+                    Map newValue = new HashMap();
+                    newValue.put(getString(R.string.field_post_id), selectedPostId);
+                    newValue.put("sender_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                     databaseReference.child(getString(R.string.node_offers))
                             .child(mWantPostUserId)
                             .child(mPostIdWant)
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .child(selectedPostId)
-                            .child(getString(R.string.field_post_id))
-                            .setValue(selectedPostId);
+                            .setValue(newValue);
+
+
                     finish();
                     // Or redirect to other pages
                     Toast.makeText(OfferInventoryActivity.this,
