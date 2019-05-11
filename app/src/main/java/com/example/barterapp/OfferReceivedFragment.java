@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -67,7 +68,7 @@ public class OfferReceivedFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_offer_received, container, false);
         mRecyclerView = view.findViewById(R.id.offer_received_recycler_view);
-        toolbar = view.findViewById(R.id.my_likes_toolbar);
+        toolbar = view.findViewById(R.id.offer_received_toolbar);
 //        setToolbar();
         return view;
     }
@@ -99,6 +100,7 @@ public class OfferReceivedFragment extends Fragment {
     }
 
     private void init () {
+        setToolbar();
         mPosts = new ArrayList<>();
         setUpRecyclerView();
         //reference for listening when items are added or removed from the watch list
@@ -210,6 +212,21 @@ public class OfferReceivedFragment extends Fragment {
 
         }
     };
+
+    private void setToolbar(){
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        getActivity().setTitle("Offer Recieved");
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+    }
+
+
 }
 
 

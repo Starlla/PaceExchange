@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay"
         >
         <android.support.v7.widget.Toolbar
-            android:id="@+id/my_likes_toolbar"
+            android:id="@+id/offer_received_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/AppTheme.PopupOverlay"
