@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/offer_relLayout_receiver_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/brightOrange"/>
+    <ImageView
+        android:id="@+id/offer_relLayout_sender_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentEnd="true"
+        android:background="@color/brightOrange"/>
+
+
+
+</RelativeLayout>

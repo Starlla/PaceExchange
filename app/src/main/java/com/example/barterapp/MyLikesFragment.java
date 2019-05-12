@@ -208,7 +208,7 @@ public class MyLikesFragment extends Fragment {
     private void setToolbar(){
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        getActivity().setTitle("My Likes");
+        toolbar.setTitle("");
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

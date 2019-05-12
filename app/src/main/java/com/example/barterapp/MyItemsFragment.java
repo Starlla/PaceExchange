@@ -45,11 +45,11 @@ public class MyItemsFragment extends Fragment {
     MyAdapter mMyAdapter;
     RecyclerView mRecyclerView;
     Toolbar toolbar;
-    String parentFragmentName;
+    String targetItemPageType;
 
     private static final int NUM_GRID_COLUMNS = 2;
     private static final int GRID_ITEM_MARGIN = Util.dpToPx(14);
-    private static final String SHOP_FRAGMENT = "shop_fragment";
+    private static final String OTHER_USER_ITEMS= "other_user_items";
     static final String ARG_UID = "UID";
 
     interface MyItemsFragmentButtonClickHandler{
@@ -96,15 +96,15 @@ public class MyItemsFragment extends Fragment {
         Context context = getContext();
         if (context.getClass() == MainActivity.class) {
             Fragment fragment = ((MainActivity) context).currentFragment;
-            if (fragment.getTag().equals(context.getString(R.string.fragment_shop))) {
-                parentFragmentName = SHOP_FRAGMENT;
-                System.out.println(parentFragmentName);
+            if (fragment.getTag().equals(context.getString(R.string.fragment_shop))
+            ||fragment.getTag().equals(context.getString(R.string.fragment_my_likes)) ) {
+                targetItemPageType = OTHER_USER_ITEMS;
             }
         }
         Bundle args = getArguments();
         if (args != null){
-            if(parentFragmentName !=null){
-                if(parentFragmentName.equals(SHOP_FRAGMENT)) mUid = args.getString(ViewPostFragment.WANT_POST_USER_UID);
+            if(targetItemPageType !=null){
+                if(targetItemPageType.equals(OTHER_USER_ITEMS)) mUid = args.getString(ViewPostFragment.WANT_POST_USER_UID);
             }
             else{ mUid = args.getString(ProfileFragment.ARG_UID);}
 
@@ -195,7 +195,7 @@ public class MyItemsFragment extends Fragment {
     private void setToolbar(){
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-//        getActivity().setTitle("My Items");
+        getActivity().setTitle("");
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

@@ -285,7 +285,7 @@ public class ViewPostFragment extends Fragment {
 
     private void setToolbar(){
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-        getActivity().setTitle("ViewPost");
+        getActivity().setTitle("");
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

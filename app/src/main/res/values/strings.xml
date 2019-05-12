@@ -81,4 +81,5 @@
     <string name="save_button">SAVE</string>
     <string name="hint_title">Title</string>
     <string name="offer_received">Offer Received</string>
+    <string name="view_post">View Post</string>
 </resources>

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -35,12 +36,15 @@ public class OfferReceivedFragment extends Fragment {
 
     private MyLikesFragment.OnMyLikesFragmentInteractionListener mListener;
     DatabaseReference mDatabaseReference;
-    List<Post> mItems;
     String mUid;
-    MyAdapter mMyAdapter;
+    MyOfferAdapter mMyOfferAdapter;
     RecyclerView mRecyclerView;
-    private ArrayList<Post> mPosts;
-    private ArrayList<String> mPostsIds;
+    private ArrayList<Offer> mOfferList;
+    private ArrayList<Post> mReceivedOfferItems;
+    private ArrayList<Post> mSendOfferItems;
+    private ArrayList<String> mReceivedOfferItemIds;
+    private ArrayList<String> mSendOfferItemIds;
+    private Post currentPost;
     Toolbar toolbar;
 
     private static final int NUM_GRID_COLUMNS = 2;
@@ -70,6 +74,11 @@ public class OfferReceivedFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.offer_received_recycler_view);
         toolbar = view.findViewById(R.id.offer_received_toolbar);
 //        setToolbar();
+        mOfferList = new ArrayList<>();
+        mReceivedOfferItems =new ArrayList<>();
+        mReceivedOfferItemIds = new ArrayList<>();
+        mSendOfferItemIds = new ArrayList<>();
+        mSendOfferItems = new ArrayList<>();
         return view;
     }
 
@@ -101,9 +110,9 @@ public class OfferReceivedFragment extends Fragment {
 
     private void init () {
         setToolbar();
-        mPosts = new ArrayList<>();
+
         setUpRecyclerView();
-        //reference for listening when items are added or removed from the watch list
+        //reference for listening when items are added or removed from the offer list
         mDatabaseReference = FirebaseDatabase.getInstance().getReference()
                 .child(getString(R.string.node_offers))
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -113,25 +122,34 @@ public class OfferReceivedFragment extends Fragment {
 
     private void setUpRecyclerView () {
         mRecyclerView.setHasFixedSize(true);
-        RecyclerViewMargin itemDecorator = new RecyclerViewMargin(GRID_ITEM_MARGIN, NUM_GRID_COLUMNS);
-        mRecyclerView.addItemDecoration(itemDecorator);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), NUM_GRID_COLUMNS);
-        mRecyclerView.setLayoutManager(gridLayoutManager);
-        mMyAdapter = new MyAdapter(getActivity(), mPosts);
-        mRecyclerView.setAdapter(mMyAdapter);
+//        RecyclerViewMargin itemDecorator = new RecyclerViewMargin(GRID_ITEM_MARGIN, NUM_GRID_COLUMNS);
+//        mRecyclerView.addItemDecoration(itemDecorator);
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), NUM_GRID_COLUMNS);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mMyOfferAdapter = new MyOfferAdapter(getActivity(), mOfferList);
+        mRecyclerView.setAdapter(mMyOfferAdapter);
 
 
     }
 
-    private void getOfferReciedListIds(){
-        if(mPosts != null){
-            mPosts.clear();
+    private void getOfferReceivedListIds(){
+        if(mOfferList != null){
+            mOfferList.clear();
         }
-        if(mPostsIds != null){
-            mPostsIds.clear();
+        if(mReceivedOfferItems != null){
+            mReceivedOfferItems.clear();
+        }
+        if(mReceivedOfferItemIds != null){
+            mReceivedOfferItemIds.clear();
+        }
+        if(mSendOfferItems != null){
+            mSendOfferItems.clear();
+        }
+        if(mSendOfferItemIds != null){
+            mSendOfferItemIds.clear();
         }
 
-        mPostsIds = new ArrayList<>();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
         Query query = reference.child(getString(R.string.node_offers))
@@ -144,34 +162,30 @@ public class OfferReceivedFragment extends Fragment {
                 if(dataSnapshot.getChildren().iterator().hasNext()){
                     DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
                     for(DataSnapshot snapshot: singleSnapshot.getChildren()){
-                        String id = snapshot.getKey().toString();
-                        Log.d(TAG, "onDataChange: found a post id: " + id);
-                        mPostsIds.add(id);
+                        String receivedOfferItemID = snapshot.getKey();
+                        mReceivedOfferItemIds.add(receivedOfferItemID);
                     }
-                    getPosts();
-                }else{
-                    getPosts();
+                    getPostList();
+
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
+
+
     }
 
-
-    private void getPosts(){
-        if(mPostsIds.size() > 0){
+    private void getPostList() {
+        if (mReceivedOfferItemIds.size() > 0) {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-            for(int i  = 0; i < mPostsIds.size(); i++){
-                Log.d(TAG, "getPosts: getting post information for: " + mPostsIds.get(i));
-
+            for (int i = 0; i < mReceivedOfferItemIds.size(); i++) {
+                Log.d(TAG, "getPosts: getting post information for: " + mReceivedOfferItemIds.get(i));
                 Query query = reference.child(getString(R.string.node_posts))
                         .orderByKey()
-                        .equalTo(mPostsIds.get(i));
+                        .equalTo(mReceivedOfferItemIds.get(i));
 
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -180,9 +194,38 @@ public class OfferReceivedFragment extends Fragment {
                             DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
                             Post post = singleSnapshot.getValue(Post.class);
                             Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
-                            mPosts.add(post);
-                            mMyAdapter.notifyDataSetChanged();
-                        } else {
+                            currentPost = post;
+                            mReceivedOfferItems.add(post);
+                        }
+                        getSingleItemOfferReceivedList();
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+            }
+        }
+    }
+
+    private void getSingleItemOfferReceivedList(){
+        if(mReceivedOfferItems.size() > 0){
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+            for(int i  = 0; i < mReceivedOfferItems.size(); i++){
+                mSendOfferItemIds.clear();
+                Query query = reference.child(getString(R.string.node_offers))
+                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .orderByKey()
+                        .equalTo(mReceivedOfferItems.get(i).getPost_id());
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.getChildren().iterator().hasNext()){
+                            DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                            for(DataSnapshot snapshot: singleSnapshot.getChildren()){
+                                String id = snapshot.getKey().toString();
+                                mSendOfferItemIds.add(id);
+                            }
+                            getSendItemPostList();
 
                         }
                     }
@@ -192,21 +235,59 @@ public class OfferReceivedFragment extends Fragment {
 
                     }
                 });
+
+
             }
-        }else{
-            mMyAdapter.notifyDataSetChanged();
         }
     }
+
+    private void getSendItemPostList() {
+        if (mSendOfferItemIds.size() > 0) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+            for (int i = 0; i < mSendOfferItemIds.size(); i++) {
+                Log.d(TAG, "getPosts: getting post information for: " + mSendOfferItemIds.get(i));
+                Query query = reference.child(getString(R.string.node_posts))
+                        .orderByKey()
+                        .equalTo(mSendOfferItemIds.get(i));
+
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.hasChildren()) {
+                            DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                            Post post = singleSnapshot.getValue(Post.class);
+                            Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
+                            mSendOfferItems.add(post);
+                            Offer offer = new Offer(currentPost, post);
+                            mOfferList.add(offer);
+                            mMyOfferAdapter.notifyDataSetChanged();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        }
+    }
+
+
+
 
 
 
     ValueEventListener mValueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            Log.d(TAG, "onDataChange: a change was made to this users watch list node.");
-            getOfferReciedListIds();
-        }
+            Log.d(TAG, "onDataChange: a change was made to this users offer received node.");
+            getOfferReceivedListIds();
 
+
+        }
         @Override
         public void onCancelled(DatabaseError databaseError) {
 
