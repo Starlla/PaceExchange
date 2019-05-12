@@ -54,7 +54,7 @@
 
     <!-- Fragment names -->
     <string name="fragment_search">Search</string>
-    <string name="fragment_view_post">ViewPost</string>
+    <!--<string name="fragment_view_post">ViewPost</string>-->
     <string name="fragment_my_items">MyItemsFragment</string>
     <string name="fragment_my_profile_2">MyProfile2</string>
     <string name="name">Name</string>
@@ -63,6 +63,7 @@
     <string name="graduation_year">Graduation Year</string>
     <string name="email">Email</string>
     <string name="fragment_my_likes">MyLikesFragment</string>
+    <string name="fragment_view_post">ViewPostFragment</string>
     <string name="fragment_offer_received">OfferReceivedFragment</string>
     <string name="fragment_shop">ShopFragment</string>
     <string name="fragment_post">PostFragment</string>

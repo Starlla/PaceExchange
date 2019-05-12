@@ -35,6 +35,7 @@ public class ViewPostFragment extends Fragment {
     ImageView mLike;
     RatingBar mProfileRating;
     ImageView mImage;
+    ImageView mProfileImage;
     TextView mTitle;
     TextView mDescription;
     TextView mPostStartOffer;
@@ -64,6 +65,7 @@ public class ViewPostFragment extends Fragment {
         mLike = view.findViewById(R.id.add_watch_list);
         mProfileRating = view.findViewById(R.id.profile_rating_bar);
         mImage = view.findViewById(R.id.post_image);
+        mProfileImage = view.findViewById(R.id.view_post_profile_image);
         mTitle = view.findViewById(R.id.post_title);
         mDescription = view.findViewById(R.id.post_description);
         mPostStartOffer = view.findViewById(R.id.post_start_offer);
@@ -105,7 +107,7 @@ public class ViewPostFragment extends Fragment {
                                 R.string.two_string_with_space, user.getFirst_name(), user.getLast_name()));
                         ((RatingBar) getView().findViewById(R.id.profile_rating_bar))
                                 .setRating(user.getRating() == 0.0f ? 5.0f : user.getRating());
-                        Glide.with(getContext()).load(user.getProfile_photo()).into((ImageView)getView().findViewById(R.id.view_post_profile_image));
+                        Glide.with(getContext()).load(user.getProfile_photo()).into(mProfileImage);
                     }
                 }
             }
@@ -185,6 +187,22 @@ public class ViewPostFragment extends Fragment {
                 intent.putExtra(getString(R.string.extra_post_id), mPostId);
                 intent.putExtra(WANT_POST_USER_UID,mPostUserId);
                 startActivity(intent);
+            }
+        });
+
+        mProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle args = new Bundle();
+                args.putString(WANT_POST_USER_UID,mPostUserId);
+                MyItemsFragment fragment = new MyItemsFragment();
+                fragment.setArguments(args);
+
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_view_post));
+                fragmentTransaction.addToBackStack(getString(R.string.fragment_view_post));
+                fragmentTransaction.commit();
+//            mFrameLayout.setVisibility(View.VISIBLE);
             }
         });
     }
