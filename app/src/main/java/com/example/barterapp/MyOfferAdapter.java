@@ -35,8 +35,8 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
 
         public RecyclerViewHolder(View itemView, OnItemClickListener listener) {
             super(itemView);
-            mReceiverImage = itemView.findViewById(R.id.offer_relLayout_receiver_image);
-            mSenderImage = itemView.findViewById(R.id.offer_relLayout_sender_image);
+            mReceiverImage = itemView.findViewById(R.id.offer_receiver_image);
+            mSenderImage = itemView.findViewById(R.id.offer_sender_image);
 
             itemView.setOnClickListener(view ->  {
                 if (listener != null){

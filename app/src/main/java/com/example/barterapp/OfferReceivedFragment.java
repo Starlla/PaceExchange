@@ -231,6 +231,36 @@ public class OfferReceivedFragment extends Fragment {
         }
     }
 
+    private void getSingleItemOfferReceivedList2(Post current){
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+            Query query = reference.child(getString(R.string.node_offers))
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .orderByKey()
+                    .equalTo(current.getPost_id());
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.getChildren().iterator().hasNext()){
+                        DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                        for(DataSnapshot snapshot: singleSnapshot.getChildren()) {
+                            String id = snapshot.getKey().toString();
+                            mSendOfferItemIds.add(id);
+                        }
+                        getSendOfferItemList(current);
+                        mSendOfferItemIds.clear();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+    }
+
+
+
     private void getSendOfferItemList(Post current) {
         if (mSendOfferItemIds.size() > 0) {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
@@ -280,7 +310,9 @@ public class OfferReceivedFragment extends Fragment {
                         @Override
                         public void onPostCallback(ArrayList<Post> postList) {
                             System.out.println("2stCALLBACK"+postList.size());
-                            getSingleItemOfferReceivedList(postList);
+                            for(int i =0; i< postList.size();i++) {
+                                getSingleItemOfferReceivedList2(postList.get(i));
+                            }
 
                         }
                     });
@@ -297,7 +329,7 @@ public class OfferReceivedFragment extends Fragment {
     private void setToolbar(){
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        getActivity().setTitle("Offer Recieved");
+        getActivity().setTitle("");
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

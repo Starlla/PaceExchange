@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:background="@drawable/grey_border_bottom">
 
     <ImageView
-        android:id="@+id/offer_relLayout_receiver_image"
+        android:id="@+id/offer_receiver_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@color/brightOrange"/>
+        android:padding="2dp"
+        android:background="@drawable/purple_blue_border_around"
+        />
     <ImageView
-        android:id="@+id/offer_relLayout_sender_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_alignParentEnd="true"
-        android:background="@color/brightOrange"/>
+        android:src="@drawable/ic_swap_horiz_24dp"/>
+    <ImageView
+        android:id="@+id/offer_sender_image"
+        android:padding="2dp"
+        android:layout_toEndOf="@id/offer_receiver_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/purple_blue_border_around"/>
 
 
 
-</RelativeLayout>
+</LinearLayout>
