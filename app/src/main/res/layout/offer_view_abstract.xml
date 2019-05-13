@@ -24,6 +24,29 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@drawable/purple_blue_border_around"/>
+    <LinearLayout
+        android:layout_marginStart="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Accept"
+            android:textColor="@color/White"
+            android:background="@drawable/post_bt_ui"
+            android:minHeight="35dp"/>
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reject"
+            android:textColor="@color/White"
+            android:background="@drawable/post_bt_ui"
+            android:minHeight="35dp"/>
+
+    </LinearLayout>
 
 
 

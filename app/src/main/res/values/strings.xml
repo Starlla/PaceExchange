@@ -82,4 +82,5 @@
     <string name="hint_title">Title</string>
     <string name="offer_received">Offer Received</string>
     <string name="view_post">View Post</string>
+    <string name="my_profile">My Profile</string>
 </resources>
