@@ -103,6 +103,14 @@
                 android:id="@+id/relLayout_my_items"
                 android:layout_marginTop="25dp"
                 android:background="@color/White">
+                <ImageView
+                    android:layout_marginStart="10dp"
+                    android:id="@+id/profile_omy_items_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_tag_circle"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -110,6 +118,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
                     android:background="@null"
+                    android:layout_toEndOf="@id/profile_omy_items_icon"
                     android:text="@string/my_items"
                     android:textColor="@color/Black"
                     android:padding="10dp" />
@@ -170,14 +179,23 @@
                 android:layout_below="@+id/relLayout_my_likes"
                 android:id="@+id/relLayout_offer_received"
                 android:layout_marginTop="10dp">
+                <ImageView
+                    android:layout_marginStart="10dp"
+                    android:id="@+id/profile_offer_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_offer_handshake_circle"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:maxLines="20"
+                    android:layout_toEndOf="@id/profile_offer_icon"
                     android:text="@string/offer_received"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="5dp"
                     android:background="@null"
                     android:textColor="@color/Black"
                     android:padding="10dp"
