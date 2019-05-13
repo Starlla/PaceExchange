@@ -1,4 +1,4 @@
-package com.example.barterapp;
+package com.example.pace_exchange;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.barterapp.util.RecyclerViewMargin;
+import com.example.pace_exchange.util.RecyclerViewMargin;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,7 +61,6 @@ public class OfferInventoryActivity extends AppCompatActivity {
     }
 
 
-
     private void init() {
         mItems = new ArrayList<>();
         mPostIds = new ArrayList<>();
@@ -74,7 +73,6 @@ public class OfferInventoryActivity extends AppCompatActivity {
 
         // Set listener to the reference
         mReference.addValueEventListener(mListener);
-
         addClickListeners();
     }
 

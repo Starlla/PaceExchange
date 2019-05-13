@@ -1,4 +1,4 @@
-package com.example.barterapp;
+package com.example.pace_exchange;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.SearchView;
 
-import com.example.barterapp.util.RecyclerViewMargin;
+import com.example.pace_exchange.util.RecyclerViewMargin;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

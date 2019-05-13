@@ -61,7 +61,7 @@
                         android:layout_height="match_parent"
                         android:layout_width="match_parent"
                         android:id="@+id/profile_image"
-                        android:background="@color/PurpleBlue"
+                        android:background="@drawable/profile_default_image"
                         android:scaleType="centerCrop"/>
 
                 </android.support.v7.widget.CardView>

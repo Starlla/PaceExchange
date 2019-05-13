@@ -1,4 +1,4 @@
-package com.example.barterapp;
+package com.example.pace_exchange;
 
 import android.app.Activity;
 import android.content.Context;

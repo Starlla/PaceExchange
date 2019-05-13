@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BarterApp</string>
+    <string name="app_name">PaceExchange</string>
 
     <string name="home_button">HOME</string>
     <string name="post_button">POST</string>

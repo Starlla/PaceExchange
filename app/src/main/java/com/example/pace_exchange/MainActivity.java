@@ -1,4 +1,4 @@
-package com.example.barterapp;
+package com.example.pace_exchange;
 
 import android.Manifest;
 import android.content.Intent;
@@ -56,21 +56,17 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
             String email = user.getEmail();
             uid = user.getUid();
 
-//            userTest.setText(email + "  " + uid);
         }
-
         verifyPermissions();
-
     }
 
     private  void configureFragment(){
         profileFragment = new ProfileFragment();
         Bundle args = new Bundle();
         args.putString("uid",uid);
+
         profileFragment.setArguments(args);
-
         shopFragment = new ShopFragment();
-
         postFragment = new PostFragment();
         currentFragment = shopFragment;
         currentTabView = shopIconView;

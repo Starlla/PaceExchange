@@ -1,4 +1,4 @@
-package com.example.barterapp;
+package com.example.pace_exchange;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -38,7 +35,6 @@ import com.google.firebase.storage.UploadTask;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static android.text.TextUtils.isEmpty;
@@ -255,8 +251,6 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
         }
     }
 
-
-
     private void executeUploadTask(){
         Toast.makeText(getActivity(), "uploading image", Toast.LENGTH_SHORT).show();
 
@@ -299,7 +293,6 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
 
                 resetFields();
             }
-
 
         }).addOnFailureListener(new OnFailureListener() {
             @Override

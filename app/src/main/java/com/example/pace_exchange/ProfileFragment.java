@@ -1,4 +1,4 @@
-package com.example.barterapp;
+package com.example.pace_exchange;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -74,7 +74,6 @@ public class ProfileFragment extends Fragment {
         mOfferReceivedTab= view.findViewById(R.id.relLayout_offer_received);
         mMyProfileTab = view.findViewById(R.id.relLayout_my_profile);
         mFrameLayout = view.findViewById(R.id.fragment_container);
-
         return view;
     }
 
@@ -170,7 +169,6 @@ public class ProfileFragment extends Fragment {
             MyProfileFragment fragment = new MyProfileFragment();
             fragment.setArguments(args);
             mClickHandler.myProfileTabClicked(fragment);
-
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_my_profile_2));
             fragmentTransaction.addToBackStack(getString(R.string.fragment_my_profile_2));

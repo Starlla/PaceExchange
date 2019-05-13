@@ -48,8 +48,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_centerHorizontal="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_add_white_24dp"
-                android:background="@color/Grey" />
+                android:background="@drawable/grey_bg_add_white_plus" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -147,11 +146,10 @@
     </android.support.v4.widget.NestedScrollView>
 
     <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:id="@+id/progressBar"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="120dp"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
 </RelativeLayout>

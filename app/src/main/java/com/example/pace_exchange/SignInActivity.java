@@ -1,4 +1,4 @@
-package com.example.barterapp;
+package com.example.pace_exchange;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;

@@ -1,9 +1,7 @@
-package com.example.barterapp;
+package com.example.pace_exchange;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.util.Log;
 import android.util.TypedValue;
 
 import java.io.ByteArrayOutputStream;

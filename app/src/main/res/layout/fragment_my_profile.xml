@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:scaleType="centerCrop"
-            android:background="@color/PurpleBlue"/>
+            android:background="@drawable/profile_default_image"/>
 
     </android.support.v7.widget.CardView>
 

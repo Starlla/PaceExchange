@@ -1,4 +1,4 @@
-package com.example.barterapp.util;
+package com.example.pace_exchange.util;
 
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
