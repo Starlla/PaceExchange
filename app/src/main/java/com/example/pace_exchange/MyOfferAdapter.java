@@ -2,14 +2,19 @@ package com.example.pace_exchange;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -22,6 +27,8 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
 
     public interface OnItemClickListener{
         void onItemClick(int position);
+        void onAcceptButtonClick(int position);
+        void onRejectButtonClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -29,20 +36,40 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
     }
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
-        public ImageView mReceiverImage;
-        public ImageView mSenderImage;
-
+        private ImageView mReceiverImage;
+        private ImageView mSenderImage;
+        public Button mAcceptButton;
+        public Button mRejectButton;
 
         public RecyclerViewHolder(View itemView, OnItemClickListener listener) {
             super(itemView);
             mReceiverImage = itemView.findViewById(R.id.offer_receiver_image);
             mSenderImage = itemView.findViewById(R.id.offer_sender_image);
-
+            mAcceptButton = itemView.findViewById(R.id.offer_accept_button);
+            mRejectButton = itemView.findViewById(R.id.offer_reject_button);
             itemView.setOnClickListener(view ->  {
                 if (listener != null){
                     int position = getAdapterPosition();
                     if(position != RecyclerView.NO_POSITION){
                         listener.onItemClick(position);
+                    }
+                }
+            });
+
+            mAcceptButton.setOnClickListener(view ->  {
+                if (listener != null){
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        listener.onAcceptButtonClick(position);
+                    }
+                }
+            });
+
+            mRejectButton.setOnClickListener(view ->  {
+                if (listener != null){
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        listener.onRejectButtonClick(position);
                     }
                 }
             });
@@ -67,7 +94,6 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
         Offer currentOffer = mOfferList.get(position);
         Glide.with(mContext).load(currentOffer.getReceiverPost().getImage()).into(viewHolder.mReceiverImage);
         Glide.with(mContext).load(currentOffer.getSenderPost().getImage()).into(viewHolder.mSenderImage);
-
     }
 
     public Offer getItem(int position) {

@@ -20,7 +20,6 @@
     <ImageView
         android:id="@+id/offer_sender_image"
         android:padding="2dp"
-        android:layout_toEndOf="@id/offer_receiver_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@drawable/purple_blue_border_around"/>
@@ -31,20 +30,26 @@
         android:orientation="vertical"
         android:gravity="center">
         <Button
+            android:id="@+id/offer_accept_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Accept"
+            android:text="@string/accept"
             android:textColor="@color/White"
             android:background="@drawable/post_bt_ui"
-            android:minHeight="35dp"/>
+            android:minHeight="35dp"
+            android:focusableInTouchMode="false"
+            android:focusable="false"/>
         <Button
+            android:id="@+id/offer_reject_button"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Reject"
+            android:text="@string/reject"
             android:textColor="@color/White"
             android:background="@drawable/post_bt_ui"
-            android:minHeight="35dp"/>
+            android:minHeight="35dp"
+            android:focusableInTouchMode="false"
+            android:focusable="false"/>
 
     </LinearLayout>
 

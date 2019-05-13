@@ -110,6 +110,31 @@ public class OfferReceivedFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mMyOfferAdapter = new MyOfferAdapter(getActivity(), mOfferList);
+        mMyOfferAdapter.setOnItemClickListener(new MyOfferAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+            }
+
+            @Override
+            public void onAcceptButtonClick(int position) {
+
+            }
+
+            @Override
+            public void onRejectButtonClick(int position) {
+                String mReceiverPostID =mOfferList.get(position).getReceiverPost().getPost_id();
+                String mSenderPostId = mOfferList.get(position).getSenderPost().getPost_id();
+                System.out.println(mSenderPostId);
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference.child(getString(R.string.node_offers))
+                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .child(mReceiverPostID)
+                        .child(mSenderPostId)
+                        .removeValue();
+                mMyOfferAdapter.notifyDataSetChanged();
+            }
+        });
         mRecyclerView.setAdapter(mMyOfferAdapter);
     }
 
@@ -137,11 +162,20 @@ public class OfferReceivedFragment extends Fragment {
         }
         @Override
         public void onCancelled(DatabaseError databaseError) {
-
         }
     };
 
     private void readData(MyCallback myCallback) {
+
+        if(mOfferList != null){
+            mOfferList.clear();
+        }
+        if(mReceivedOfferItems != null){
+            mReceivedOfferItems.clear();
+        }
+        if(mReceivedOfferItemIds != null){
+            mReceivedOfferItemIds.clear();
+        }
 
         Query query = reference.child(getString(R.string.node_offers))
                 .orderByKey()
@@ -258,6 +292,7 @@ public class OfferReceivedFragment extends Fragment {
                             mOfferList.add(offer);
                             mMyOfferAdapter.notifyDataSetChanged();
                         }
+
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {

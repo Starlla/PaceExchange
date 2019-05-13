@@ -19,8 +19,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<Post> mList;
     int mSelectedPosition = -1;
 
-//    private static final int NUM_GRID_COLUMNS = 2;
-
     public MyAdapter(Context context, List<Post> list) {
         mContext = context;
         mList = list;
@@ -83,7 +81,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     mSelectedPosition = mSelectedPosition == position ? -1 : position;
                     notifyDataSetChanged();
                 }
-
 
             }
         });
