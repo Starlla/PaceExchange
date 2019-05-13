@@ -128,7 +128,6 @@ public class ViewPostFragment extends Fragment {
                 DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
                 if(singleSnapshot != null){
                     mPost = singleSnapshot.getValue(Post.class);
-
                     mTitle.setText(mPost.getTitle());
                     mDescription.setText(mPost.getDescription());
                     Glide.with(getActivity()).load(mPost.getImage()).into(mImage);
