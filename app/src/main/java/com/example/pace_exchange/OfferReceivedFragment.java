@@ -59,7 +59,7 @@ public class OfferReceivedFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_offer_received, container, false);
         mRecyclerView = view.findViewById(R.id.offer_received_recycler_view);
-        toolbar = view.findViewById(R.id.offer_received_toolbar);
+
         mOfferList = new ArrayList<>();
         mReceivedOfferItems =new ArrayList<>();
         mReceivedOfferItemIds = new ArrayList<>();
@@ -94,7 +94,7 @@ public class OfferReceivedFragment extends Fragment {
     }
 
     private void init () {
-        setToolbar();
+//        setToolbar();
         setUpRecyclerView();
         reference = FirebaseDatabase.getInstance().getReference();
         //reference for listening when items are added or removed from the offer list
@@ -309,18 +309,7 @@ public class OfferReceivedFragment extends Fragment {
         }
     }
 
-    private void setToolbar(){
 
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        getActivity().setTitle("");
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
-    }
 
 }
 

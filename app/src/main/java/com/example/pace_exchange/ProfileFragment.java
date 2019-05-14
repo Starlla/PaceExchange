@@ -32,7 +32,7 @@ public class ProfileFragment extends Fragment {
         void signOutButtonClicked();
         void myItemsTabClicked(MyItemsFragment fragment);
         void myLikesTabClicked(MyLikesFragment fragment);
-        void myOfferReceivedTabClicked(OfferReceivedFragment fragment);
+        void myOfferTabClicked(OfferFragment fragment);
         void myProfileTabClicked(MyProfileFragment fragment);
     }
 
@@ -45,7 +45,7 @@ public class ProfileFragment extends Fragment {
     View mMyItemsTab;
     View mMyProfileTab;
     View mMyLikesTab;
-    View mOfferReceivedTab;
+    View mOfferTab;
     FrameLayout mFrameLayout;
     User user;
 
@@ -71,7 +71,7 @@ public class ProfileFragment extends Fragment {
         mProfileRating = view.findViewById(R.id.profile_rating_bar);
         mMyItemsTab = view.findViewById(R.id.relLayout_my_items);
         mMyLikesTab = view.findViewById(R.id.relLayout_my_likes);
-        mOfferReceivedTab= view.findViewById(R.id.relLayout_offer_received);
+        mOfferTab= view.findViewById(R.id.relLayout_offer);
         mMyProfileTab = view.findViewById(R.id.relLayout_my_profile);
         mFrameLayout = view.findViewById(R.id.fragment_container);
         return view;
@@ -89,7 +89,7 @@ public class ProfileFragment extends Fragment {
         setMyItemsTabOnClickListener();
         setMyProfileTabOnClickedListener();
         setMyLikesTabOnClickListener();
-        setMyOfferReceivedTabOnClickListener();
+        setMyOfferTabOnClickListener();
     }
 
     private void populateView(){
@@ -145,16 +145,16 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    public void setMyOfferReceivedTabOnClickListener(){
-        mOfferReceivedTab.setOnClickListener(v->{
+    public void setMyOfferTabOnClickListener(){
+        mOfferTab.setOnClickListener(v->{
             Bundle args = new Bundle();
             args.putString(ARG_UID,mUid);
-            OfferReceivedFragment fragment = new OfferReceivedFragment();
+            OfferFragment fragment = new OfferFragment();
             fragment.setArguments(args);
-            mClickHandler.myOfferReceivedTabClicked(fragment);
+            mClickHandler.myOfferTabClicked(fragment);
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_offer_received));
-            fragmentTransaction.addToBackStack(getString(R.string.fragment_offer_received));
+            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_offer));
+            fragmentTransaction.addToBackStack(getString(R.string.fragment_offer));
             fragmentTransaction.commit();
 
         });

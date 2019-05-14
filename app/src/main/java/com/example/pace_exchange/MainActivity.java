@@ -142,9 +142,10 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
     }
 
     @Override
-    public void myOfferReceivedTabClicked(OfferReceivedFragment fragment) {
-        currentFragment = fragment;
+    public void myOfferTabClicked(OfferFragment fragment) {
+
     }
+
 
     @Override
     public void myProfileTabClicked(MyProfileFragment fragment) {
