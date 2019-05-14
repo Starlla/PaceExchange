@@ -88,52 +88,6 @@ public class OfferFragment extends Fragment {
     }
 
 
-    private void setupFragment() {
-//        receivedFragment = new OfferReceivedFragment();
-//        sendFragment = new OfferSendFragment();
-//        currentFragment = receivedFragment;
-//        currentString =getString(R.string.fragment_offer_received);
-//        currentTabView = receivedView;
-//        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.offer_container, currentFragment, currentString);
-//        fragmentTransaction.commit();
-
-    }
-
-//    private void addTabClickListeners() {
-//
-//        View.OnClickListener tabListener = view -> {
-//            if(currentTabView != null){
-//
-//                    currentTabView.setBackground(getResources().getDrawable(R.drawable.bt_light_grey));
-//            }
-//
-//            currentTabView = currentTabView == null ? receivedView : (Button) view;
-//            int currentTabId = currentTabView == null ? 0 : currentTabView.getId();
-//
-//            switch (currentTabId) {
-//                case R.id.offer_received_button:
-//                    currentFragment = receivedFragment;
-//                    currentString =getString(R.string.fragment_offer_received);
-//                    break;
-//                case R.id.offer_send_button:
-//                    currentFragment = sendFragment;
-//                    currentString =getString(R.string.fragment_offer_send);
-//                    break;
-//            }
-//            if(currentTabView != null) {
-//                currentTabView.setBackground(getResources().getDrawable(R.drawable.bt_grey));
-//            }
-//            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//            fragmentTransaction.replace(R.id.offer_container, currentFragment, currentString);
-//            fragmentTransaction.commit();
-//
-//        };
-//        //add above listener to tabs
-//        receivedView.setOnClickListener(tabListener);
-//        sendView.setOnClickListener(tabListener);
-//    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

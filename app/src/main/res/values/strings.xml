@@ -68,6 +68,7 @@
     <string name="fragment_offer_received">OfferReceivedFragment</string>
     <string name="fragment_offer_send">OfferSendFragment</string>
     <string name="fragment_offer">OfferFragment</string>
+    <string name="fragment_offer_inventory">OfferInventoryFragment</string>
     <string name="fragment_shop">ShopFragment</string>
     <string name="fragment_post">PostFragment</string>
     <string name="fragment_profile">ProfileFragment</string>

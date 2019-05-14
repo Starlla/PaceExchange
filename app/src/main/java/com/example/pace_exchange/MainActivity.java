@@ -16,7 +16,8 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity implements ProfileFragment.ProfileFragmentButtonClickHandler, ShopFragment.ShopFragmentButtonClickHandler{
+public class MainActivity extends AppCompatActivity implements ProfileFragment.ProfileFragmentButtonClickHandler,
+        ShopFragment.ShopFragmentButtonClickHandler,ViewPostFragment.StartOfferButtonClickHandler{
     private static final int REQUEST_CODE = 1;
 
     private ImageView currentTabView;
@@ -176,5 +177,11 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         verifyPermissions();
+    }
+
+    @Override
+    public void startOfferButtonClicked(OfferInventoryFragment fragment) {
+        currentFragment = fragment;
+
     }
 }

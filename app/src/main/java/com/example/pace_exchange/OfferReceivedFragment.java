@@ -109,8 +109,7 @@ public class OfferReceivedFragment extends Fragment {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mMyOfferAdapter = new MyOfferAdapter(getActivity(), mOfferList);
         mMyOfferAdapter.setFragmentTag(TAG);
-        mMyOfferAdapter.setOnItemClickListener(new MyOfferAdapter.OnItemClickListener() {
-
+        mMyOfferAdapter.setReceivedOfferInteraction(new MyOfferAdapter.OnReceivedOfferInteractionListener() {
             @Override
             public void onAcceptButtonClick(int position) {
 
@@ -135,8 +134,10 @@ public class OfferReceivedFragment extends Fragment {
                         .child(mReceiverPostID)
                         .removeValue();
                 mMyOfferAdapter.notifyDataSetChanged();
+
             }
         });
+
         mRecyclerView.setAdapter(mMyOfferAdapter);
     }
 
@@ -153,7 +154,7 @@ public class OfferReceivedFragment extends Fragment {
                     readPostData(new MyPostCallback() {
                         @Override
                         public void onPostCallback(ArrayList<Post> postList) {
-                            System.out.println("2stCALLBACK"+postList.size());
+                            Log.d(TAG,"2stCALLBACK"+postList.size());
                             for(int i =0; i< postList.size();i++) {
                                 getSingleItemOfferReceivedList(postList.get(i));
                             }
@@ -221,8 +222,7 @@ public class OfferReceivedFragment extends Fragment {
                             Post post = singleSnapshot.getValue(Post.class);
                             Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
                             mReceivedOfferItems.add(post);
-
-                            if(mReceivedOfferItemIds.size() == finalI+1){
+                            if(mReceivedOfferItemIds.size() == mReceivedOfferItems.size()){
                                 myPostCallback.onPostCallback(mReceivedOfferItems);
                             }
                         }

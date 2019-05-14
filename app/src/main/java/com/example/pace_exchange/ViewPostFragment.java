@@ -46,6 +46,7 @@ public class ViewPostFragment extends Fragment {
     private String mPostUserId;
     private Post mPost;
     private boolean mIsInMyLikes;
+    private StartOfferButtonClickHandler mListener;
 
     public static final String WANT_POST_USER_UID = "want_post_user_uid";
 
@@ -74,6 +75,18 @@ public class ViewPostFragment extends Fragment {
         setToolbar();
         init();
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            mListener = (ViewPostFragment.StartOfferButtonClickHandler) context;
+        }catch(ClassCastException e){
+            new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
+
+        }
+
     }
 
     private void init() {
@@ -182,10 +195,16 @@ public class ViewPostFragment extends Fragment {
         mPostStartOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), OfferInventoryActivity.class);
-                intent.putExtra(getString(R.string.extra_post_id), mPostId);
-                intent.putExtra(WANT_POST_USER_UID,mPostUserId);
-                startActivity(intent);
+                Bundle args = new Bundle();
+                args.putString(getString(R.string.extra_post_id),mPostId);
+                args.putString(WANT_POST_USER_UID, mPostUserId);
+                OfferInventoryFragment fragment = new OfferInventoryFragment();
+                fragment.setArguments(args);
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_offer_inventory));
+                fragmentTransaction.addToBackStack(getString(R.string.fragment_offer_inventory));
+                fragmentTransaction.commit();
+                mListener.startOfferButtonClicked(fragment);
             }
         });
 
@@ -211,7 +230,6 @@ public class ViewPostFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Change to use Interface to pass args!!!
-
                 Bundle args = new Bundle();
                 args.putString(getString(R.string.arg_user_id), mPostId);
                 PostFragment fragment = new PostFragment();
@@ -292,5 +310,9 @@ public class ViewPostFragment extends Fragment {
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
+    }
+
+    public interface StartOfferButtonClickHandler{
+        void startOfferButtonClicked(OfferInventoryFragment fragment);
     }
 }

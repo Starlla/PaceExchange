@@ -41,8 +41,6 @@ public class OfferSendFragment extends Fragment {
     public OfferSendFragment() {
     }
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,9 +84,7 @@ public class OfferSendFragment extends Fragment {
         mListener = null;
     }
 
-
     public interface OnFragmentInteractionListener {
-
     }
 
     private void init () {
@@ -99,7 +95,6 @@ public class OfferSendFragment extends Fragment {
                 .child(getString(R.string.node_offer_send))
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         mDatabaseReference.addValueEventListener(mValueEventListener);
-
     }
 
     private void setUpRecyclerView () {
@@ -108,15 +103,27 @@ public class OfferSendFragment extends Fragment {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mMyOfferAdapter = new MyOfferAdapter(getActivity(), mOfferList);
         mMyOfferAdapter.setFragmentTag(TAG);
-        mMyOfferAdapter.setOnItemClickListener(new MyOfferAdapter.OnItemClickListener() {
-
+        mMyOfferAdapter.setSendOfferInteraction(new MyOfferAdapter.OnSendOfferInteractionListener() {
             @Override
-            public void onAcceptButtonClick(int position) {
-
-            }
-            @Override
-            public void onRejectButtonClick(int position) {
-
+            public void onCancelButtonClick(int position) {
+                Log.d(TAG,"Cancel Button Clicked");
+                String mReceiverPostID =mOfferList.get(position).getReceiverPost().getPost_id();
+                String mSenderPostId = mOfferList.get(position).getSenderPost().getPost_id();
+                String mReceiverUserId = mOfferList.get(position).getReceiverPost().getUser_id();
+                System.out.println(mSenderPostId);
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference.child(getString(R.string.node_offer_received))
+                        .child(mReceiverUserId)
+                        .child(mReceiverPostID)
+                        .child(mSenderPostId)
+                        .removeValue();
+                databaseReference.child(getString(R.string.node_offer_send))
+                        .child(uid)
+                        .child(mSenderPostId)
+                        .child(mReceiverPostID)
+                        .removeValue();
+                mMyOfferAdapter.notifyDataSetChanged();
             }
         });
         mRecyclerView.setAdapter(mMyOfferAdapter);
@@ -134,7 +141,7 @@ public class OfferSendFragment extends Fragment {
                     readPostData(new OfferSendFragment.MyPostCallback() {
                         @Override
                         public void onPostCallback(ArrayList<Post> postList) {
-                            System.out.println("2stCALLBACK"+postList.size());
+                            Log.d(TAG,"2rd CALLBACK"+postList.size());
                             for(int i =0; i< postList.size();i++) {
                                 getSingleItemOfferSendList(postList.get(i));
                             }
@@ -147,7 +154,6 @@ public class OfferSendFragment extends Fragment {
         public void onCancelled(DatabaseError databaseError) {
         }
     };
-
 
     private void readData(OfferSendFragment.MyCallback myCallback) {
 
@@ -188,14 +194,12 @@ public class OfferSendFragment extends Fragment {
     private void readPostData(OfferSendFragment.MyPostCallback myPostCallback){
         if (mSendOfferItemIds.size() > 0) {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
             for (int i = 0; i < mSendOfferItemIds.size(); i++) {
                 Log.d(TAG, "getPosts: getting post information for: " + mSendOfferItemIds.get(i));
                 Query query = reference.child(getString(R.string.node_posts))
                         .orderByKey()
                         .equalTo(mSendOfferItemIds.get(i));
 
-                int finalI = i;
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -204,7 +208,7 @@ public class OfferSendFragment extends Fragment {
                             Post post = singleSnapshot.getValue(Post.class);
                             Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
                             mSendOfferItems.add(post);
-                            if(mSendOfferItemIds.size() == finalI+1){
+                            if(mSendOfferItemIds.size() == mSendOfferItems.size()){
                                 myPostCallback.onPostCallback(mSendOfferItems);
                             }
                         }
@@ -283,8 +287,6 @@ public class OfferSendFragment extends Fragment {
                 });
             }
         }
-
     }
-
 
 }

@@ -2,7 +2,9 @@ package com.example.pace_exchange;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
+import android.view.View;
 
 import java.io.ByteArrayOutputStream;
 
@@ -18,6 +20,7 @@ public class Util {
         bitmap.compress(Bitmap.CompressFormat.JPEG, quality,stream);
         return stream.toByteArray();
     }
+
 
 
 

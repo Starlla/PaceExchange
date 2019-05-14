@@ -1,17 +1,21 @@
 package com.example.pace_exchange;
 
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.pace_exchange.util.RecyclerViewMargin;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -26,8 +30,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OfferInventoryActivity extends AppCompatActivity {
 
+public class OfferInventoryFragment extends Fragment {
+
+    private OnFragmentInteractionListener mListener;
     // Widgets
     private ImageView mBackArrow;
     private RecyclerView mRecyclerView;
@@ -41,26 +47,63 @@ public class OfferInventoryActivity extends AppCompatActivity {
     private DatabaseReference mReference;
     private String mPostIdWant;
     private String mWantPostUserId;
+    private Toolbar toolbar;
 
     private static final int NUM_GRID_COLUMNS = 2;
     private static final int GRID_ITEM_MARGIN = Util.dpToPx(14);
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_offer_inventory);
-        mBackArrow = findViewById(R.id.offer_inventory_backArrow);
-        mRecyclerView = findViewById(R.id.offer_inventory);
-        mConfirmOffer = findViewById(R.id.confirm_offer_button);
-        mCancelOffer = findViewById(R.id.cancel_offer_button);
-        mReference = FirebaseDatabase.getInstance().getReference();
-        mPostIdWant = getIntent().getExtras().getString(getString(R.string.extra_post_id));
-        mWantPostUserId = getIntent().getStringExtra(ViewPostFragment.WANT_POST_USER_UID);
-        Log.d("TAG","Target User Id:"+ mWantPostUserId);
-        init();
+    public OfferInventoryFragment() {
+
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mPostIdWant = getArguments().getString(getString(R.string.extra_post_id));
+            mWantPostUserId = getArguments().getString(ViewPostFragment.WANT_POST_USER_UID);
+        }
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_offer_inventory, container, false);
+        mRecyclerView = view.findViewById(R.id.offer_inventory);
+        mConfirmOffer = view.findViewById(R.id.confirm_offer_button);
+        mCancelOffer = view.findViewById(R.id.cancel_offer_button);
+        mReference = FirebaseDatabase.getInstance().getReference();
+        toolbar = view.findViewById(R.id.offer_inventory_toolbar);
+        setToolbar();
+        Log.d("TAG","Target User Id:"+ mWantPostUserId);
+        init();
+        return view;
+    }
+
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            mListener = (OfferInventoryFragment.OnFragmentInteractionListener) context;
+        } catch(ClassCastException e){
+            new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnFragmentInteractionListener {
+
+    }
     private void init() {
         mItems = new ArrayList<>();
         mPostIds = new ArrayList<>();
@@ -72,7 +115,7 @@ public class OfferInventoryActivity extends AppCompatActivity {
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         // Set listener to the reference
-        mReference.addValueEventListener(mListener);
+        mReference.addValueEventListener(mDataListener);
         addClickListeners();
     }
 
@@ -80,9 +123,9 @@ public class OfferInventoryActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         RecyclerViewMargin itemDecorator = new RecyclerViewMargin(GRID_ITEM_MARGIN, NUM_GRID_COLUMNS);
         mRecyclerView.addItemDecoration(itemDecorator);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, NUM_GRID_COLUMNS);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), NUM_GRID_COLUMNS);
         mRecyclerView.setLayoutManager(gridLayoutManager);
-        mMyAdapter = new MyAdapter(this, mItems);
+        mMyAdapter = new MyAdapter(getContext(), mItems);
         mRecyclerView.setAdapter(mMyAdapter);
     }
 
@@ -153,19 +196,15 @@ public class OfferInventoryActivity extends AppCompatActivity {
     }
 
     private void addClickListeners() {
-        mBackArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
+        mCancelOffer.setOnClickListener(v -> {
+            getActivity().getSupportFragmentManager().popBackStack();
         });
-
         mConfirmOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String selectedPostId = mMyAdapter.getSelectedPostId();
                 if (selectedPostId == "") {
-                    Toast.makeText(OfferInventoryActivity.this,
+                    Toast.makeText(getActivity(),
                             R.string.toast_please_select_an_item, Toast.LENGTH_SHORT).show();
                 } else {
                     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -187,29 +226,17 @@ public class OfferInventoryActivity extends AppCompatActivity {
                             .child(selectedPostId)
                             .child(mPostIdWant)
                             .setValue(newWantPostValue);
-                    finish();
-                    // Or redirect to other pages
-                    Toast.makeText(OfferInventoryActivity.this,
+
+                    Toast.makeText(getActivity(),
                             R.string.toast_offer_created, Toast.LENGTH_SHORT).show();
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
             }
         });
 
-        mCancelOffer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mReference.removeEventListener(mListener);
-    }
-
-    ValueEventListener mListener = new ValueEventListener() {
+    ValueEventListener mDataListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             getInventory();
@@ -220,4 +247,17 @@ public class OfferInventoryActivity extends AppCompatActivity {
 
         }
     };
+
+    private void setToolbar(){
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        toolbar.setTitle("");
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+    }
 }

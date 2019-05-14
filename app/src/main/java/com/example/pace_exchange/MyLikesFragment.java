@@ -50,11 +50,9 @@ public class MyLikesFragment extends Fragment {
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_my_likes, container, false);
         mRecyclerView = view.findViewById(R.id.my_likes_recycler_view);
         toolbar = view.findViewById(R.id.my_likes_toolbar);
@@ -95,7 +93,6 @@ public class MyLikesFragment extends Fragment {
         mDatabaseReference = FirebaseDatabase.getInstance().getReference()
                 .child(getString(R.string.node_likes))
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
         //set the listener to the reference
         mDatabaseReference.addValueEventListener(mValueEventListener);
 
@@ -110,8 +107,6 @@ public class MyLikesFragment extends Fragment {
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mMyAdapter = new MyAdapter(getActivity(), mPosts);
         mRecyclerView.setAdapter(mMyAdapter);
-
-
     }
 
     ValueEventListener mValueEventListener = new ValueEventListener() {
@@ -120,7 +115,6 @@ public class MyLikesFragment extends Fragment {
             Log.d(TAG, "onDataChange: a change was made to this users watch list node.");
             getLikesListIds();
         }
-
         @Override
         public void onCancelled(DatabaseError databaseError) {
 

@@ -44,7 +44,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             public void onClick(View v) {
                 Post post = mList.get(position);
                 if (mContext.getClass() == MainActivity.class) {
-
                     Fragment fragment = ((MainActivity) mContext).currentFragment;
                     System.out.println(fragment.getTag());
 
@@ -74,11 +73,16 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             e.printStackTrace();
                         }
                     }
+                    if(fragment.getTag().equals(mContext.getString(R.string.fragment_offer_inventory))){
+                        try {
+                            OfferInventoryFragment mFragment = (OfferInventoryFragment) fragment;
+                            mSelectedPosition = mSelectedPosition == position ? -1 : position;
+                            notifyDataSetChanged();
+                        } catch (ClassCastException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
-
-                } else if (mContext.getClass() == OfferInventoryActivity.class) {
-                    mSelectedPosition = mSelectedPosition == position ? -1 : position;
-                    notifyDataSetChanged();
                 }
 
             }
