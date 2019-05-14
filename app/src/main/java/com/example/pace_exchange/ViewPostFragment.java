@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +30,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 public class ViewPostFragment extends Fragment {
@@ -48,6 +53,7 @@ public class ViewPostFragment extends Fragment {
     private boolean mIsInMyLikes;
 
     public static final String WANT_POST_USER_UID = "want_post_user_uid";
+    private static final String TAG = "ViewPostFragment";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -227,11 +233,7 @@ public class ViewPostFragment extends Fragment {
         mPostRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Delete from posts table.
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                databaseReference.child(getString(R.string.node_posts))
-                        .child(mPostId)
-                        .removeValue();
 
                 // Delete from offers table.
                 databaseReference.child(getString(R.string.node_offer_received))
@@ -244,6 +246,28 @@ public class ViewPostFragment extends Fragment {
                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                         .child(mPostId)
                         .removeValue();
+
+                // Delete image in Database.
+                StorageReference photoRef = FirebaseStorage.getInstance().getReferenceFromUrl(mPost.getImage());
+                photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // File deleted successfully
+                        Log.d(TAG, "onSuccess: deleted file");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // An error occurred!
+                        Log.d(TAG, "onFailure: did not delete file");
+                    }
+                });
+
+                // Delete from posts table.
+                databaseReference.child(getString(R.string.node_posts))
+                        .child(mPostId)
+                        .removeValue();
+
                 Toast.makeText(getActivity(), R.string.toast_post_removed, Toast.LENGTH_SHORT).show();
                 getActivity().getSupportFragmentManager().popBackStack();
             }
