@@ -50,6 +50,18 @@
             android:minHeight="35dp"
             android:focusableInTouchMode="false"
             android:focusable="false"/>
+        <Button
+            android:id="@+id/offer_cancel_button"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_button"
+            android:textColor="@color/White"
+            android:background="@drawable/post_bt_ui"
+            android:minHeight="35dp"
+            android:focusableInTouchMode="false"
+            android:focusable="false"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

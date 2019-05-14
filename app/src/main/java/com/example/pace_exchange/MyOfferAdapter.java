@@ -1,5 +1,6 @@
 package com.example.pace_exchange;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -24,9 +25,10 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
     private int mSelectedPosition = RecyclerView.NO_POSITION;
     private OnItemClickListener mListener;
     private ArrayList<Offer> mOfferList;
+    private String fragmentTag = OfferReceivedFragment.TAG;
 
     public interface OnItemClickListener{
-        void onItemClick(int position);
+//        void onItemClick(int position);
         void onAcceptButtonClick(int position);
         void onRejectButtonClick(int position);
     }
@@ -38,8 +40,9 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
         private ImageView mReceiverImage;
         private ImageView mSenderImage;
-        public Button mAcceptButton;
-        public Button mRejectButton;
+        private Button mAcceptButton;
+        private Button mRejectButton;
+        private Button mCancelButton;
 
         public RecyclerViewHolder(View itemView, OnItemClickListener listener) {
             super(itemView);
@@ -47,14 +50,16 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
             mSenderImage = itemView.findViewById(R.id.offer_sender_image);
             mAcceptButton = itemView.findViewById(R.id.offer_accept_button);
             mRejectButton = itemView.findViewById(R.id.offer_reject_button);
-            itemView.setOnClickListener(view ->  {
-                if (listener != null){
-                    int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION){
-                        listener.onItemClick(position);
-                    }
-                }
-            });
+            mCancelButton = itemView.findViewById(R.id.offer_cancel_button);
+
+//            itemView.setOnClickListener(view ->  {
+//                if (listener != null){
+//                    int position = getAdapterPosition();
+//                    if(position != RecyclerView.NO_POSITION){
+//                        listener.onItemClick(position);
+//                    }
+//                }
+//            });
 
             mAcceptButton.setOnClickListener(view ->  {
                 if (listener != null){
@@ -92,6 +97,11 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder viewHolder, int position) {
         Offer currentOffer = mOfferList.get(position);
+        if(fragmentTag.equals(OfferSendFragment.TAG)){
+            viewHolder.mAcceptButton.setVisibility(View.GONE);
+            viewHolder.mRejectButton.setVisibility(View.GONE);
+            viewHolder.mCancelButton.setVisibility(View.VISIBLE);
+        }
         Glide.with(mContext).load(currentOffer.getReceiverPost().getImage()).into(viewHolder.mReceiverImage);
         Glide.with(mContext).load(currentOffer.getSenderPost().getImage()).into(viewHolder.mSenderImage);
     }
@@ -118,6 +128,10 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
 
     public boolean isPositionSelected() {
         return mSelectedPosition != Adapter.NO_SELECTION;
+    }
+
+    public void setFragmentTag(String fragmentTag){
+        this.fragmentTag = fragmentTag;
     }
 
 

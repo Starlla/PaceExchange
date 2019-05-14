@@ -43,7 +43,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onClick(View v) {
                 Post post = mList.get(position);
-
                 if (mContext.getClass() == MainActivity.class) {
 
                     Fragment fragment = ((MainActivity) mContext).currentFragment;

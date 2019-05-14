@@ -79,6 +79,7 @@ public class OfferFragment extends Fragment {
         mPagerAdapter.addFragment(new OfferReceivedFragment());
         mPagerAdapter.addFragment(new OfferSendFragment());
 
+
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.getTabAt(0).setText("Received");

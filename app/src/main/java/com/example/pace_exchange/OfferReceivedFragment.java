@@ -41,7 +41,7 @@ public class OfferReceivedFragment extends Fragment {
     private ArrayList<String> mSendOfferItemIds;
     private Toolbar toolbar;
     private DatabaseReference reference;
-    private static final String TAG = "OfferReceivedFragment";
+    protected static final String TAG = "OfferReceivedFragment";
 
     public OfferReceivedFragment() {
     }
@@ -59,7 +59,6 @@ public class OfferReceivedFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_offer_received, container, false);
         mRecyclerView = view.findViewById(R.id.offer_received_recycler_view);
-
         mOfferList = new ArrayList<>();
         mReceivedOfferItems =new ArrayList<>();
         mReceivedOfferItemIds = new ArrayList<>();
@@ -94,7 +93,6 @@ public class OfferReceivedFragment extends Fragment {
     }
 
     private void init () {
-//        setToolbar();
         setUpRecyclerView();
         reference = FirebaseDatabase.getInstance().getReference();
         //reference for listening when items are added or removed from the offer list
@@ -110,11 +108,8 @@ public class OfferReceivedFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mMyOfferAdapter = new MyOfferAdapter(getActivity(), mOfferList);
+        mMyOfferAdapter.setFragmentTag(TAG);
         mMyOfferAdapter.setOnItemClickListener(new MyOfferAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-
-            }
 
             @Override
             public void onAcceptButtonClick(int position) {
