@@ -47,6 +47,8 @@
     <!-- Database field names -->
     <string name="field_title">title</string>
     <string name="field_post_id">post_id</string>
+    <string name="field_description">description</string>
+    <string name="field_image">image</string>
 
     <!-- Intent extras and Bundle arguments -->
     <string name="arg_user_id">arg_user_id</string>
@@ -93,4 +95,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="offer">Offer</string>
+    <string name="toast_please_fill_out_all_the_fields">Please fill out all the fields.</string>
+    <string name="toast_post_updated">Post is updated.</string>
 </resources>

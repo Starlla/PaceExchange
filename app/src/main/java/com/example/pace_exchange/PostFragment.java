@@ -54,6 +54,8 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
     private EditText mTitle, mDescription;
     private double mProgress = 0;
 
+    private String mImageUrl;
+
     @Override
     public void getImagePath(Uri imagePath) {
         Log.d(TAG, "getImagePath: setting the image to imageview");
@@ -159,7 +161,8 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
                         uploadNewPhoto(mSelectedUri);
                     }
                 }else{
-                    Toast.makeText(getActivity(), "You must fill out all the fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.toast_please_fill_out_all_the_fields,
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -167,9 +170,38 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
         mSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // To be revise!!!
+                Log.d(TAG, "onClick: attempting to save updates...");
+                String title = mTitle.getText().toString().trim();
+                String description = mDescription.getText().toString().trim();
+                if (!isEmpty(title) && !isEmpty(description)) {
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
-                getActivity().getSupportFragmentManager().popBackStack();
+                    // Update post image.
+                    if (mSelectedBitmap != null && mSelectedUri == null) {
+                        uploadNewPhoto(mSelectedBitmap);
+                    } else if (mSelectedBitmap == null && mSelectedUri != null) {
+                        uploadNewPhoto(mSelectedUri);
+                    }
+
+                    // Update post title.
+                    databaseReference.child(getString(R.string.node_posts))
+                            .child(mPostId)
+                            .child(getString(R.string.field_title))
+                            .setValue(title);
+
+                    // Update post description.
+                    databaseReference.child(getString(R.string.node_posts))
+                            .child(mPostId)
+                            .child(getString(R.string.field_description))
+                            .setValue(description);
+
+                    Toast.makeText(getActivity(), R.string.toast_post_updated,
+                            Toast.LENGTH_SHORT).show();
+                    getActivity().getSupportFragmentManager().popBackStack();
+                } else {
+                    Toast.makeText(getActivity(), R.string.toast_please_fill_out_all_the_fields,
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -254,7 +286,7 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
     private void executeUploadTask(){
         Toast.makeText(getActivity(), "uploading image", Toast.LENGTH_SHORT).show();
 
-        final String postId = FirebaseDatabase.getInstance().getReference().push().getKey();
+        final String postId = mPostId == "" ? FirebaseDatabase.getInstance().getReference().push().getKey() : mPostId;
 
         final StorageReference storageReference = FirebaseStorage.getInstance().getReference()
                 .child("posts/users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() +
@@ -274,24 +306,31 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
                 Log.d(TAG, "onSuccess: firebase download url: " + firebaseUri.toString());
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-                Post post = new Post();
-                post.setImage(firebaseUri.toString());
-                post.setDescription(mDescription.getText().toString());
-                post.setPost_id(postId);
-                post.setTitle(mTitle.getText().toString());
-                post.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                if (mPostId == "") {
+                    Post post = new Post();
+                    post.setImage(firebaseUri.toString());
+                    post.setDescription(mDescription.getText().toString());
+                    post.setPost_id(postId);
+                    post.setTitle(mTitle.getText().toString());
+                    post.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                reference.child(getString(R.string.node_posts))
-                        .child(postId)
-                        .setValue(post);
+                    reference.child(getString(R.string.node_posts))
+                            .child(postId)
+                            .setValue(post);
 
-                reference.child(getString(R.string.node_inventories))
-                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .child(postId)
-                        .child(getString(R.string.field_post_id))
-                        .setValue(postId);
+                    reference.child(getString(R.string.node_inventories))
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child(postId)
+                            .child(getString(R.string.field_post_id))
+                            .setValue(postId);
 
-                resetFields();
+                    resetFields();
+                } else {
+                    reference.child(getString(R.string.node_posts))
+                            .child(postId)
+                            .child(getString(R.string.field_image))
+                            .setValue(firebaseUri.toString());
+                }
             }
 
         }).addOnFailureListener(new OnFailureListener() {
@@ -329,14 +368,31 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
                     Post post = singleSnapshot.getValue(Post.class);
                     mTitle.setText(post.getTitle());
                     mDescription.setText(post.getDescription());
-                    // Add show image later
-
+                    mImageUrl = post.getImage();
+                    UniversalImageLoader.setImage(mImageUrl, mPostImage);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    private void deleteImage(String imageUrl) {
+        StorageReference photoRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl);
+        photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // File deleted successfully
+                Log.d(TAG, "onSuccess: deleted file");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // An error occurred!
+                Log.d(TAG, "onFailure: did not delete file");
             }
         });
     }
