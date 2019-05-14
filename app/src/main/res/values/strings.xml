@@ -41,7 +41,8 @@
     <string name="node_posts">posts</string>
     <string name="node_likes">likes</string>
     <string name="node_inventories">inventories</string>
-    <string name="node_offers">offers</string>
+    <string name="node_offer_received">offer_received</string>
+    <string name="node_offer_send">offer_send</string>
 
     <!-- Database field names -->
     <string name="field_title">title</string>

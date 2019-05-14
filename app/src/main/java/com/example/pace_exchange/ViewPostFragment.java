@@ -234,7 +234,7 @@ public class ViewPostFragment extends Fragment {
                         .removeValue();
 
                 // Delete from offers table.
-                databaseReference.child(getString(R.string.node_offers))
+                databaseReference.child(getString(R.string.node_offer_received))
                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                         .child(mPostId)
                         .removeValue();

@@ -168,18 +168,25 @@ public class OfferInventoryActivity extends AppCompatActivity {
                     Toast.makeText(OfferInventoryActivity.this,
                             R.string.toast_please_select_an_item, Toast.LENGTH_SHORT).show();
                 } else {
-                    Map newValue = new HashMap();
-                    newValue.put(getString(R.string.field_post_id), selectedPostId);
-                    newValue.put("sender_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    Map newMyPostValue = new HashMap();
+                    newMyPostValue.put(getString(R.string.field_post_id), selectedPostId);
+                    newMyPostValue.put("sender_id",uid );
 
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                    databaseReference.child(getString(R.string.node_offers))
+                    databaseReference.child(getString(R.string.node_offer_received))
                             .child(mWantPostUserId)
                             .child(mPostIdWant)
                             .child(selectedPostId)
-                            .setValue(newValue);
-
-
+                            .setValue(newMyPostValue);
+                    Map newWantPostValue = new HashMap();
+                    newWantPostValue.put(getString(R.string.field_post_id), mPostIdWant);
+                    newWantPostValue.put("receiver_id",mWantPostUserId );
+                    databaseReference.child(getString(R.string.node_offer_send))
+                            .child(uid)
+                            .child(selectedPostId)
+                            .child(mPostIdWant)
+                            .setValue(newWantPostValue);
                     finish();
                     // Or redirect to other pages
                     Toast.makeText(OfferInventoryActivity.this,

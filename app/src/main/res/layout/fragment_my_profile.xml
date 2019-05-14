@@ -38,6 +38,15 @@
             android:layout_centerVertical="true"
             android:scaleType="centerCrop"
             android:background="@drawable/profile_default_image"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textColor="@color/White"
+            android:text="Edit"
+            android:textAlignment="center"
+            android:background="#80737373"
+            android:layout_marginTop="80dp"/>
+
 
     </android.support.v7.widget.CardView>
 
