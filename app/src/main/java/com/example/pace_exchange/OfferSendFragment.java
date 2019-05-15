@@ -220,7 +220,8 @@ public class OfferSendFragment extends Fragment {
 //                            mMyOfferAdapter.notifyDataSetChanged();
                         } else {
                             // Offer is deleted . Delete the record in table offer_received in DB.
-                            deleteOfferSendRecord(mOffersIds.get(mOffers.size()));
+                            if (mOffers != null){
+                            deleteOfferSendRecord(mOffersIds.get(mOffers.size()));}
                         }
                     }
                     @Override

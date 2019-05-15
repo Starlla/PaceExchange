@@ -202,7 +202,7 @@ public class OfferInventoryFragment extends Fragment {
                 else {
                     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-                    //generate offer if by rule: receiverPostID*senderPostID;
+                    //generate offer id by rule: receiverPostID*senderPostID;
                     String offer_id = getString(R.string.two_string_with_star,mPostIdWant,selectedPostId);
                     Map newOfferValue = new HashMap();
                     newOfferValue.put("offer_id",offer_id);
@@ -216,10 +216,10 @@ public class OfferInventoryFragment extends Fragment {
                             .setValue(newOfferValue);
                     reference.child("offer_send")
                             .child(uid)
-                            .child(offer_id).setValue(true);
+                            .child(offer_id).setValue(selectedPostId);
                     reference.child("offer_received")
                             .child(mWantPostUserId)
-                            .child(offer_id).setValue(true);
+                            .child(offer_id).setValue(mPostIdWant);
 
                     Toast.makeText(getActivity(),
                             R.string.toast_offer_created, Toast.LENGTH_SHORT).show();
