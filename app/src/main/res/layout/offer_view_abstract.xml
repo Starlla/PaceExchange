@@ -62,6 +62,18 @@
             android:focusableInTouchMode="false"
             android:focusable="false"
             android:visibility="gone"/>
+        <Button
+            android:id="@+id/offer_remove_button"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/remove_button"
+            android:textColor="@color/White"
+            android:background="@drawable/post_bt_ui"
+            android:minHeight="35dp"
+            android:focusableInTouchMode="false"
+            android:focusable="false"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
