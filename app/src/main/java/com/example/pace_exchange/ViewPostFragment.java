@@ -272,8 +272,21 @@ public class ViewPostFragment extends Fragment {
             public void onClick(View v) {
                 databaseReference = FirebaseDatabase.getInstance().getReference();
 
-                initAndExecuteAsyncTask();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference = FirebaseDatabase.getInstance().getReference();
 
+                // Delete from inventories table.
+                databaseReference.child(getString(R.string.node_inventories))
+                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .child(mPostId)
+                        .removeValue();
+                // Delete image in Database.
+                deleteImageFromDatabase();
+                // Delete from posts table.
+                databaseReference.child(getString(R.string.node_posts))
+                        .child(mPostId)
+                        .removeValue();
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
     }
@@ -301,22 +314,45 @@ public class ViewPostFragment extends Fragment {
 //        databaseReference.child(getString(R.string.node_offer_send))
 //                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 //
-//        Query query = databaseReference.orderByChild("offer_id").endAt(mPostId);
-//
-//        query.addValueEventListener(new ValueEventListener() {
+//        Query query = databaseReference.orderByValue().endAt(mPostId);
+//        query.addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.hasChildren()) {
-//
-//
-//
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if(dataSnapshot.getChildren().iterator().hasNext()){
+//                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+//                    for(DataSnapshot snapshot: singleSnapshot.getChildren()){
+//                        DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+//                        reference.child(snapshot.getKey()).removeValue();
+//                    }
 //                }
 //            }
-//
 //            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            public void onCancelled(DatabaseError databaseError) {
 //            }
 //        });
+//
+//        Query query2 = databaseReference.orderByValue().startAt(mPostId);
+//        query2.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if(dataSnapshot.getChildren().iterator().hasNext()){
+//                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+//                    for(DataSnapshot snapshot: singleSnapshot.getChildren()){
+//                        DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+//                        reference.child(snapshot.getKey()).removeValue();
+//
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//            }
+//        });
+//
+//        databaseReference.child(getString(R.string.node_offers))
+//                .child(mPostId)
+//                .child(getString(R.string.field_post_id))
+//                .setValue(mPostId);
 
 
     }
@@ -370,32 +406,22 @@ public class ViewPostFragment extends Fragment {
     }
 
 
-    private void initAndExecuteAsyncTask() {
-        @SuppressLint("StaticFieldLeak") AsyncTask<Void,Void,Void> mAsyncTask = new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                deleteOfferData();
-
-                // Delete from inventories table.
-                databaseReference.child(getString(R.string.node_inventories))
-                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .child(mPostId)
-                        .removeValue();
-                // Delete image in Database.
-                deleteImageFromDatabase();
-                
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                Toast.makeText(getActivity(), R.string.toast_post_removed, Toast.LENGTH_SHORT).show();
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        };
-        mAsyncTask.execute();
-    }
+//    private void initAndExecuteAsyncTask() {
+//        @SuppressLint("StaticFieldLeak") AsyncTask<Void,Void,Void> mAsyncTask = new AsyncTask<Void, Void, Void>() {
+//            @Override
+//            protected Void doInBackground(Void... voids) {
+//
+//                return null;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(Void aVoid) {
+//                super.onPostExecute(aVoid);
+//
+//            }
+//        };
+//        mAsyncTask.execute();
+//    }
 
 
 }
