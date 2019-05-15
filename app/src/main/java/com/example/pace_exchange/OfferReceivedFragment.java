@@ -114,24 +114,19 @@ public class OfferReceivedFragment extends Fragment {
 
             @Override
             public void onRejectButtonClick(int position) {
-//                String mReceiverPostID =mOfferList.get(position).getReceiverPost().getPost_id();
-//                String mSenderPostId = mOfferList.get(position).getSenderPost().getPost_id();
-//                String mSenderUserId = mOfferList.get(position).getSenderPost().getUser_id();
-//                System.out.println(mSenderPostId);
-//                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-//                databaseReference.child(getString(R.string.node_offer_received))
-//                        .child(uid)
-//                        .child(mReceiverPostID)
-//                        .child(mSenderPostId)
-//                        .removeValue();
-//                databaseReference.child(getString(R.string.node_offer_send))
-//                        .child(mSenderUserId)
-//                        .child(mSenderPostId)
-//                        .child(mReceiverPostID)
-//                        .removeValue();
+                String mSenderUserId = mOfferList.get(position).getSenderPost().getUser_id();
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                String offerId = mOfferList.get(position).getOfferID();
+                databaseReference.child(getString(R.string.node_offer_received))
+                        .child(uid)
+                        .child(offerId)
+                        .removeValue();
+                databaseReference.child(getString(R.string.node_offer_send))
+                        .child(mSenderUserId)
+                        .child(offerId)
+                        .removeValue();
                 mMyOfferAdapter.notifyDataSetChanged();
-
             }
         });
 
@@ -145,7 +140,6 @@ public class OfferReceivedFragment extends Fragment {
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             Log.d(TAG, "onDataChange: a change was made to this users offer received node.");
             getOfferIds();
-
         }
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -253,6 +247,7 @@ public class OfferReceivedFragment extends Fragment {
                         } else {
                             // Post is deleted by its author. Delete the record in table offers in DB.
                             Util.deleteOfferRecord(offerId);
+
                             mMyOfferAdapter.notifyDataSetChanged();
                         }
                     }
@@ -279,7 +274,7 @@ public class OfferReceivedFragment extends Fragment {
                         Post post = singleSnapshot.getValue(Post.class);
                         Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
                         twoPostArray[1] = post;
-                        OfferPostItem mTwoPost = new OfferPostItem(twoPostArray[0], twoPostArray[1]);
+                        OfferPostItem mTwoPost = new OfferPostItem(offerID,twoPostArray[0], twoPostArray[1]);
                         mOfferList.add(mTwoPost);
                         mMyOfferAdapter.notifyDataSetChanged();
 

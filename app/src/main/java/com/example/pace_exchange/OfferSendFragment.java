@@ -111,24 +111,21 @@ public class OfferSendFragment extends Fragment {
         mMyOfferAdapter.setSendOfferInteraction(new MyOfferAdapter.OnSendOfferInteractionListener() {
             @Override
             public void onCancelButtonClick(int position) {
-//                Log.d(TAG,"Cancel Button Clicked");
-//                String mReceiverPostID =mOfferList.get(position).getReceiverPost().getPost_id();
-//                String mSenderPostId = mOfferList.get(position).getSenderPost().getPost_id();
-//                String mReceiverUserId = mOfferList.get(position).getReceiverPost().getUser_id();
-//                System.out.println(mSenderPostId);
-//                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-//                databaseReference.child(getString(R.string.node_offer_received))
-//                        .child(mReceiverUserId)
-//                        .child(mReceiverPostID)
-//                        .child(mSenderPostId)
-//                        .removeValue();
-//                databaseReference.child(getString(R.string.node_offer_send))
-//                        .child(uid)
-//                        .child(mSenderPostId)
-//                        .child(mReceiverPostID)
-//                        .removeValue();
-//                mMyOfferAdapter.notifyDataSetChanged();
+                Log.d(TAG,"Cancel Button Clicked");
+                String mReceiverUserId = mOfferList.get(position).getReceiverPost().getUser_id();
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+                String offerId = mOfferList.get(position).getOfferID();
+                databaseReference.child(getString(R.string.node_offer_send))
+                        .child(uid)
+                        .child(offerId)
+                        .removeValue();
+                databaseReference.child(getString(R.string.node_offer_received))
+                        .child(mReceiverUserId)
+                        .child(offerId)
+                        .removeValue();
+                mMyOfferAdapter.notifyDataSetChanged();
             }
         });
         mRecyclerView.setAdapter(mMyOfferAdapter);
@@ -270,7 +267,7 @@ public class OfferSendFragment extends Fragment {
                         Post post = singleSnapshot.getValue(Post.class);
                         Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
                         twoPostArray[1] = post;
-                        OfferPostItem mTwoPost = new OfferPostItem(twoPostArray[0], twoPostArray[1]);
+                        OfferPostItem mTwoPost = new OfferPostItem(offerID,twoPostArray[0], twoPostArray[1]);
                         mOfferList.add(mTwoPost);
                         mMyOfferAdapter.notifyDataSetChanged();
 
