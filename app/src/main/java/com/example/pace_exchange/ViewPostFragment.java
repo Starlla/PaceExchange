@@ -310,6 +310,7 @@ public class ViewPostFragment extends Fragment {
 
     private void deleteOfferData() {
 
+//        //delete from offer send side
 //        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 //        databaseReference.child(getString(R.string.node_offer_send))
 //                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -322,7 +323,11 @@ public class ViewPostFragment extends Fragment {
 //                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
 //                    for(DataSnapshot snapshot: singleSnapshot.getChildren()){
 //                        DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
-//                        reference.child(snapshot.getKey()).removeValue();
+//                        DatabaseReference mReference = reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                        String offer_id = snapshot.getKey();
+//                        mReference.child(offer_id).removeValue();
+//
+//
 //                    }
 //                }
 //            }
@@ -331,6 +336,7 @@ public class ViewPostFragment extends Fragment {
 //            }
 //        });
 //
+//        //delete from receiver side
 //        Query query2 = databaseReference.orderByValue().startAt(mPostId);
 //        query2.addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
@@ -339,7 +345,9 @@ public class ViewPostFragment extends Fragment {
 //                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
 //                    for(DataSnapshot snapshot: singleSnapshot.getChildren()){
 //                        DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+//                        DatabaseReference mReference = reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 //                        reference.child(snapshot.getKey()).removeValue();
+//                        reference.
 //
 //                    }
 //                }
