@@ -92,9 +92,10 @@
     <string name="accept">Accept</string>
     <string name="reject">Reject</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="offer">Offer</string>
     <string name="toast_please_fill_out_all_the_fields">Please fill out all the fields.</string>
     <string name="toast_post_updated">Post is updated.</string>
+    <string name="node_sender_id">sender_id</string>
+    <string name="node_receiver_id">receiver_id</string>
 </resources>

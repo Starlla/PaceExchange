@@ -31,7 +31,8 @@ public class OfferReceivedFragment extends Fragment {
     }
 
     private OfferReceivedFragment.OnOfferReceivedFragmentInteractionListener mListener;
-    DatabaseReference mDatabaseReference;
+    DatabaseReference mDatabaseReferenceReceiverSide;
+//    DatabaseReference mDatabaseReferenceSenderSide;
     String mUid;
     MyOfferAdapter mMyOfferAdapter;
     RecyclerView mRecyclerView;
@@ -66,7 +67,6 @@ public class OfferReceivedFragment extends Fragment {
         return view;
     }
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -96,10 +96,15 @@ public class OfferReceivedFragment extends Fragment {
         setUpRecyclerView();
         reference = FirebaseDatabase.getInstance().getReference();
         //reference for listening when items are added or removed from the offer list
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference()
+        mDatabaseReferenceReceiverSide = FirebaseDatabase.getInstance().getReference()
                 .child(getString(R.string.node_offer_received))
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        mDatabaseReference.addValueEventListener(mValueEventListener);
+        mDatabaseReferenceReceiverSide.addValueEventListener(mValueEventListener);
+//
+//        mDatabaseReferenceSenderSide = FirebaseDatabase.getInstance().getReference()
+//                .child(getString(R.string.node_offer_send))
+//                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//        mDatabaseReferenceSenderSide.addValueEventListener(mValueEventListener);
 
     }
 

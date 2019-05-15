@@ -1,8 +1,10 @@
 package com.example.pace_exchange;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,6 +35,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class ViewPostFragment extends Fragment {
 
@@ -46,6 +51,8 @@ public class ViewPostFragment extends Fragment {
     TextView mPostStartOffer;
     TextView mPostUpdate;
     TextView mPostRemove;
+    HashMap<String,String> mSenderItemUserIdMap;
+    DatabaseReference databaseReference;
 
     private String mPostId;
     private String mPostUserId;
@@ -98,6 +105,7 @@ public class ViewPostFragment extends Fragment {
     private void init() {
         getUserInfo();
         getPostInfo();
+        mSenderItemUserIdMap = new HashMap<>();
         if (mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             mLike.setVisibility(View.INVISIBLE);
             mPostStartOffer.setVisibility(View.GONE);
@@ -251,43 +259,91 @@ public class ViewPostFragment extends Fragment {
         mPostRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference = FirebaseDatabase.getInstance().getReference();
 
-                // Delete from offers table.
-                databaseReference.child(getString(R.string.node_offer_received))
-                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .child(mPostId)
-                        .removeValue();
+                initAndExecuteAsyncTask();
 
-                // Delete from inventories table.
-                databaseReference.child(getString(R.string.node_inventories))
-                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .child(mPostId)
-                        .removeValue();
+            }
+        });
+    }
 
-                // Delete image in Database.
-                StorageReference photoRef = FirebaseStorage.getInstance().getReferenceFromUrl(mPost.getImage());
-                photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // File deleted successfully
-                        Log.d(TAG, "onSuccess: deleted file");
+    private void deleteImageFromDatabase() {
+        StorageReference photoRef = FirebaseStorage.getInstance().getReferenceFromUrl(mPost.getImage());
+        photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // File deleted successfully
+                Log.d(TAG, "onSuccess: deleted file");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // An error occurred!
+                Log.d(TAG, "onFailure: did not delete file");
+            }
+        });
+    }
+
+    private void deleteMyItemAsOfferReceivedData() {
+        Query query = databaseReference.child(getString(R.string.node_offer_received))
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .orderByKey()
+                .equalTo(mPostId);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildren().iterator().hasNext()){
+                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                    for(DataSnapshot snapshot: singleSnapshot.getChildren()){
+                        String senderItemID = snapshot.getKey();
+                        String senderUserID = (String)snapshot.child(getString(R.string.node_sender_id)).getValue();
+                        databaseReference.child(getString(R.string.node_offer_send))
+                                .child(senderUserID)
+                                .child(senderItemID)
+                                .child(mPostId).removeValue();
+                        databaseReference.child(getString(R.string.node_offer_received))
+                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .child(mPostId)
+                                .child(senderItemID).removeValue();
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // An error occurred!
-                        Log.d(TAG, "onFailure: did not delete file");
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    private void deleteMyItemAsOfferSenderData() {
+        Query query = databaseReference.child(getString(R.string.node_offer_send))
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .orderByKey()
+                .equalTo(mPostId);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildren().iterator().hasNext()){
+                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                    for(DataSnapshot snapshot: singleSnapshot.getChildren()){
+                        String receiverItemID = snapshot.getKey();
+                        String receiverUserID = (String)snapshot.child(getString(R.string.node_receiver_id)).getValue();
+                        databaseReference.child(getString(R.string.node_offer_received))
+                                .child(receiverUserID)
+                                .child(receiverItemID)
+                                .child(mPostId).removeValue();
+                        databaseReference.child(getString(R.string.node_offer_send))
+                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .child(mPostId)
+                                .child(receiverItemID)
+                                .removeValue();
                     }
-                });
 
-                // Delete from posts table.
-                databaseReference.child(getString(R.string.node_posts))
-                        .child(mPostId)
-                        .removeValue();
-
-                Toast.makeText(getActivity(), R.string.toast_post_removed, Toast.LENGTH_SHORT).show();
-                getActivity().getSupportFragmentManager().popBackStack();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
             }
         });
     }
@@ -339,4 +395,42 @@ public class ViewPostFragment extends Fragment {
     public interface StartOfferButtonClickHandler{
         void startOfferButtonClicked(OfferInventoryFragment fragment);
     }
+
+
+    private void initAndExecuteAsyncTask() {
+        @SuppressLint("StaticFieldLeak") AsyncTask<Void,Void,Void> mAsyncTask = new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                //Delete from offer_received and offer_send table when my item as offer receiver.
+                //Delete all the receiver data associated with my item as offer receiver.
+                deleteMyItemAsOfferReceivedData();
+                // Delete data for my item as sender.
+                //Delete all the receiver data associated with my item as offer sender.
+                deleteMyItemAsOfferSenderData();
+                // Delete from inventories table.
+                databaseReference.child(getString(R.string.node_inventories))
+                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .child(mPostId)
+                        .removeValue();
+                // Delete image in Database.
+                deleteImageFromDatabase();
+                // Delete from posts table.
+                databaseReference.child(getString(R.string.node_posts))
+                        .child(mPostId)
+                        .removeValue();
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                Toast.makeText(getActivity(), R.string.toast_post_removed, Toast.LENGTH_SHORT).show();
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        };
+        mAsyncTask.execute();
+    }
+
+
 }

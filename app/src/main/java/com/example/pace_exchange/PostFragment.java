@@ -303,7 +303,6 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
                 while (!urlTask.isSuccessful());
                 Uri firebaseUri = urlTask.getResult();
 
-                Log.d(TAG, "onSuccess: firebase download url: " + firebaseUri.toString());
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
                 if (mPostId == "") {
@@ -396,5 +395,7 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
             }
         });
     }
+
+
 
 }

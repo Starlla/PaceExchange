@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -45,7 +46,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Post post = mList.get(position);
                 if (mContext.getClass() == MainActivity.class) {
                     Fragment fragment = ((MainActivity) mContext).currentFragment;
-                    System.out.println(fragment.getTag());
+                    Log.d("Adapter currentFragment",fragment.getTag());
 
                     if(fragment.getTag().equals(mContext.getString(R.string.fragment_shop))){
                         try {
