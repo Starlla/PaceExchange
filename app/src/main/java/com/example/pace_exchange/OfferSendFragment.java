@@ -162,7 +162,6 @@ public class OfferSendFragment extends Fragment {
         }
     };
 
-
     private void getOfferIds(){
         if(mOffersIds != null){
             mOffersIds.clear();
@@ -294,10 +293,14 @@ public class OfferSendFragment extends Fragment {
                         OfferPostItem mTwoPost = new OfferPostItem(offerID,twoPostArray[0], twoPostArray[1]);
                         mOfferList.add(mTwoPost);
                         mMyOfferAdapter.notifyDataSetChanged();
+                        twoPostArray[0] = null;
+                        twoPostArray[1] = null;
                     } else {
                         // Post is deleted by its author. Delete the record in table offers in DB.
                         Util.deleteOfferRecord(offerID);
                         mMyOfferAdapter.notifyDataSetChanged();
+                        twoPostArray[0] = null;
+                        twoPostArray[1] = null;
                     }
                 }
 
