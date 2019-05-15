@@ -56,15 +56,18 @@ public class OfferFragment extends Fragment {
         setupViewPager();
 
     }
+
     private void setupViewPager(){
         mPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
         mPagerAdapter.addFragment(new OfferReceivedFragment());
         mPagerAdapter.addFragment(new OfferSendFragment());
+        mPagerAdapter.addFragment(new OfferConfirmedFragment());
         //Add Fragment to ViewPager
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.getTabAt(0).setText("Received");
-        mTabLayout.getTabAt(1).setText("Send");
+        mTabLayout.getTabAt(0).setText(getString(R.string.offer_received));
+        mTabLayout.getTabAt(1).setText(getString(R.string.offer_send));
+        mTabLayout.getTabAt(2).setText(getString(R.string.offer_confirmed));
     }
 
     @Override
