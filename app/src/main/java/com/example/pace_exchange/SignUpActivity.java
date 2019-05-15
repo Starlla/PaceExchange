@@ -39,8 +39,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_sign_up);
 
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-//        profile = findViewById(R.id.profile_image);
         firstNameInput = findViewById(R.id.sign_up_first_name_field);
         lastNameInput = findViewById(R.id.sign_up_last_name_field);
         emailInput = findViewById(R.id.sign_up_email_field);
@@ -133,7 +131,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         String lastName = lastNameInput.getText().toString();
-        if (firstName.isEmpty()) {
+        if (lastName.isEmpty()) {
             lastNameInput.setError(this.getString(R.string.this_field_cannot_be_blank));
             isValid = false;
         } else {

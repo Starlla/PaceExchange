@@ -174,7 +174,7 @@ public class OfferReceivedFragment extends Fragment {
     };
 
     private void readData(MyCallback myCallback) {
-
+        //clear the array to avoid repeating display;
         if(mOfferList != null){
             mOfferList.clear();
         }
@@ -188,7 +188,6 @@ public class OfferReceivedFragment extends Fragment {
         Query query = reference.child(getString(R.string.node_offer_received))
                 .orderByKey()
                 .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -205,7 +204,6 @@ public class OfferReceivedFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
     }
 
     private void readPostData(MyPostCallback myPostCallback){
@@ -231,7 +229,6 @@ public class OfferReceivedFragment extends Fragment {
                                 myPostCallback.onPostCallback(mReceivedOfferItems);
                             }
                         }
-
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -269,10 +266,8 @@ public class OfferReceivedFragment extends Fragment {
                         mSendOfferItemIds.clear();
                     }
                 }
-
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-
                 }
             });
     }
@@ -298,7 +293,6 @@ public class OfferReceivedFragment extends Fragment {
                             mOfferList.add(offer);
                             mMyOfferAdapter.notifyDataSetChanged();
                         }
-
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -308,7 +302,6 @@ public class OfferReceivedFragment extends Fragment {
             }
         }
     }
-
 
 
 }

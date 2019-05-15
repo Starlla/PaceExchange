@@ -5,17 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.pace_exchange.util.MyPagerAdapter;
 
@@ -23,13 +18,6 @@ import com.example.pace_exchange.util.MyPagerAdapter;
 public class OfferFragment extends Fragment {
 
     Toolbar toolbar;
-    Button receivedView;
-    Button sendView;
-    Fragment currentFragment;
-    OfferReceivedFragment receivedFragment;
-    OfferSendFragment sendFragment;
-    Button currentTabView;
-    String currentString;
 
     //widgets
     private TabLayout mTabLayout;
@@ -41,7 +29,6 @@ public class OfferFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public OfferFragment() {
-
     }
 
     @Override
@@ -56,8 +43,6 @@ public class OfferFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_offer, container, false);
-//        receivedView = view.findViewById(R.id.offer_received_button);
-//        sendView = view.findViewById(R.id.offer_send_button);
         mTabLayout = (TabLayout) view.findViewById(R.id.offer_tabs);
         mViewPager  = (ViewPager) view.findViewById(R.id.viewpager_container);
         toolbar = view.findViewById(R.id.offer_toolbar);
@@ -68,25 +53,19 @@ public class OfferFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setToolbar();
-//        setupFragment();
-//        addTabClickListeners();
         setupViewPager();
 
     }
-
     private void setupViewPager(){
         mPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
         mPagerAdapter.addFragment(new OfferReceivedFragment());
         mPagerAdapter.addFragment(new OfferSendFragment());
-
-
+        //Add Fragment to ViewPager
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.getTabAt(0).setText("Received");
         mTabLayout.getTabAt(1).setText("Send");
-
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -108,7 +87,6 @@ public class OfferFragment extends Fragment {
     }
 
     private void setToolbar(){
-
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         getActivity().setTitle("");
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);

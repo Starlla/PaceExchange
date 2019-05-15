@@ -24,18 +24,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class OfferInventoryFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     // Widgets
-    private ImageView mBackArrow;
     private RecyclerView mRecyclerView;
     private TextView mConfirmOffer;
     private TextView mCancelOffer;
@@ -78,11 +75,6 @@ public class OfferInventoryFragment extends Fragment {
         Log.d("TAG","Target User Id:"+ mWantPostUserId);
         init();
         return view;
-    }
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-        }
     }
 
     @Override
@@ -229,7 +221,7 @@ public class OfferInventoryFragment extends Fragment {
 
                     Toast.makeText(getActivity(),
                             R.string.toast_offer_created, Toast.LENGTH_SHORT).show();
-                    getActivity().getSupportFragmentManager().popBackStack();
+//                    getActivity().getSupportFragmentManager().popBackStack();
                 }
             }
         });
@@ -260,4 +252,5 @@ public class OfferInventoryFragment extends Fragment {
             }
         });
     }
+
 }

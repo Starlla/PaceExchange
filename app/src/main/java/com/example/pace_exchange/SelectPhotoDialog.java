@@ -33,7 +33,6 @@ public class SelectPhotoDialog extends DialogFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_selectphoto, container, false);
-
         selectPhoto = (TextView) view.findViewById(R.id.dialogChoosePhoto);
         takePhoto = (TextView) view.findViewById(R.id.dialogOpenCamera);
 
@@ -43,7 +42,6 @@ public class SelectPhotoDialog extends DialogFragment{
     }
 
     private void setTakePhotoOnclickListener() {
-
         takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +66,6 @@ public class SelectPhotoDialog extends DialogFragment{
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
 
         //Results when selecting a new image from memory
         if(requestCode == PICKFILE_REQUEST_CODE && resultCode == Activity.RESULT_OK){

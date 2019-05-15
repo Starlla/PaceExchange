@@ -20,20 +20,16 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     private EditText emailInput;
     private EditText passwordInput;
-
     private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-
         emailInput = findViewById(R.id.sign_in_email_field);
         passwordInput = findViewById(R.id.sign_in_password_field);
-
         findViewById(R.id.sign_in_button_in_activity_sign_in).setOnClickListener(this);
         findViewById(R.id.sign_up_button_in_activity_sign_in).setOnClickListener(this);
-
         auth = FirebaseAuth.getInstance();
     }
 
@@ -73,13 +69,12 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     private boolean isValid() {
         boolean isValid = true;
-
         String email = emailInput.getText().toString();
         if (email.isEmpty()) {
-            emailInput.setError("This field cannot be blank.", ContextCompat.getDrawable(this, R.drawable.ic_error_24dp));
+            emailInput.setError(getString(R.string.this_field_cannot_be_blank), ContextCompat.getDrawable(this, R.drawable.ic_error_24dp));
             isValid = false;
         } else if (!email.endsWith("@pace.edu")) {
-            emailInput.setError("Please sign in with your pace email.");
+            emailInput.setError(getString(R.string.please_sign_in_with_your_pace_email));
             isValid = false;
         } else {
             emailInput.setError(null);
@@ -87,12 +82,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         String password = passwordInput.getText().toString();
         if (password.isEmpty()) {
-            passwordInput.setError("This field cannot be blank.");
+            passwordInput.setError(getString(R.string.this_field_cannot_be_blank));
             isValid = false;
         } else {
             passwordInput.setError(null);
         }
-
         return isValid;
     }
 

@@ -1,13 +1,11 @@
 package com.example.pace_exchange;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-
+//Display all the offer current user has send; Current user could cancel the offer here
 public class OfferSendFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
@@ -166,7 +164,6 @@ public class OfferSendFragment extends Fragment {
         if(mSendOfferItemIds != null){
             mSendOfferItemIds.clear();
         }
-
         Query query = reference.child(getString(R.string.node_offer_send))
                 .orderByKey()
                 .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());

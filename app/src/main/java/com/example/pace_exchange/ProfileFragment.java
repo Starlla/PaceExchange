@@ -94,23 +94,8 @@ public class ProfileFragment extends Fragment {
 
     private void populateView(){
         Bundle args = getArguments();
-        if (args != null)
-            mUid = args.getString("uid");
-
-//        DatabaseReference current_user_db_rf = FirebaseDatabase.getInstance().getReference().child("Users").child(mUid);
-//        current_user_db_rf.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                mProfileNameView.setText((String)dataSnapshot.child("first_name").getValue());
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-
+        if (args != null) {mUid = args.getString("uid");}
         getUserInfo();
-
     }
 
     public void setMyItemsTabOnClickListener(){
@@ -160,8 +145,6 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-
-
     public void setMyProfileTabOnClickedListener(){
         mMyProfileTab.setOnClickListener(v -> {
             Bundle args = new Bundle();
@@ -173,7 +156,6 @@ public class ProfileFragment extends Fragment {
             fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_my_profile_2));
             fragmentTransaction.addToBackStack(getString(R.string.fragment_my_profile_2));
             fragmentTransaction.commit();
-
 
         });
 
@@ -203,8 +185,5 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
-
-
-
 
 }

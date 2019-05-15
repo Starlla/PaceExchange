@@ -104,7 +104,6 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
     private Bitmap mSelectedBitmap;
     private Uri mSelectedUri;
     private double mProgress = 0;
-
     public MyProfileFragment() {
     }
 
@@ -112,7 +111,6 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
         }
     }
 
@@ -138,7 +136,6 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
     public void getImagePath(Uri imagePath) {
         Log.d(TAG, "getImagePath: setting the image to imageview");
         UniversalImageLoader.setImage(imagePath.toString(), mMyProfilePhoto);
-
         mSelectedBitmap = null;
         mSelectedUri = imagePath;
     }
@@ -279,15 +276,12 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
     }
 
     public class BackgroundImageResize extends AsyncTask<Uri, Integer, byte[]> {
-
         Bitmap mBitmap;
-
         public BackgroundImageResize(Bitmap bitmap) {
             if(bitmap != null){
                 this.mBitmap = bitmap;
             }
         }
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -322,7 +316,6 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
             executeUploadTask();
         }
     }
-
     private void showProgressBar(){
 //        mProgressBar.setVisibility(View.VISIBLE);
 
@@ -349,7 +342,6 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                 Toast.makeText(getActivity(), "Post Success", Toast.LENGTH_SHORT).show();
-
                 Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                 while (!urlTask.isSuccessful()) ;
                 Uri firebaseUri = urlTask.getResult();
@@ -365,7 +357,6 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
 
 //                StorageReference photoRef = FirebaseStorage.getInstance().getReferenceFromUrl(user.getProfile_photo());
 
-//                resetFields();
             }
 
         }).addOnFailureListener(new OnFailureListener() {

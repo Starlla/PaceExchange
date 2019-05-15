@@ -15,12 +15,7 @@ import java.io.InputStream;
 public class RotateBitmap {
 
     private static final String TAG = "RotateBitmap";
-
     private Context mContext;
-
-    /*
-    ----------------------------- Image Rotation --------------------------------------------------
-     */
 
     private static Bitmap rotateImage(Bitmap img, int degree) {
         Matrix matrix = new Matrix();
@@ -30,14 +25,7 @@ public class RotateBitmap {
         return rotatedImg;
     }
 
-    /**
-     * This method is responsible for solving the rotation issue if exist. Also scale the images to
-     * 1024x1024 resolution
-     *
-     * @param selectedImage The Image URI
-     * @return Bitmap image results
-     * @throws IOException
-     */
+    //Rotate Image to 1024x1024 resolution
     public Bitmap HandleSamplingAndRotationBitmap(Context context, Uri selectedImage)
             throws IOException {
         mContext = context;
@@ -62,7 +50,6 @@ public class RotateBitmap {
         img = rotateImageIfRequired(img, selectedImage);
         return img;
     }
-
 
     private static int calculateInSampleSize(BitmapFactory.Options options,
                                              int reqWidth, int reqHeight) {
@@ -99,13 +86,7 @@ public class RotateBitmap {
         return inSampleSize;
     }
 
-    /**
-     * Rotate an image if required.
-     *
-     * @param img           The image bitmap
-     * @param selectedImage Image URI
-     * @return The resulted Bitmap after manipulation
-     */
+    //Rotate an image if required.
     private Bitmap rotateImageIfRequired(Bitmap img, Uri selectedImage) throws IOException {
 
         InputStream input = mContext.getContentResolver().openInputStream(selectedImage);

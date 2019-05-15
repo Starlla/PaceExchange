@@ -146,7 +146,6 @@ public class ShopFragment extends Fragment {
         fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_view_post));
         fragmentTransaction.addToBackStack(getString(R.string.fragment_view_post));
         fragmentTransaction.commit();
-
         mFrameLayout.setVisibility(View.VISIBLE);
     }
 }
