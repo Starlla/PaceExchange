@@ -6,19 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".SignInActivity"
     android:background="@color/PurpleBlue">
+    <ImageView
+        android:id="@+id/sign_in_logo"
+        android:layout_marginTop="40dp"
+        android:layout_width="280dp"
+        android:layout_height="230dp"
+        android:src="@drawable/ic_pace_exchange_logo"
+        android:layout_centerHorizontal="true"/>
 
 
         <EditText
-            android:layout_centerVertical="true"
+            android:layout_below="@id/sign_in_logo"
             android:id="@+id/sign_in_email_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:hint="Email"
+            android:hint="@string/email"
             android:textColorHint="@color/White"
             android:textColor="@color/White"
             android:layout_marginRight="80dp"
-            android:layout_marginLeft="80dp"
+              android:layout_marginLeft="80dp"
             android:background="@drawable/et_ui"
             android:paddingLeft="25dp"
             android:paddingTop="15dp"

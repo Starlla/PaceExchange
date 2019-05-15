@@ -339,11 +339,11 @@ public class ViewPostFragment extends Fragment {
                                 .child(receiverItemID)
                                 .removeValue();
                     }
-
                 }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }
@@ -414,11 +414,7 @@ public class ViewPostFragment extends Fragment {
                         .removeValue();
                 // Delete image in Database.
                 deleteImageFromDatabase();
-                // Delete from posts table.
-                databaseReference.child(getString(R.string.node_posts))
-                        .child(mPostId)
-                        .removeValue();
-
+                
                 return null;
             }
 

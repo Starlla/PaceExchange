@@ -43,6 +43,7 @@
     <string name="node_inventories">inventories</string>
     <string name="node_offer_received">offer_received</string>
     <string name="node_offer_send">offer_send</string>
+    <string name="node_offers">offers</string>
 
     <!-- Database field names -->
     <string name="field_title">title</string>
@@ -98,6 +99,5 @@
     <string name="toast_post_updated">Post is updated.</string>
     <string name="node_sender_id">sender_id</string>
     <string name="node_receiver_id">receiver_id</string>
-    <string name="this_field_cannot_be_blank">This field cannot be blank.</string>
     <string name="please_sign_in_with_your_pace_email">Please sign in with your pace email.</string>
 </resources>

@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.ByteArrayOutputStream;
 
 public class Util {
@@ -21,7 +24,11 @@ public class Util {
         return stream.toByteArray();
     }
 
-
-
+    public static void deleteOfferRecord(String offerId) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("offers")
+                .child(offerId)
+                .removeValue();
+    }
 
 }

@@ -1,21 +1,15 @@
 package com.example.pace_exchange;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -25,7 +19,7 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
     private int mSelectedPosition = RecyclerView.NO_POSITION;
     private OnReceivedOfferInteractionListener mReceivedListener;
     private OnSendOfferInteractionListener mSendListener;
-    private ArrayList<Offer> mOfferList;
+    private ArrayList<OfferPostItem> mOfferList;
     private String fragmentTag = OfferReceivedFragment.TAG;
 
     public interface OnReceivedOfferInteractionListener{
@@ -83,7 +77,7 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
         }
     }
 
-    public MyOfferAdapter(Context context,ArrayList<Offer> offerList){
+    public MyOfferAdapter(Context context,ArrayList<OfferPostItem> offerList){
         mContext= context;
         mOfferList = offerList;
     }
@@ -98,7 +92,7 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder viewHolder, int position) {
-        Offer currentOffer = mOfferList.get(position);
+        OfferPostItem currentOffer = mOfferList.get(position);
         if(fragmentTag.equals(OfferSendFragment.TAG)){
             viewHolder.mAcceptButton.setVisibility(View.GONE);
             viewHolder.mRejectButton.setVisibility(View.GONE);
@@ -124,7 +118,7 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
         Glide.with(mContext).load(currentOffer.getSenderPost().getImage()).into(viewHolder.mSenderImage);
     }
 
-    public Offer getItem(int position) {
+    public OfferPostItem getItem(int position) {
         return mOfferList.get(position);
     }
 

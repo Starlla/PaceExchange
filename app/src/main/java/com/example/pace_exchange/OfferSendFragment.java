@@ -29,11 +29,14 @@ public class OfferSendFragment extends Fragment {
     String mUid;
     MyOfferAdapter mMyOfferAdapter;
     RecyclerView mRecyclerView;
-    private ArrayList<Offer> mOfferList;
+    private ArrayList<OfferPostItem> mOfferList;
     private ArrayList<Post> mSendOfferItems;
     private ArrayList<String> mReceivedOfferItemIds;
     private ArrayList<String> mSendOfferItemIds;
     private DatabaseReference reference;
+    private ArrayList<String> mOffersIds;
+    private ArrayList<Offer> mOffers;
+
     protected static final String TAG = "OfferSendFragment";
 
     public OfferSendFragment() {
@@ -56,6 +59,9 @@ public class OfferSendFragment extends Fragment {
         mSendOfferItems =new ArrayList<>();
         mReceivedOfferItemIds = new ArrayList<>();
         mSendOfferItemIds = new ArrayList<>();
+        mOfferList = new ArrayList<>();
+        mOffersIds = new ArrayList<>();
+        mOffers = new ArrayList<>();
         return view;
     }
 
@@ -80,6 +86,7 @@ public class OfferSendFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mDatabaseReference.removeEventListener(mValueEventListener);
     }
 
     public interface OnFragmentInteractionListener {
@@ -104,24 +111,24 @@ public class OfferSendFragment extends Fragment {
         mMyOfferAdapter.setSendOfferInteraction(new MyOfferAdapter.OnSendOfferInteractionListener() {
             @Override
             public void onCancelButtonClick(int position) {
-                Log.d(TAG,"Cancel Button Clicked");
-                String mReceiverPostID =mOfferList.get(position).getReceiverPost().getPost_id();
-                String mSenderPostId = mOfferList.get(position).getSenderPost().getPost_id();
-                String mReceiverUserId = mOfferList.get(position).getReceiverPost().getUser_id();
-                System.out.println(mSenderPostId);
-                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                databaseReference.child(getString(R.string.node_offer_received))
-                        .child(mReceiverUserId)
-                        .child(mReceiverPostID)
-                        .child(mSenderPostId)
-                        .removeValue();
-                databaseReference.child(getString(R.string.node_offer_send))
-                        .child(uid)
-                        .child(mSenderPostId)
-                        .child(mReceiverPostID)
-                        .removeValue();
-                mMyOfferAdapter.notifyDataSetChanged();
+//                Log.d(TAG,"Cancel Button Clicked");
+//                String mReceiverPostID =mOfferList.get(position).getReceiverPost().getPost_id();
+//                String mSenderPostId = mOfferList.get(position).getSenderPost().getPost_id();
+//                String mReceiverUserId = mOfferList.get(position).getReceiverPost().getUser_id();
+//                System.out.println(mSenderPostId);
+//                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+//                databaseReference.child(getString(R.string.node_offer_received))
+//                        .child(mReceiverUserId)
+//                        .child(mReceiverPostID)
+//                        .child(mSenderPostId)
+//                        .removeValue();
+//                databaseReference.child(getString(R.string.node_offer_send))
+//                        .child(uid)
+//                        .child(mSenderPostId)
+//                        .child(mReceiverPostID)
+//                        .removeValue();
+//                mMyOfferAdapter.notifyDataSetChanged();
             }
         });
         mRecyclerView.setAdapter(mMyOfferAdapter);
@@ -131,123 +138,115 @@ public class OfferSendFragment extends Fragment {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             Log.d(TAG, "onDataChange: a change was made to this users offer received node.");
-            readData(new OfferSendFragment.MyCallback() {
-                @Override
-                public void onCallback(ArrayList<String> postIDList) {
-                    Log.d(TAG,"1st CALLBACK"+postIDList.size());
-                    mSendOfferItemIds = postIDList;
-                    readPostData(new OfferSendFragment.MyPostCallback() {
-                        @Override
-                        public void onPostCallback(ArrayList<Post> postList) {
-                            Log.d(TAG,"2rd CALLBACK"+postList.size());
-                            for(int i =0; i< postList.size();i++) {
-                                getSingleItemOfferSendList(postList.get(i));
-                            }
-                        }
-                    });
-                }
-            });
+            getOfferIds();
         }
         @Override
         public void onCancelled(DatabaseError databaseError) {
         }
     };
 
-    private void readData(OfferSendFragment.MyCallback myCallback) {
 
-        if(mOfferList != null){
-            mOfferList.clear();
+    private void getOfferIds(){
+        if(mOffersIds != null){
+            mOffersIds.clear();
         }
-        if(mSendOfferItems != null){
-            mSendOfferItems.clear();
+        if(mOffers != null){
+            mOffers.clear();
         }
-        if(mSendOfferItemIds != null){
-            mSendOfferItemIds.clear();
-        }
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference.child(getString(R.string.node_offer_send))
                 .orderByKey()
                 .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildren().iterator().hasNext()){
                     DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
                     for(DataSnapshot snapshot: singleSnapshot.getChildren()){
-                        String sendOfferItemID = snapshot.getKey();
-                        System.out.println(sendOfferItemID);
-                        mSendOfferItemIds.add(sendOfferItemID);
+                        String id = snapshot.getValue().toString();
+                        Log.d(TAG, "onDataChange: found a offer id: " + id);
+                        mOffersIds.add(id);
                     }
-                    myCallback.onCallback(mSendOfferItemIds);
+                    getOffers();
                 }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
     }
 
-    private void readPostData(OfferSendFragment.MyPostCallback myPostCallback){
-        if (mSendOfferItemIds.size() > 0) {
+    private void getOffers(){
+        if(mOffersIds.size() > 0){
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-            for (int i = 0; i < mSendOfferItemIds.size(); i++) {
-                Log.d(TAG, "getPosts: getting post information for: " + mSendOfferItemIds.get(i));
-                Query query = reference.child(getString(R.string.node_posts))
+            for(int i  = 0; i < mOffersIds.size(); i++){
+                Log.d(TAG, "getOffers: getting offer information for: " + mOffersIds.get(i));
+
+                Query query = reference.child(getString(R.string.node_offers))
                         .orderByKey()
-                        .equalTo(mSendOfferItemIds.get(i));
+                        .equalTo(mOffersIds.get(i));
 
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.hasChildren()) {
                             DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
-                            Post post = singleSnapshot.getValue(Post.class);
-                            Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
-                            mSendOfferItems.add(post);
-                            if(mSendOfferItemIds.size() == mSendOfferItems.size()){
-                                myPostCallback.onPostCallback(mSendOfferItems);
-                            }
+                            Offer offer = singleSnapshot.getValue(Offer.class);
+                            Log.d(TAG, "onDataChange: found a offer: " + offer.getOffer_id());
+                            mOffers.add(offer);
+                            getTwoPostsFromOffer(offer.getReceiver_post_id(),offer.getSender_post_id(),offer.getOffer_id());
+//                            mMyOfferAdapter.notifyDataSetChanged();
+                        } else {
+                            // Offer is deleted . Delete the record in table offer_received in DB.
+                            deleteOfferSendRecord(mOffersIds.get(mOffers.size()));
                         }
-
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
+
                     }
                 });
             }
+        }else{
+//            mMyOfferAdapter.notifyDataSetChanged(); //still need to notify the adapter if the list is empty
         }
     }
 
-    public interface MyCallback {
-        void onCallback(ArrayList<String> postIDList);
-    }
-
-    public interface MyPostCallback {
-        void onPostCallback(ArrayList<Post> postList);
-    }
-
-    private void getSingleItemOfferSendList(Post current){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        Query query = reference.child(getString(R.string.node_offer_send))
+    private void deleteOfferSendRecord(String offerId) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(getString(R.string.node_offer_send))
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child(offerId)
+                .removeValue();
+    }
+
+    private void  getTwoPostsFromOffer(String receiverPostId,String senderPostId, String offerId){
+        Post[] twoPostArray = new Post[2];
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Log.d(TAG, "getPosts: getting post information for: receiver post: "
+                + receiverPostId +" sender post " + senderPostId);
+
+        Query query = reference.child(getString(R.string.node_posts))
                 .orderByKey()
-                .equalTo(current.getPost_id());
+                .equalTo(receiverPostId);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getChildren().iterator().hasNext()){
+                if (dataSnapshot.hasChildren()) {
                     DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
-                    for(DataSnapshot snapshot: singleSnapshot.getChildren()) {
-                        String id = snapshot.getKey().toString();
-                        mReceivedOfferItemIds.add(id);
-                    }
-                    getReceivedOfferItemList(current);
-                    mReceivedOfferItemIds.clear();
+                    Post post = singleSnapshot.getValue(Post.class);
+                    Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
+                    twoPostArray[0] = post;
+                    getNextPost(twoPostArray,senderPostId, offerId);
+                } else {
+                    // Post is deleted by its author. Delete the record in table offers in DB.
+                    Util.deleteOfferRecord(offerId);
+                    mMyOfferAdapter.notifyDataSetChanged();
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -255,35 +254,40 @@ public class OfferSendFragment extends Fragment {
         });
     }
 
-    private void getReceivedOfferItemList(Post current) {
-        if (mReceivedOfferItemIds.size() > 0) {
+    private void getNextPost(Post[] twoPostArray,String postId, String offerID) {
+        if (twoPostArray[0] != null) {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+            Log.d(TAG, "getPosts: getting post information fo second post " + postId);
 
-            for (int i = 0; i < mReceivedOfferItemIds.size(); i++) {
-                Log.d(TAG, "getPosts: getting post information for: " + mReceivedOfferItemIds.get(i));
-                Query query = reference.child(getString(R.string.node_posts))
-                        .orderByKey()
-                        .equalTo(mReceivedOfferItemIds.get(i));
+            Query query = reference.child(getString(R.string.node_posts))
+                    .orderByKey()
+                    .equalTo(postId);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.hasChildren()) {
+                        DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                        Post post = singleSnapshot.getValue(Post.class);
+                        Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
+                        twoPostArray[1] = post;
+                        OfferPostItem mTwoPost = new OfferPostItem(twoPostArray[0], twoPostArray[1]);
+                        mOfferList.add(mTwoPost);
+                        mMyOfferAdapter.notifyDataSetChanged();
 
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.hasChildren()) {
-                            DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
-                            Post post = singleSnapshot.getValue(Post.class);
-                            Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
-                            Offer offer = new Offer(post,current );
-                            mOfferList.add(offer);
-                            mMyOfferAdapter.notifyDataSetChanged();
-                        }
+                    } else {
+                        // Post is deleted by its author. Delete the record in table offers in DB.
+                        Util.deleteOfferRecord(offerID);
+                        mMyOfferAdapter.notifyDataSetChanged();
                     }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                }
 
-                    }
-                });
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
         }
-    }
 
+    }
 }
