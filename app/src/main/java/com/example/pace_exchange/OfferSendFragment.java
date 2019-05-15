@@ -127,6 +127,8 @@ public class OfferSendFragment extends Fragment {
                         .child(mReceiverUserId)
                         .child(offerId)
                         .removeValue();
+                databaseReference.child(getString(R.string.node_offers))
+                        .child(offerId).removeValue();
                 mMyOfferAdapter.notifyDataSetChanged();
             }
 
@@ -167,6 +169,9 @@ public class OfferSendFragment extends Fragment {
         }
         if(mOffers != null){
             mOffers.clear();
+        }
+        if(mOfferList != null){
+            mOfferList.clear();
         }
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference.child(getString(R.string.node_offer_send))
@@ -288,7 +293,6 @@ public class OfferSendFragment extends Fragment {
                         OfferPostItem mTwoPost = new OfferPostItem(offerID,twoPostArray[0], twoPostArray[1]);
                         mOfferList.add(mTwoPost);
                         mMyOfferAdapter.notifyDataSetChanged();
-
                     } else {
                         // Post is deleted by its author. Delete the record in table offers in DB.
                         Util.deleteOfferRecord(offerID);

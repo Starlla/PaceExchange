@@ -12,6 +12,7 @@
     <string name="fist_name">First Name:</string>
     <string name="last_name">Last Name:</string>
     <string name="two_string_with_space">%1$s %2$s</string>
+    <string name="two_string_with_star">%1$s*%2$s</string>
 
 
     <string name="do_not_have_an_account_sign_up">Do not have an account?</string>

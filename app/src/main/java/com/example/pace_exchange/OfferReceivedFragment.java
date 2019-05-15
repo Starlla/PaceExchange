@@ -129,6 +129,8 @@ public class OfferReceivedFragment extends Fragment {
                         .child(mSenderUserId)
                         .child(offerId)
                         .removeValue();
+                databaseReference.child(getString(R.string.node_offers))
+                        .child(offerId).removeValue();
                 mMyOfferAdapter.notifyDataSetChanged();
             }
 
@@ -173,6 +175,9 @@ public class OfferReceivedFragment extends Fragment {
 
         if(mOffers != null){
             mOffers.clear();
+        }
+        if(mOfferList != null){
+            mOfferList.clear();
         }
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference.child(getString(R.string.node_offer_received))

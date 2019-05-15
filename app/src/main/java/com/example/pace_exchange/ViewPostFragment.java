@@ -294,68 +294,9 @@ public class ViewPostFragment extends Fragment {
         });
     }
 
-    private void deleteMyItemAsOfferReceivedData() {
-        Query query = databaseReference.child(getString(R.string.node_offer_received))
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .orderByKey()
-                .equalTo(mPostId);
+    private void deleteOfferData() {
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getChildren().iterator().hasNext()){
-                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
-                    for(DataSnapshot snapshot: singleSnapshot.getChildren()){
-                        String senderItemID = snapshot.getKey();
-                        String senderUserID = (String)snapshot.child(getString(R.string.node_sender_id)).getValue();
-                        databaseReference.child(getString(R.string.node_offer_send))
-                                .child(senderUserID)
-                                .child(senderItemID)
-                                .child(mPostId).removeValue();
-                        databaseReference.child(getString(R.string.node_offer_received))
-                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                .child(mPostId)
-                                .child(senderItemID).removeValue();
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-    }
 
-    private void deleteMyItemAsOfferSenderData() {
-        Query query = databaseReference.child(getString(R.string.node_offer_send))
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .orderByKey()
-                .equalTo(mPostId);
-
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getChildren().iterator().hasNext()){
-                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
-                    for(DataSnapshot snapshot: singleSnapshot.getChildren()){
-                        String receiverItemID = snapshot.getKey();
-                        String receiverUserID = (String)snapshot.child(getString(R.string.node_receiver_id)).getValue();
-                        databaseReference.child(getString(R.string.node_offer_received))
-                                .child(receiverUserID)
-                                .child(receiverItemID)
-                                .child(mPostId).removeValue();
-                        databaseReference.child(getString(R.string.node_offer_send))
-                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                .child(mPostId)
-                                .child(receiverItemID)
-                                .removeValue();
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     private void addItemToMyLikes() {
@@ -411,12 +352,8 @@ public class ViewPostFragment extends Fragment {
         @SuppressLint("StaticFieldLeak") AsyncTask<Void,Void,Void> mAsyncTask = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                //Delete from offer_received and offer_send table when my item as offer receiver.
-                //Delete all the receiver data associated with my item as offer receiver.
-                deleteMyItemAsOfferReceivedData();
-                // Delete data for my item as sender.
-                //Delete all the receiver data associated with my item as offer sender.
-                deleteMyItemAsOfferSenderData();
+                deleteOfferData();
+
                 // Delete from inventories table.
                 databaseReference.child(getString(R.string.node_inventories))
                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())

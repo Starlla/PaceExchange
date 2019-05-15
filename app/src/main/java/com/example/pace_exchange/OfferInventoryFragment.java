@@ -198,10 +198,12 @@ public class OfferInventoryFragment extends Fragment {
                 if (selectedPostId == "") {
                     Toast.makeText(getActivity(),
                             R.string.toast_please_select_an_item, Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else {
                     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-                    String offer_id = reference.child(getString(R.string.node_offers)).push().getKey();
+                    //generate offer if by rule: receiverPostID*senderPostID;
+                    String offer_id = getString(R.string.two_string_with_star,mPostIdWant,selectedPostId);
                     Map newOfferValue = new HashMap();
                     newOfferValue.put("offer_id",offer_id);
                     newOfferValue.put("receiver_post_id", mPostIdWant);
@@ -214,7 +216,7 @@ public class OfferInventoryFragment extends Fragment {
                             .setValue(newOfferValue);
                     reference.child("offer_send")
                             .child(uid)
-                            .child(offer_id).setValue(offer_id);
+                            .child(selectedPostId).setValue(offer_id);
                     reference.child("offer_received")
                             .child(mWantPostUserId)
                             .child(mPostIdWant).setValue(offer_id);
@@ -252,5 +254,11 @@ public class OfferInventoryFragment extends Fragment {
             }
         });
     }
+
+//    public boolean offerAlreadyExist(){
+//        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+//
+//    }
 
 }
