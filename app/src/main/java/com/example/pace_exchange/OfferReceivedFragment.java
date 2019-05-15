@@ -189,7 +189,7 @@ public class OfferReceivedFragment extends Fragment {
                 if(dataSnapshot.getChildren().iterator().hasNext()){
                     DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
                     for(DataSnapshot snapshot: singleSnapshot.getChildren()){
-                        String id = snapshot.getValue().toString();
+                        String id = snapshot.getKey().toString();
                         Log.d(TAG, "onDataChange: found a offer id: " + id);
                         mOffersIds.add(id);
                     }

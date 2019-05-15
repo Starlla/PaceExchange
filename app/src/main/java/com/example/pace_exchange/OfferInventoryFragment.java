@@ -216,10 +216,10 @@ public class OfferInventoryFragment extends Fragment {
                             .setValue(newOfferValue);
                     reference.child("offer_send")
                             .child(uid)
-                            .child(selectedPostId).setValue(offer_id);
+                            .child(offer_id).setValue(true);
                     reference.child("offer_received")
                             .child(mWantPostUserId)
-                            .child(mPostIdWant).setValue(offer_id);
+                            .child(offer_id).setValue(true);
 
                     Toast.makeText(getActivity(),
                             R.string.toast_offer_created, Toast.LENGTH_SHORT).show();
