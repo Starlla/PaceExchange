@@ -111,6 +111,7 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
             viewHolder.mAcceptButton.setVisibility(View.GONE);
             viewHolder.mRejectButton.setVisibility(View.GONE);
             viewHolder.mCancelButton.setVisibility(View.VISIBLE);
+
             viewHolder.mCancelButton.setOnClickListener(v ->
                     mSendListener.onCancelButtonClick(position));
 
@@ -119,8 +120,8 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
                             currentOffer.getReceiverPost().getUser_id()));
 
             viewHolder.mSenderImage.setOnClickListener(v ->
-                    mSendListener.onImageClick(currentOffer.getReceiverPost().getPost_id(),
-                            currentOffer.getReceiverPost().getUser_id()));
+                    mSendListener.onImageClick(currentOffer.getSenderPost().getPost_id(),
+                            currentOffer.getSenderPost().getUser_id()));
         } else if (fragmentTag.equals(OfferReceivedFragment.TAG)) {
             viewHolder.mAcceptButton.setOnClickListener(v -> {
                 mReceivedListener.onAcceptButtonClick(position);
@@ -135,13 +136,14 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
                             currentOffer.getReceiverPost().getUser_id()));
 
             viewHolder.mSenderImage.setOnClickListener(v ->
-                    mReceivedListener.onImageClick(currentOffer.getReceiverPost().getPost_id(),
-                            currentOffer.getReceiverPost().getUser_id()));
+                    mReceivedListener.onImageClick(currentOffer.getSenderPost().getPost_id(),
+                            currentOffer.getSenderPost().getUser_id()));
         } else {
             viewHolder.mAcceptButton.setVisibility(View.GONE);
             viewHolder.mRejectButton.setVisibility(View.GONE);
             viewHolder.mCancelButton.setVisibility(View.GONE);
             viewHolder.mRemoveButton.setVisibility(View.VISIBLE);
+
             viewHolder.mRemoveButton.setOnClickListener(v -> {
                 mConfirmedListener.onRemoveButtonClick(position);
             });
@@ -151,8 +153,8 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
                             currentOffer.getReceiverPost().getUser_id()));
 
             viewHolder.mSenderImage.setOnClickListener(v ->
-                    mConfirmedListener.onImageClick(currentOffer.getReceiverPost().getPost_id(),
-                            currentOffer.getReceiverPost().getUser_id()));
+                    mConfirmedListener.onImageClick(currentOffer.getSenderPost().getPost_id(),
+                            currentOffer.getSenderPost().getUser_id()));
         }
         Glide.with(mContext).load(currentOffer.getReceiverPost().getImage()).into(viewHolder.mReceiverImage);
         Glide.with(mContext).load(currentOffer.getSenderPost().getImage()).into(viewHolder.mSenderImage);

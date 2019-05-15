@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,7 @@ public class ViewPostFragment extends Fragment {
     TextView mPostStartOffer;
     TextView mPostUpdate;
     TextView mPostRemove;
+    RelativeLayout mButtonContainer;
     HashMap<String,String> mSenderItemUserIdMap;
     DatabaseReference databaseReference;
     DatabaseReference currentUserDBReference;
@@ -90,6 +92,7 @@ public class ViewPostFragment extends Fragment {
         mPostStartOffer = view.findViewById(R.id.post_start_offer);
         mPostUpdate = view.findViewById(R.id.post_update);
         mPostRemove = view.findViewById(R.id.post_remove);
+        mButtonContainer = view.findViewById(R.id.view_post_fragment_button_container);
         setToolbar();
         init();
         return view;
@@ -113,13 +116,13 @@ public class ViewPostFragment extends Fragment {
         mSenderItemUserIdMap = new HashMap<>();
         String specialCode = (String) getArguments().get(getString(R.string.arg_special_code));
         if (specialCode != null && specialCode == NO_ACTION) {
-            mPostStartOffer.setVisibility(View.GONE);
-            mPostUpdate.setVisibility(View.INVISIBLE);
-            mPostRemove.setVisibility(View.INVISIBLE);
-//            if (!mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) {
-//                getLikeInfo();
-//                addLikeAndOfferClickListener();
-//            }
+            mButtonContainer.setVisibility(View.GONE);
+            if (!mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                getLikeInfo();
+                addLikeAndOfferClickListener();
+            } else {
+                mLike.setVisibility(View.GONE);
+            }
         } else if (mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             mLike.setVisibility(View.GONE);
             mPostStartOffer.setVisibility(View.GONE);

@@ -42,7 +42,7 @@ public class OfferReceivedFragment extends Fragment {
     private ArrayList<OfferPostItem> mOfferList;
     private ArrayList<String> mOffersIds;
     private ArrayList<Offer> mOffers;
-    private DatabaseReference reference;
+    private DatabaseReference mDatabaseReference;
     protected static final String TAG = "OfferReceivedFragment";
 
     public OfferReceivedFragment() {
@@ -95,7 +95,7 @@ public class OfferReceivedFragment extends Fragment {
 
     private void init () {
         setUpRecyclerView();
-        reference = FirebaseDatabase.getInstance().getReference();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         //reference for listening when items are added or removed from the offer list
         mDatabaseReferenceReceiverSide = FirebaseDatabase.getInstance().getReference()
                 .child(getString(R.string.node_offer_received))
@@ -112,24 +112,59 @@ public class OfferReceivedFragment extends Fragment {
         mMyOfferAdapter.setReceivedOfferInteraction(new MyOfferAdapter.OnReceivedOfferInteractionListener() {
             @Override
             public void onAcceptButtonClick(int position) {
+                String senderId = mOfferList.get(position).getSenderPost().getUser_id();
+                String receiverId = mOfferList.get(position).getReceiverPost().getUser_id();
+                String senderPostId = mOfferList.get(position).getSenderPost().getPost_id();
+                String receiverPostId = mOfferList.get(position).getReceiverPost().getPost_id();
+                String offerId = mOfferList.get(position).getOfferID();
 
+                // Change status of both posts.
+                mDatabaseReference.child(getString(R.string.node_posts))
+                        .child(senderPostId)
+                        .child(getString(R.string.field_status))
+                        .setValue(Post.STATUS_VALUE_TRADED);
+                mDatabaseReference.child(getString(R.string.node_posts))
+                        .child(receiverPostId)
+                        .child(getString(R.string.field_status))
+                        .setValue(Post.STATUS_VALUE_TRADED);
+
+                // Delete posts in both inventories
+                mDatabaseReference.child(getString(R.string.node_inventories))
+                        .child(senderId)
+                        .child(senderPostId)
+                        .removeValue();
+                mDatabaseReference.child(getString(R.string.node_inventories))
+                        .child(receiverId)
+                        .child(receiverPostId)
+                        .removeValue();
+
+                // Delete in three offers tables.
+
+                // Add to offer_confirmed table.
+                mDatabaseReference.child(getString(R.string.node_offer_confirmed))
+                        .child(senderId)
+                        .child(offerId)
+                        .removeValue();
+                mDatabaseReference.child(getString(R.string.node_inventories))
+                        .child(receiverId)
+                        .child(offerId)
+                        .removeValue();
             }
 
             @Override
             public void onRejectButtonClick(int position) {
                 String mSenderUserId = mOfferList.get(position).getSenderPost().getUser_id();
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                 String offerId = mOfferList.get(position).getOfferID();
-                databaseReference.child(getString(R.string.node_offer_received))
+                mDatabaseReference.child(getString(R.string.node_offer_received))
                         .child(uid)
                         .child(offerId)
                         .removeValue();
-                databaseReference.child(getString(R.string.node_offer_send))
+                mDatabaseReference.child(getString(R.string.node_offer_send))
                         .child(mSenderUserId)
                         .child(offerId)
                         .removeValue();
-                databaseReference.child(getString(R.string.node_offers))
+                mDatabaseReference.child(getString(R.string.node_offers))
                         .child(offerId).removeValue();
                 mMyOfferAdapter.notifyDataSetChanged();
             }
@@ -179,8 +214,7 @@ public class OfferReceivedFragment extends Fragment {
         if(mOfferList != null){
             mOfferList.clear();
         }
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        Query query = reference.child(getString(R.string.node_offer_received))
+        Query query = mDatabaseReference.child(getString(R.string.node_offer_received))
                 .orderByKey()
                 .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -206,11 +240,10 @@ public class OfferReceivedFragment extends Fragment {
 
     private void getOffers(){
         if(mOffersIds.size() > 0){
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
             for(int i  = 0; i < mOffersIds.size(); i++){
                 Log.d(TAG, "getOffers: getting offer information for: " + mOffersIds.get(i));
 
-                Query query = reference.child(getString(R.string.node_offers))
+                Query query = mDatabaseReference.child(getString(R.string.node_offers))
                         .orderByKey()
                         .equalTo(mOffersIds.get(i));
 
@@ -242,8 +275,7 @@ public class OfferReceivedFragment extends Fragment {
 
     }
     private void deleteOfferReceivedRecord(String offerId) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child(getString(R.string.node_offer_received))
+        mDatabaseReference.child(getString(R.string.node_offer_received))
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child(offerId)
                 .removeValue();
@@ -251,11 +283,10 @@ public class OfferReceivedFragment extends Fragment {
 
     private void  getTwoPostsFromOffer(String receiverPostId,String senderPostId, String offerId){
             Post[] twoPostArray = new Post[2];
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
                 Log.d(TAG, "getPosts: getting post information for: receiver post: "
                         + receiverPostId +" sender post " + senderPostId);
 
-                Query query = reference.child(getString(R.string.node_posts))
+                Query query = mDatabaseReference.child(getString(R.string.node_posts))
                         .orderByKey()
                         .equalTo(receiverPostId);
 
@@ -284,10 +315,9 @@ public class OfferReceivedFragment extends Fragment {
 
     private void getNextPost(Post[] twoPostArray,String postId, String offerID){
         if(twoPostArray[0] != null){
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
             Log.d(TAG, "getPosts: getting post information fo second post " + postId);
 
-            Query query = reference.child(getString(R.string.node_posts))
+            Query query = mDatabaseReference.child(getString(R.string.node_posts))
                     .orderByKey()
                     .equalTo(postId);
             query.addListenerForSingleValueEvent(new ValueEventListener() {

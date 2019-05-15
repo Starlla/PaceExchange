@@ -51,6 +51,7 @@
     <string name="field_post_id">post_id</string>
     <string name="field_description">description</string>
     <string name="field_image">image</string>
+    <string name="field_status">status</string>
 
     <!-- Intent extras and Bundle arguments -->
     <string name="arg_user_id">arg_user_id</string>

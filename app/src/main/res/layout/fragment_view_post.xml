@@ -135,7 +135,8 @@
                     android:layout_height="wrap_content"
                     android:background="@color/White"
                     android:layout_marginTop="10dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:id="@+id/view_post_fragment_button_container">
 
                     <TextView
                         android:id="@+id/post_start_offer"
