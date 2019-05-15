@@ -41,6 +41,7 @@ public class ShopFragment extends Fragment {
     DatabaseReference mDatabaseReference;
     MyAdapter mMyAdapter;
     List<Post> mItems;
+    String mUid;
 
     ShopFragmentButtonClickHandler mClickHandler;
 
@@ -66,6 +67,7 @@ public class ShopFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.recycler_view);
         mFrameLayout = view.findViewById(R.id.container);
         mItems = new ArrayList<>();
+        mUid = getArguments().getString(getString(R.string.arg_user_id));
         return view;
     }
 
@@ -115,14 +117,12 @@ public class ShopFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChildren()) {
                     mItems.clear();
-                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                    if (currentUser != null) {
-                        String myId = currentUser.getUid();
-                        for (DataSnapshot dss : dataSnapshot.getChildren()) {
-                            final Post post = dss.getValue(Post.class);
-                            if (!post.getUser_id().equals(myId)) {
-                                mItems.add(post);
-                            }
+                    for (DataSnapshot dss : dataSnapshot.getChildren()) {
+                        // Only display posts of others with a default status
+                        final Post post = dss.getValue(Post.class);
+                        if (!post.getUser_id().equals(mUid) &&
+                                post.getStatus() == Post.STATUS_VALUE_DEFAULT) {
+                            mItems.add(post);
                         }
                     }
                     mMyAdapter.notifyDataSetChanged();

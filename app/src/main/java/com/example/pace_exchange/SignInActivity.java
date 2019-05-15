@@ -40,7 +40,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-            intent.putExtra("user", currentUser);
+            intent.putExtra(getString(R.string.extra_user), currentUser);
             startActivity(intent);
         }
     }
@@ -57,7 +57,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     // successfully sign in, update
                     FirebaseUser user = auth.getCurrentUser();
                     Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                    intent.putExtra("user", user);
+                    intent.putExtra(getString(R.string.extra_user), user);
                     startActivity(intent);
                 } else {
                     // fail to sign in, display a message to the user
@@ -73,7 +73,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         if (email.isEmpty()) {
             emailInput.setError(getString(R.string.this_field_cannot_be_blank), ContextCompat.getDrawable(this, R.drawable.ic_error_24dp));
             isValid = false;
-        } else if (!email.endsWith("@pace.edu")) {
+        } else if (!email.endsWith(getString(R.string.email_suffix))) {
             emailInput.setError(getString(R.string.please_sign_in_with_your_pace_email));
             isValid = false;
         } else {
