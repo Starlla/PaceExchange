@@ -7,13 +7,18 @@ public class Post {
     private String image;
     private String title;
     private String description;
+    private int status;
 
-    public Post(String post_id, String user_id, String image, String title, String description) {
+    public static final int STATUS_VALUE_DEFAULT = 0;
+    public static final int STATUS_VALUE_TRADED = 1;
+
+    public Post(String post_id, String user_id, String image, String title, String description, int status) {
         this.post_id = post_id;
         this.user_id = user_id;
         this.image = image;
         this.title = title;
         this.description = description;
+        this.status = status;
     }
 
     public Post() {
@@ -60,6 +65,13 @@ public class Post {
         this.description = description;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     @Override
     public String toString() {
@@ -69,8 +81,8 @@ public class Post {
                 ", image='" + image + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
-
 }
 

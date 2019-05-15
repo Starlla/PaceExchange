@@ -11,29 +11,30 @@
         android:layout_height="wrap_content"
         app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/layout_offer_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        >
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/offer_toolbar"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/layout_offer_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            >
-            <TextView
-                android:id="@+id/Offer_toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/offer"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:layout_gravity="center" />
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-        </android.support.v7.widget.Toolbar>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/offer_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
 
-    </android.support.design.widget.AppBarLayout>
+                <TextView
+                    android:id="@+id/Offer_toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/offer"
+                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                    android:layout_gravity="center" />
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
     </android.support.design.widget.CollapsingToolbarLayout>
     <!--<RelativeLayout-->
         <!--android:padding="10dp"-->
@@ -67,21 +68,10 @@
         android:background="@color/Grey">
     </android.support.design.widget.TabLayout>
 
-
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/viewpager_container"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-
-
-   <!--<FrameLayout-->
-       <!--android:layout_width="match_parent"-->
-       <!--android:layout_height="match_parent"-->
-       <!--android:id="@+id/offer_container"/>-->
-
-
-
 
 </LinearLayout>

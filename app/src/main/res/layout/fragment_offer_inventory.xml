@@ -3,35 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.pace_exchange.OfferInventoryFragment"
-    android:orientation="vertical">
+    tools:context="com.example.pace_exchange.OfferInventoryFragment">
+
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
-        android:id="@+id/offer_inventory_toolbar_layout"
-        >
+        android:id="@+id/offer_inventory_toolbar_layout">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/offer_inventory_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/AppTheme.PopupOverlay">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="@string/choose_my_item_to_barter"
-                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                    />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/choose_my_item_to_barter"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />
 
-            </RelativeLayout>
         </android.support.v7.widget.Toolbar>
+
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView

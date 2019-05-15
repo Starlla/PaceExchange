@@ -14,7 +14,6 @@
     <string name="two_string_with_space">%1$s %2$s</string>
     <string name="two_string_with_star">%1$s*%2$s</string>
 
-
     <string name="do_not_have_an_account_sign_up">Do not have an account?</string>
     <string name="unable_to_sign_in">Failed to sign in. Please check the inputs.</string>
     <string name="already_have_an_account_sign_in">Already have an account?</string>
@@ -56,6 +55,7 @@
     <string name="arg_user_id">arg_user_id</string>
     <string name="arg_post_id">arg_post_id</string>
     <string name="arg_special_code">arg_special_code</string>
+    <string name="extra_user">extra_user</string>
     <string name="extra_post_id">extra_post_id</string>
 
     <!-- Fragment names -->
@@ -102,4 +102,5 @@
     <string name="node_sender_id">sender_id</string>
     <string name="node_receiver_id">receiver_id</string>
     <string name="please_sign_in_with_your_pace_email">Please sign in with your pace email.</string>
+    <string name="email_suffix">\@pace.edu</string>
 </resources>

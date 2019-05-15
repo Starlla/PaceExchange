@@ -94,7 +94,9 @@ public class ProfileFragment extends Fragment {
 
     private void populateView(){
         Bundle args = getArguments();
-        if (args != null) {mUid = args.getString("uid");}
+        if (args != null) {
+            mUid = args.getString(getString(R.string.arg_user_id));
+        }
         getUserInfo();
     }
 

@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
 
         Intent intent = getIntent();
         Bundle bd = intent.getExtras();
-        final FirebaseUser user = (FirebaseUser) bd.get("user");
+        final FirebaseUser user = (FirebaseUser) bd.get(getString(R.string.extra_user));
 
         if (user != null) {
             String email = user.getEmail();
@@ -61,13 +61,14 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
         verifyPermissions();
     }
 
-    private  void configureFragment(){
-        profileFragment = new ProfileFragment();
+    private void configureFragment(){
         Bundle args = new Bundle();
-        args.putString("uid",uid);
+        args.putString(getString(R.string.arg_user_id), uid);
 
+        profileFragment = new ProfileFragment();
         profileFragment.setArguments(args);
         shopFragment = new ShopFragment();
+        shopFragment.setArguments(args);
         postFragment = new PostFragment();
         currentFragment = shopFragment;
         currentTabView = shopIconView;

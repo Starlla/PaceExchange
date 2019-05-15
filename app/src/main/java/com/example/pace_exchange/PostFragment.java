@@ -149,8 +149,7 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
             public void onClick(View v) {
                 Log.d(TAG, "onClick: attempting to post...");
                 if(!isEmpty(mTitle.getText().toString())
-                        && !isEmpty(mDescription.getText().toString())
-                        ){
+                        && !isEmpty(mDescription.getText().toString())){
 
                     //we have a bitmap and no Uri
                     if(mSelectedBitmap != null && mSelectedUri == null){
@@ -312,6 +311,7 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
                     post.setPost_id(postId);
                     post.setTitle(mTitle.getText().toString());
                     post.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                    post.setStatus(Integer.parseInt(getString(R.string.file_status_default)));
 
                     reference.child(getString(R.string.node_posts))
                             .child(postId)
