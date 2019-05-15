@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -127,6 +130,22 @@ public class OfferReceivedFragment extends Fragment {
                         .child(offerId)
                         .removeValue();
                 mMyOfferAdapter.notifyDataSetChanged();
+            }
+
+            // change to use Interface!!!!
+            @Override
+            public void onImageClick(String postId, String userId) {
+                Bundle args = new Bundle();
+                args.putString(getString(R.string.arg_post_id), postId);
+                args.putString(getString(R.string.arg_user_id), userId);
+                args.putString(getString(R.string.arg_special_code), ViewPostFragment.NO_ACTION);
+                ViewPostFragment fragment = new ViewPostFragment();
+                fragment.setArguments(args);
+
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_view_post));
+                fragmentTransaction.addToBackStack(getString(R.string.fragment_view_post));
+                fragmentTransaction.commit();
             }
         });
 

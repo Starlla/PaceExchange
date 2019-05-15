@@ -54,6 +54,7 @@
     <!-- Intent extras and Bundle arguments -->
     <string name="arg_user_id">arg_user_id</string>
     <string name="arg_post_id">arg_post_id</string>
+    <string name="arg_special_code">arg_special_code</string>
     <string name="extra_post_id">extra_post_id</string>
 
     <!-- Fragment names -->
