@@ -25,10 +25,11 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
     public interface OnReceivedOfferInteractionListener{
         void onAcceptButtonClick(int position);
         void onRejectButtonClick(int position);
-
+        void onImageClick(String postId, String userId);
     }
     public interface OnSendOfferInteractionListener{
         void onCancelButtonClick(int position);
+        void onImageClick(String postId, String userId);
     }
 
     public void setReceivedOfferInteraction(OnReceivedOfferInteractionListener listener){
@@ -97,12 +98,16 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
             viewHolder.mAcceptButton.setVisibility(View.GONE);
             viewHolder.mRejectButton.setVisibility(View.GONE);
             viewHolder.mCancelButton.setVisibility(View.VISIBLE);
-            viewHolder.mCancelButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mSendListener.onCancelButtonClick(position);
-                }
-            });
+            viewHolder.mCancelButton.setOnClickListener(v ->
+                    mSendListener.onCancelButtonClick(position));
+
+            viewHolder.mReceiverImage.setOnClickListener(v ->
+                    mSendListener.onImageClick(currentOffer.getReceiverPost().getPost_id(),
+                            currentOffer.getReceiverPost().getUser_id()));
+
+            viewHolder.mSenderImage.setOnClickListener(v ->
+                    mSendListener.onImageClick(currentOffer.getReceiverPost().getPost_id(),
+                            currentOffer.getReceiverPost().getUser_id()));
         }
         if(fragmentTag.equals(OfferReceivedFragment.TAG)){
             viewHolder.mAcceptButton.setOnClickListener(v -> {
@@ -112,6 +117,14 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
             viewHolder.mRejectButton.setOnClickListener(v -> {
                 mReceivedListener.onRejectButtonClick(position);
             });
+
+            viewHolder.mReceiverImage.setOnClickListener(v ->
+                    mReceivedListener.onImageClick(currentOffer.getReceiverPost().getPost_id(),
+                            currentOffer.getReceiverPost().getUser_id()));
+
+            viewHolder.mSenderImage.setOnClickListener(v ->
+                    mReceivedListener.onImageClick(currentOffer.getReceiverPost().getPost_id(),
+                            currentOffer.getReceiverPost().getUser_id()));
 
         }
         Glide.with(mContext).load(currentOffer.getReceiverPost().getImage()).into(viewHolder.mReceiverImage);

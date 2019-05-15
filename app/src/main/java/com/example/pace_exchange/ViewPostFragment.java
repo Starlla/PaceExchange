@@ -60,6 +60,7 @@ public class ViewPostFragment extends Fragment {
     private boolean mIsInMyLikes;
     private StartOfferButtonClickHandler mListener;
 
+    public static final String NO_ACTION = "no_action";
     public static final String WANT_POST_USER_UID = "want_post_user_uid";
     private static final String TAG = "ViewPostFragment";
 
@@ -106,8 +107,17 @@ public class ViewPostFragment extends Fragment {
         getUserInfo();
         getPostInfo();
         mSenderItemUserIdMap = new HashMap<>();
-        if (mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-            mLike.setVisibility(View.INVISIBLE);
+        String specialCode = (String) getArguments().get(getString(R.string.arg_special_code));
+        if (specialCode != null && specialCode == NO_ACTION) {
+            mPostStartOffer.setVisibility(View.GONE);
+            mPostUpdate.setVisibility(View.INVISIBLE);
+            mPostRemove.setVisibility(View.INVISIBLE);
+//            if (!mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) {
+//                getLikeInfo();
+//                addLikeAndOfferClickListener();
+//            }
+        } else if (mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            mLike.setVisibility(View.GONE);
             mPostStartOffer.setVisibility(View.GONE);
             addUpdateClickListener();
             addRemoveClickListener();
