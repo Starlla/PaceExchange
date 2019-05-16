@@ -25,9 +25,9 @@
             android:textColorHint="@color/White"
             android:textColor="@color/White"
             android:layout_marginRight="80dp"
-              android:layout_marginLeft="80dp"
+            android:layout_marginLeft="80dp"
             android:background="@drawable/et_ui"
-            android:paddingLeft="25dp"
+            android:paddingStart="25dp"
             android:paddingTop="15dp"
             android:textSize="14dp"
             android:paddingBottom="15dp"/>
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:hint="Password"
+            android:hint="@string/password"
             android:textColorHint="@color/White"
             android:textColor="@color/White"
             android:layout_below="@+id/sign_in_email_field"
@@ -46,7 +46,7 @@
             android:layout_marginRight="80dp"
             android:layout_marginLeft="80dp"
             android:background="@drawable/et_ui"
-            android:paddingLeft="25dp"
+            android:paddingStart="25dp"
             android:paddingTop="15dp"
             android:textSize="14dp"
             android:paddingBottom="15dp"/>
@@ -60,7 +60,7 @@
         android:layout_centerHorizontal="true"
         android:textAllCaps="false"
         android:background="@drawable/sign_in_bt_ui"
-        android:text="Login"/>
+        android:text="@string/button_login"/>
 
     <LinearLayout
         android:layout_alignParentBottom="true"
@@ -80,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="SIGN UP"
+            android:text="@string/button_sign_up"
             android:textColor="@color/White"
             android:textSize="20sp" />
 

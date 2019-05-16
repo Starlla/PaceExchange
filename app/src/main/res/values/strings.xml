@@ -111,5 +111,21 @@
     <string name="offer_received">Received</string>
     <string name="offer_send">Send</string>
     <string name="offer_confirmed">Confirmed</string>
+
     <string name="item_inactive">INACTIVE</string>
+    <string name="password">Password</string>
+    <string name="button_login">Login</string>
+    <string name="button_sign_up">SIGN UP</string>
+    <string name="create_account">Create Account</string>
+    <string name="hint_first_name">First Name</string>
+    <string name="hint_pace_email">Pace Email</string>
+    <string name="hint_last_name">Last Name</string>
+    <string name="hint_password">Password</string>
+    <string name="button_sign_in">Sign In</string>
+    <string name="dialog_year_text">Year</string>
+    <string name="dialog_gender_text">Gender</string>
+    <string name="dialog_select_photo_choose_photo_from_memory">Choose photo from memory</string>
+    <string name="dialog_select_photo_take_a_photo">Take a Photo</string>
+    <string name="my_profile_fragment_edit_text">Edit</string>
+    <string name="hint_description">Description</string>
 </resources>

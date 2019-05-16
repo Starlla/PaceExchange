@@ -11,58 +11,55 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@color/colorAccent"
-        android:gravity="top">
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:elevation="8dp"
-            android:gravity="center"
-            android:text="Gender"
-            android:textColor="#ffffff"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:layout_height="70dp"
+            android:background="@color/colorAccent"
+            android:gravity="top">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:text="@string/dialog_gender_text"
+                android:textColor="#ffffff"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <TextView
+            android:paddingStart="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/female"
+            android:textSize="15sp"
+            android:textColor="@color/Black"
+            android:id="@+id/dialog_female"
+            android:gravity="center_vertical" />
+
+        <TextView
+            android:paddingStart="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/male"
+            android:textSize="15sp"
+            android:textColor="@color/Black"
+            android:id="@+id/dialog_male"
+            android:gravity="center_vertical" />
+
+        <TextView
+            android:paddingStart="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/unspecified"
+            android:textSize="15sp"
+            android:textColor="@color/Black"
+            android:id="@+id/dialog_unspecified"
+            android:gravity="center_vertical" />
 
     </LinearLayout>
 
-    <TextView
-        android:paddingStart="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="@string/female"
-        android:textSize="15sp"
-        android:textColor="@color/Black"
-        android:id="@+id/dialog_female"
-        android:gravity="center_vertical"
-        />
-
-
-    <TextView
-        android:paddingStart="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="@string/male"
-        android:textSize="15sp"
-        android:textColor="@color/Black"
-        android:id="@+id/dialog_male"
-        android:gravity="center_vertical"
-        />
-
-    <TextView
-        android:paddingStart="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="@string/unspecified"
-        android:textSize="15sp"
-        android:textColor="@color/Black"
-        android:id="@+id/dialog_unspecified"
-        android:gravity="center_vertical"
-        />
-
-
-    </LinearLayout>
 </LinearLayout>

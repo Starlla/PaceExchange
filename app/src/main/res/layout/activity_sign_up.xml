@@ -21,20 +21,19 @@
         android:id="@+id/sign_up_create_account_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create Account"
+        android:text="@string/create_account"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:textSize="40sp"
         android:textStyle="bold"
         android:textColor="@color/White"/>
 
-
     <EditText
         android:layout_marginTop="40dp"
         android:id="@+id/sign_up_first_name_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="First Name"
+        android:hint="@string/hint_first_name"
         android:textColorHint="@color/White"
         android:textColor="@color/White"
         android:layout_below="@+id/sign_up_create_account_text"
@@ -42,21 +41,17 @@
         android:layout_marginRight="80dp"
         android:layout_marginLeft="80dp"
         android:background="@drawable/et_ui"
-        android:paddingLeft="25dp"
+        android:paddingStart="25dp"
         android:paddingTop="15dp"
         android:textSize="14dp"
         android:paddingBottom="15dp"/>
-
-
-
-
 
     <EditText
         android:layout_marginTop="20dp"
         android:id="@+id/sign_up_email_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Pace Email"
+        android:hint="@string/hint_pace_email"
         android:textColorHint="@color/White"
         android:textColor="@color/White"
         android:layout_below="@+id/sign_up_last_name_field"
@@ -64,7 +59,7 @@
         android:layout_marginRight="80dp"
         android:layout_marginLeft="80dp"
         android:background="@drawable/et_ui"
-        android:paddingLeft="25dp"
+        android:paddingStart="25dp"
         android:paddingTop="15dp"
         android:textSize="14dp"
         android:paddingBottom="15dp"/>
@@ -74,7 +69,7 @@
         android:id="@+id/sign_up_last_name_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Last Name"
+        android:hint="@string/hint_last_name"
         android:textColorHint="@color/White"
         android:textColor="@color/White"
         android:layout_below="@+id/sign_up_first_name_field"
@@ -82,11 +77,10 @@
         android:layout_marginRight="80dp"
         android:layout_marginLeft="80dp"
         android:background="@drawable/et_ui"
-        android:paddingLeft="25dp"
+        android:paddingStart="25dp"
         android:paddingTop="15dp"
         android:textSize="14dp"
         android:paddingBottom="15dp"/>
-
 
     <EditText
         android:layout_marginTop="20dp"
@@ -94,7 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
-        android:hint="FirstName"
+        android:hint="@string/hint_password"
         android:textColorHint="@color/White"
         android:textColor="@color/White"
         android:layout_below="@+id/sign_up_email_field"
@@ -102,25 +96,19 @@
         android:layout_marginRight="80dp"
         android:layout_marginLeft="80dp"
         android:background="@drawable/et_ui"
-        android:paddingLeft="25dp"
+        android:paddingStart="25dp"
         android:paddingTop="15dp"
         android:textSize="14dp"
         android:paddingBottom="15dp"/>
-
-
-
-
-
-
 
     <Button
         android:id="@+id/sign_up_button_in_activity_sign_up"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Sign Up"
+        android:text="@string/button_sign_up"
         android:layout_below="@id/sign_up_password_field"
         android:layout_centerHorizontal="true"
-        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
         android:textAllCaps="false"
         android:layout_marginTop="20dp"
         android:background="@drawable/sign_in_bt_ui"/>
@@ -143,7 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="Sign In"
+            android:text="@string/button_sign_in"
             android:textColor="@color/White"
             android:textSize="20sp" />
 

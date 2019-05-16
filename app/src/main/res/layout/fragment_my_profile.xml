@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:textColor="@color/White"
-            android:text="Edit"
+            android:text="@string/my_profile_fragment_edit_text"
             android:textAlignment="center"
             android:background="#80737373"
             android:layout_marginTop="80dp"/>

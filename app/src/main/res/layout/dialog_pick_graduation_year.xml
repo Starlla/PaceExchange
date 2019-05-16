@@ -24,7 +24,7 @@
                 android:layout_gravity="center"
                 android:elevation="8dp"
                 android:gravity="center"
-                android:text="Year"
+                android:text="@string/dialog_year_text"
                 android:textColor="#ffffff"
                 android:textSize="22sp"
                 android:textStyle="bold" />
@@ -40,8 +40,7 @@
                 android:id="@+id/picker_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:descendantFocusability="blocksDescendants"
-                >
+                android:descendantFocusability="blocksDescendants">
 
             </NumberPicker>
 
