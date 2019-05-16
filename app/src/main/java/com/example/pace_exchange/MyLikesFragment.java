@@ -83,6 +83,7 @@ public class MyLikesFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mDatabaseReference.removeEventListener(mValueEventListener);
     }
 
     private void init(){
@@ -96,7 +97,6 @@ public class MyLikesFragment extends Fragment {
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         //set the listener to the reference
         mDatabaseReference.addValueEventListener(mValueEventListener);
-
     }
 
 
