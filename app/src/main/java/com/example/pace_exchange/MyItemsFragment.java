@@ -145,7 +145,7 @@ public class MyItemsFragment extends Fragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Util.getPostIdsThenGetPosts(mPostIds,mPosts,mMyAdapter,getString(R.string.node_likes));
+                Util.getPostIdsThenGetPosts(mPostIds,mPosts,mMyAdapter,getString(R.string.node_inventories));
             }
 
             @Override

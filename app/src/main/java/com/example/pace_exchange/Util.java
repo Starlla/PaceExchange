@@ -86,7 +86,7 @@ public class Util {
             for(int i  = 0; i < mPostIDList.size(); i++){
                 Log.d(TAG, "getPosts: getting post information for: " + mPostIDList.get(i));
 
-                Query query = reference.child(node)
+                Query query = reference.child("posts")
                         .orderByKey()
                         .equalTo(mPostIDList.get(i));
 
