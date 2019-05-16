@@ -139,6 +139,7 @@ public class MyLikesFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mDatabaseReference.removeEventListener(mValueEventListener);
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
