@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -40,6 +42,10 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.mTextView.setText(post.getTitle());
         Glide.with(mContext).load(post.getImage()).into(holder.mImageView);
         holder.mChecked.setVisibility(mSelectedPosition == position ? View.VISIBLE : View.GONE);
+        if (!post.getStatus().equals(Post.STATUS_VALUE_ACTIVE)) {
+            holder.mStatus.setVisibility(View.VISIBLE);
+            holder.mStatus.setText(post.getStatus());
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,12 +110,14 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView mTextView;
         SquareImageView mImageView;
         ImageView mChecked;
+        TextView mStatus;
 
         public MyAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             mTextView = itemView.findViewById(R.id.item_name);
             mImageView = itemView.findViewById(R.id.item_image);
             mChecked = itemView.findViewById(R.id.item_checked);
+            mStatus = itemView.findViewById(R.id.item_status);
 
             // speed up performance
 //            int gridWidth = mContext.getResources().getDisplayMetrics().widthPixels;

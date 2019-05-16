@@ -4,13 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:id="@+id/relLayout_item_image"
@@ -19,16 +17,25 @@
             android:background="@color/PurpleBlue"
             android:paddingTop="1dp"
             android:paddingStart="1dp"
-            android:paddingEnd="1dp"
-            >
+            android:paddingEnd="1dp">
 
-        <com.example.pace_exchange.SquareImageView
-            android:id="@+id/item_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            android:background="@color/White"
-            />
+            <com.example.pace_exchange.SquareImageView
+                android:id="@+id/item_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:background="@color/White" />
+
+            <TextView
+                android:id="@+id/item_status"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:padding="2dp"
+                android:layout_centerVertical="true"
+                android:textAlignment="center"
+                android:background="#80737373"
+                android:visibility="gone" />
+
         </RelativeLayout>
 
         <ImageView
@@ -42,8 +49,7 @@
             android:elevation="5dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
-            android:backgroundTint="@color/White"
-            />
+            android:backgroundTint="@color/White" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -53,17 +59,18 @@
             android:paddingEnd="1dp"
             android:paddingBottom="1dp"
             android:background="@color/PurpleBlue">
-        <TextView
-            android:paddingStart="10dp"
-            android:gravity="center_vertical"
-            android:id="@+id/item_name"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/White"
-            android:textSize="16sp"
-            android:text="@string/app_name"
-            android:textColor="@android:color/black"
-            />
+
+            <TextView
+                android:paddingStart="10dp"
+                android:gravity="center_vertical"
+                android:id="@+id/item_name"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/White"
+                android:textSize="16sp"
+                android:text="@string/app_name"
+                android:textColor="@android:color/black" />
+
         </RelativeLayout>
 
     </RelativeLayout>
