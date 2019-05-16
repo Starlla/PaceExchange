@@ -153,9 +153,7 @@ public class MyItemsFragment extends Fragment {
 
             }
         });
-
     }
-
 
     private void getUserInfo() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
@@ -209,8 +207,5 @@ public class MyItemsFragment extends Fragment {
         fragmentTransaction.commit();
 //        mFrameLayout.setVisibility(View.VISIBLE);
     }
-
-
-
 
 }

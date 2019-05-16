@@ -136,6 +136,17 @@ public class OfferReceivedFragment extends Fragment {
                         .removeValue();
 
                 // Delete in two offers tables.
+                //From my side (receiver)
+                mDatabaseReference.child(getString(R.string.node_offer_received))
+                        .child(receiverId)
+                        .child(offerId)
+                        .removeValue();
+                //From sender side
+                mDatabaseReference.child(getString(R.string.node_offer_send))
+                        .child(senderId)
+                        .child(offerId)
+                        .removeValue();
+
 
                 // Add to offer_confirmed table.
                 mDatabaseReference.child(getString(R.string.node_offer_confirmed))
