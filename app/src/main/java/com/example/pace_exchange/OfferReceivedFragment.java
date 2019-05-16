@@ -131,14 +131,14 @@ public class OfferReceivedFragment extends Fragment {
                         .setValue(Post.STATUS_VALUE_LOCKED);
 
                 // Delete posts in both inventories
-                mDatabaseReference.child(getString(R.string.node_inventories))
-                        .child(senderId)
-                        .child(senderPostId)
-                        .removeValue();
-                mDatabaseReference.child(getString(R.string.node_inventories))
-                        .child(receiverId)
-                        .child(receiverPostId)
-                        .removeValue();
+//                mDatabaseReference.child(getString(R.string.node_inventories))
+//                        .child(senderId)
+//                        .child(senderPostId)
+//                        .removeValue();
+//                mDatabaseReference.child(getString(R.string.node_inventories))
+//                        .child(receiverId)
+//                        .child(receiverPostId)
+//                        .removeValue();
 
                 // Delete in two offers tables.
                 //From my side (receiver)
@@ -151,7 +151,6 @@ public class OfferReceivedFragment extends Fragment {
                         .child(senderId)
                         .child(offerId)
                         .removeValue();
-
 
                 // Add to offer_confirmed table.
                 mDatabaseReference.child(getString(R.string.node_offer_confirmed))
@@ -311,8 +310,11 @@ public class OfferReceivedFragment extends Fragment {
                             DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
                             Post post = singleSnapshot.getValue(Post.class);
                             Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
-                            twoPostArray[0] = post;
-                            getNextPost(twoPostArray,senderPostId, offerId, status);
+                            if(post.getStatus().equals(Post.STATUS_VALUE_ACTIVE)){
+                                twoPostArray[0] = post;
+                                getNextPost(twoPostArray,senderPostId, offerId, status);
+                            }
+                            mMyOfferAdapter.notifyDataSetChanged();
                         } else {
                             // Post is deleted by its author. Delete the record in table offers in DB.
                             Util.deleteOfferRecord(offerId);
@@ -341,9 +343,11 @@ public class OfferReceivedFragment extends Fragment {
                         DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
                         Post post = singleSnapshot.getValue(Post.class);
                         Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
+                        if(post.getStatus().equals(Post.STATUS_VALUE_ACTIVE)){
                         twoPostArray[1] = post;
                         OfferPostItem mTwoPost = new OfferPostItem(offerID,status,twoPostArray[0], twoPostArray[1]);
                         mOfferList.add(mTwoPost);
+                        }
                         mMyOfferAdapter.notifyDataSetChanged();
                         twoPostArray[0] = null;
                         twoPostArray[1] = null;

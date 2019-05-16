@@ -43,7 +43,6 @@ public class OfferConfirmedFragment extends Fragment {
     private ArrayList<Offer> mOffers;
     DatabaseReference mDatabaseReference;
     protected static final String TAG = "OfferConfirmedFragment";
-
     public OfferConfirmedFragment() {
     }
 

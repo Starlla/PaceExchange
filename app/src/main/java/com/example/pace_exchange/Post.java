@@ -23,7 +23,6 @@ public class Post {
         this.description = description;
         this.status = status;
     }
-
     public Post() {
 
     }
