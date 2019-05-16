@@ -192,7 +192,6 @@ public class OfferReceivedFragment extends Fragment {
 
 
     ValueEventListener mValueEventListener = new ValueEventListener(){
-
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             Log.d(TAG, "onDataChange: a change was made to this users offer received node.");
@@ -208,7 +207,6 @@ public class OfferReceivedFragment extends Fragment {
         if(mOffersIds != null){
             mOffersIds.clear();
         }
-
         if(mOffers != null){
             mOffers.clear();
         }
@@ -230,6 +228,7 @@ public class OfferReceivedFragment extends Fragment {
                     }
                     getOffers();
                 }
+                mMyOfferAdapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -238,7 +237,6 @@ public class OfferReceivedFragment extends Fragment {
         });
 
     }
-
     private void getOffers(){
         if(mOffersIds.size() > 0){
             for(int i  = 0; i < mOffersIds.size(); i++){
@@ -263,7 +261,6 @@ public class OfferReceivedFragment extends Fragment {
                             deleteOfferReceivedRecord(mOffersIds.get(mOffers.size()));
                         }
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
@@ -271,7 +268,9 @@ public class OfferReceivedFragment extends Fragment {
                 });
             }
         }else{
-//            mMyOfferAdapter.notifyDataSetChanged(); //still need to notify the adapter if the list is empty
+            // still need to notify the adapter if the list is empty
+                mMyOfferAdapter.notifyDataSetChanged();
+
         }
 
     }
