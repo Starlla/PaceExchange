@@ -37,7 +37,8 @@ public class MyItemsFragment extends Fragment {
     ImageView mMyItemsProfilePhoto;
     RatingBar mProfileRating;
     DatabaseReference mDatabaseReference;
-    List<Post> mItems;
+    ArrayList <Post> mPosts;
+    ArrayList <String> mPostIds;
     String mUid;
     MyAdapter mMyAdapter;
     RecyclerView mRecyclerView;
@@ -78,7 +79,8 @@ public class MyItemsFragment extends Fragment {
         mMyItemsEmailView = view.findViewById(R.id.my_items_profile_email);
         mProfileRating = view.findViewById(R.id.my_items_profile_rating_bar);
         mMyItemsProfilePhoto = view.findViewById(R.id.profile_image2);
-        mItems = new ArrayList<>();
+        mPosts = new ArrayList<>();
+        mPostIds = new ArrayList<>();
         toolbar =view.findViewById(R.id.my_items_toolbar);
 
 
@@ -104,7 +106,6 @@ public class MyItemsFragment extends Fragment {
                 if(targetItemPageType.equals(OTHER_USER_ITEMS)) mUid = args.getString(ViewPostFragment.WANT_POST_USER_UID);
             }
             else{ mUid = args.getString(ProfileFragment.ARG_UID);}
-
 
         }
 
@@ -137,21 +138,14 @@ public class MyItemsFragment extends Fragment {
         mRecyclerView.addItemDecoration(itemDecorator);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), NUM_GRID_COLUMNS);
         mRecyclerView.setLayoutManager(gridLayoutManager);
-        mMyAdapter = new MyAdapter(getActivity(), mItems);
+        mMyAdapter = new MyAdapter(getActivity(), mPosts);
         mRecyclerView.setAdapter(mMyAdapter);
 
         Query query = mDatabaseReference.orderByChild("user_id").equalTo(mUid);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChildren()) {
-                    mItems.clear();
-                    for (DataSnapshot dss : dataSnapshot.getChildren()) {
-                        final Post post = dss.getValue(Post.class);
-                        mItems.add(post);
-                    }
-                    mMyAdapter.notifyDataSetChanged();
-                }
+                Util.getPostIdsThenGetPosts(mPostIds,mPosts,mMyAdapter,getString(R.string.node_likes));
             }
 
             @Override

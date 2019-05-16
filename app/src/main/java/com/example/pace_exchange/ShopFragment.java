@@ -121,7 +121,7 @@ public class ShopFragment extends Fragment {
                         // Only display posts of others with a default status
                         final Post post = dss.getValue(Post.class);
                         if (!post.getUser_id().equals(mUid) &&
-                                post.getStatus() == Post.STATUS_VALUE_DEFAULT) {
+                                post.getStatus() .equals(Post.STATUS_VALUE_ATIVE) ) {
                             mItems.add(post);
                         }
                     }

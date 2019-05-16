@@ -86,6 +86,7 @@ public class MyLikesFragment extends Fragment {
     }
 
     private void init(){
+        mPostsIds = new ArrayList<>();
         mPosts = new ArrayList<>();
         setUpRecyclerView();
 
@@ -113,7 +114,7 @@ public class MyLikesFragment extends Fragment {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             Log.d(TAG, "onDataChange: a change was made to this users watch list node.");
-            getLikesListIds();
+            Util.getPostIdsThenGetPosts(mPostsIds,mPosts,mMyAdapter,getString(R.string.node_likes));
         }
         @Override
         public void onCancelled(DatabaseError databaseError) {
@@ -121,80 +122,6 @@ public class MyLikesFragment extends Fragment {
         }
     };
 
-    private void getLikesListIds(){
-        Log.d(TAG, "Getting my likes list.");
-        if(mPosts != null){
-            mPosts.clear();
-        }
-        if(mPostsIds != null){
-            mPostsIds.clear();
-        }
-
-        mPostsIds = new ArrayList<>();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
-        Query query = reference.child(getString(R.string.node_likes))
-                .orderByKey()
-                .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getChildren().iterator().hasNext()){
-                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
-                    for(DataSnapshot snapshot: singleSnapshot.getChildren()){
-                        String id = snapshot.child(getString(R.string.field_post_id)).getValue().toString();
-                        Log.d(TAG, "onDataChange: found a post id: " + id);
-                        mPostsIds.add(id);
-                    }
-                    getPosts();
-                }else{
-                    getPosts();
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void getPosts(){
-        if(mPostsIds.size() > 0){
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
-            for(int i  = 0; i < mPostsIds.size(); i++){
-                Log.d(TAG, "getPosts: getting post information for: " + mPostsIds.get(i));
-
-                Query query = reference.child(getString(R.string.node_posts))
-                        .orderByKey()
-                        .equalTo(mPostsIds.get(i));
-
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.hasChildren()) {
-                            DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
-                            Post post = singleSnapshot.getValue(Post.class);
-                            Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
-                            mPosts.add(post);
-                            mMyAdapter.notifyDataSetChanged();
-                        } else {
-                            // Post is deleted by its author. Delete the record in table likes in DB.
-                            deleteLikeRecord(mPostsIds.get(mPosts.size()));
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-            }
-        }else{
-            mMyAdapter.notifyDataSetChanged(); //still need to notify the adapter if the list is empty
-        }
-    }
 
     private void setToolbar(){
 
@@ -223,13 +150,7 @@ public class MyLikesFragment extends Fragment {
 //        mFrameLayout.setVisibility(View.VISIBLE);
     }
 
-    private void deleteLikeRecord(String postId) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child(getString(R.string.node_likes))
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child(postId)
-                .removeValue();
-    }
+
 
 
 }

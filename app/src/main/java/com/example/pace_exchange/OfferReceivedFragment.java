@@ -6,15 +6,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -44,7 +41,6 @@ public class OfferReceivedFragment extends Fragment {
     private ArrayList<Offer> mOffers;
     private DatabaseReference mDatabaseReference;
     protected static final String TAG = "OfferReceivedFragment";
-
     public OfferReceivedFragment() {
     }
 
@@ -123,11 +119,11 @@ public class OfferReceivedFragment extends Fragment {
                 mDatabaseReference.child(getString(R.string.node_posts))
                         .child(senderPostId)
                         .child(getString(R.string.field_status))
-                        .setValue(Post.STATUS_VALUE_TRADED);
+                        .setValue(Post.STATUS_VALUE_LOCKED);
                 mDatabaseReference.child(getString(R.string.node_posts))
                         .child(receiverPostId)
                         .child(getString(R.string.field_status))
-                        .setValue(Post.STATUS_VALUE_TRADED);
+                        .setValue(Post.STATUS_VALUE_LOCKED);
 
                 // Delete posts in both inventories
                 mDatabaseReference.child(getString(R.string.node_inventories))

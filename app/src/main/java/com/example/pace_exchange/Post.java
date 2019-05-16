@@ -7,12 +7,15 @@ public class Post {
     private String image;
     private String title;
     private String description;
-    private int status;
+    private String status;
 
-    public static final int STATUS_VALUE_DEFAULT = 0;
-    public static final int STATUS_VALUE_TRADED = 1;
+    //when post first created,the status is "ACTIVE"
+    public static final String STATUS_VALUE_ATIVE = "ACTIVE";
+    public static final String STATUS_VALUE_INATIVE = "INACTIVE";
+    public static final String STATUS_VALUE_LOCKED = "LOCKED";
+    public static final String STATUS_VALUE_TRADED = "TRADED";
 
-    public Post(String post_id, String user_id, String image, String title, String description, int status) {
+    public Post(String post_id, String user_id, String image, String title, String description, String status) {
         this.post_id = post_id;
         this.user_id = user_id;
         this.image = image;
@@ -65,11 +68,11 @@ public class Post {
         this.description = description;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
