@@ -92,6 +92,17 @@
                     android:layout_height="wrap_content"
                     android:scaleType="fitCenter"
                     android:background="@color/White"/>
+                <TextView
+                    android:id="@+id/view_post_post_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:padding="2dp"
+                    android:layout_centerVertical="true"
+                    android:textAlignment="center"
+                    android:background="#80737373"
+                    android:textColor="@color/White"
+                    android:gravity="center"
+                    android:visibility="gone" />
 
             </RelativeLayout>
 

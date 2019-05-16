@@ -112,4 +112,5 @@
     <string name="offer_send">Send</string>
     <string name="offer_confirmed">Confirmed</string>
     <string name="item_inactive">INACTIVE</string>
+    <string name="arg_post_status">arg_post_status</string>
 </resources>

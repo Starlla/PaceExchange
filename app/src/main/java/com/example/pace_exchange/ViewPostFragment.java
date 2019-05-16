@@ -53,12 +53,14 @@ public class ViewPostFragment extends Fragment {
     TextView mPostStartOffer;
     TextView mPostUpdate;
     TextView mPostRemove;
+    TextView mPostStatusView;
     RelativeLayout mButtonContainer;
     HashMap<String,String> mSenderItemUserIdMap;
     DatabaseReference databaseReference;
     DatabaseReference currentUserDBReference;
 
     private String mPostId;
+    private String mPostStatus;
     private String mPostUserId;
     private Post mPost;
     private boolean mIsInMyLikes;
@@ -74,6 +76,7 @@ public class ViewPostFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mPostId = (String) getArguments().get(getString(R.string.arg_post_id));
         mPostUserId = (String) getArguments().get(getString(R.string.arg_user_id));
+        mPostStatus= (String) getArguments().get(getString(R.string.arg_post_status));
         databaseReference= FirebaseDatabase.getInstance().getReference();
         currentUserDBReference = databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -95,6 +98,7 @@ public class ViewPostFragment extends Fragment {
         mPostUpdate = view.findViewById(R.id.post_update);
         mPostRemove = view.findViewById(R.id.post_remove);
         mButtonContainer = view.findViewById(R.id.view_post_fragment_button_container);
+        mPostStatusView =view.findViewById(R.id.view_post_post_status);
         setToolbar();
         init();
         return view;
@@ -126,19 +130,41 @@ public class ViewPostFragment extends Fragment {
             } else {
                 mLike.setVisibility(View.GONE);
             }
-        } else if (mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+
+        }else if (mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             // View my post.
             mLike.setVisibility(View.GONE);
             mPostStartOffer.setVisibility(View.GONE);
-            addUpdateClickListener();
-            addRemoveClickListener();
+            if (mPostStatus.equals(Post.STATUS_VALUE_LOCKED)){
+                mPostUpdate.setVisibility(View.INVISIBLE);
+                mPostRemove.setVisibility(View.INVISIBLE);
+                mPostStatusView.setVisibility(View.VISIBLE);
+             }
+
+            if (mPostStatus.equals(Post.STATUS_VALUE_ACTIVE)) {
+                addUpdateClickListener();
+                addRemoveClickListener();
+            }
         } else {
             // View other user's post.
             mPostUpdate.setVisibility(View.INVISIBLE);
             mPostRemove.setVisibility(View.INVISIBLE);
             getLikeInfo();
             addLikeAndOfferClickListener();
+            if (mPostStatus.equals(Post.STATUS_VALUE_LOCKED)) {
+                mPostStatusView.setVisibility(View.VISIBLE);
+                mPostStartOffer.setVisibility(View.GONE);}
+            if (mPostStatus.equals(Post.STATUS_VALUE_ACTIVE)) {
+                mPostUpdate.setVisibility(View.INVISIBLE);
+                mPostRemove.setVisibility(View.INVISIBLE);
+            }
+
+
         }
+
+
+
+
 //        hideSoftKeyboard();
     }
 
@@ -174,12 +200,15 @@ public class ViewPostFragment extends Fragment {
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildren().iterator().hasNext()){
                 DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
-                if(singleSnapshot != null){
-                    mPost = singleSnapshot.getValue(Post.class);
-                    mTitle.setText(mPost.getTitle());
-                    mDescription.setText(mPost.getDescription());
-                    Glide.with(getActivity()).load(mPost.getImage()).into(mImage);
+                    if(singleSnapshot != null) {
+                        mPost = singleSnapshot.getValue(Post.class);
+                        mTitle.setText(mPost.getTitle());
+                        mPostStatusView.setText(mPost.getStatus());
+                        mDescription.setText(mPost.getDescription());
+                        Glide.with(getActivity()).load(mPost.getImage()).into(mImage);
+                    }
                 }
             }
 
