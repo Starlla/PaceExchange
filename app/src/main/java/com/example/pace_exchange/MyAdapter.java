@@ -21,13 +21,10 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
     List<Post> mList;
     int mSelectedPosition = -1;
-    String mFragmentTag = "";
-    View.OnClickListener mListener;
 
-    public MyAdapter(Context context, List<Post> list, View.OnClickListener listener) {
+    public MyAdapter(Context context, List<Post> list) {
         mContext = context;
         mList = list;
-        mListener = listener;
     }
 
     @NonNull
@@ -49,56 +46,54 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.mStatus.setVisibility(View.VISIBLE);
             holder.mStatus.setText(post.getStatus());
         }
-        holder.itemView.setTag(position);
-        holder.itemView.setOnClickListener(mListener);
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Post post = mList.get(position);
-//                if (mContext.getClass() == MainActivity.class) {
-//                    Fragment fragment = ((MainActivity) mContext).currentFragment;
-//                    Log.d("Adapter currentFragment",mFragmentTag);
-//
-//                    if(mFragmentTag.equals(mContext.getString(R.string.fragment_shop))){
-//                        try {
-//                            ShopFragment mFragment = (ShopFragment) fragment;
-//                            mFragment.viewPost(post.getPost_id(), post.getUser_id());
-//                        } catch (ClassCastException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    if(mFragmentTag.equals(mContext.getString(R.string.fragment_my_items))){
-//                        try {
-//                            MyItemsFragment mFragment = (MyItemsFragment) fragment;
-//                            mFragment.viewPost(post.getPost_id(),post.getUser_id());
-//                        } catch (ClassCastException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    if(mFragmentTag.equals(mContext.getString(R.string.fragment_my_likes))){
-//                        try {
-//                            MyLikesFragment mFragment = (MyLikesFragment) fragment;
-//                            mFragment.viewPost(post.getPost_id(),post.getUser_id());
-//                        } catch (ClassCastException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                    if(mFragmentTag.equals(mContext.getString(R.string.fragment_offer_inventory))){
-//                        try {
-//                            OfferInventoryFragment mFragment = (OfferInventoryFragment) fragment;
-//                            mSelectedPosition = mSelectedPosition == position ? -1 : position;
-//                            notifyDataSetChanged();
-//                        } catch (ClassCastException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                }
-//
-//            }
-//        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Post post = mList.get(position);
+                if (mContext.getClass() == MainActivity.class) {
+                    Fragment fragment = ((MainActivity) mContext).currentFragment;
+                    Log.d("Adapter currentFragment",fragment.getTag());
+
+                    if(fragment.getTag().equals(mContext.getString(R.string.fragment_shop))){
+                        try {
+                            ShopFragment mFragment = (ShopFragment) fragment;
+                            mFragment.viewPost(post.getPost_id(), post.getUser_id(),post.getStatus());
+                        } catch (ClassCastException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if(fragment.getTag().equals(mContext.getString(R.string.fragment_my_items))){
+                        try {
+                            MyItemsFragment mFragment = (MyItemsFragment) fragment;
+                            mFragment.viewPost(post.getPost_id(),post.getUser_id(),post.getStatus());
+                        } catch (ClassCastException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if(fragment.getTag().equals(mContext.getString(R.string.fragment_my_likes))){
+                        try {
+                            MyLikesFragment mFragment = (MyLikesFragment) fragment;
+                            mFragment.viewPost(post.getPost_id(),post.getUser_id(),post.getStatus());
+                        } catch (ClassCastException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if(fragment.getTag().equals(mContext.getString(R.string.fragment_offer_inventory))){
+                        try {
+                            OfferInventoryFragment mFragment = (OfferInventoryFragment) fragment;
+                            mSelectedPosition = mSelectedPosition == position ? -1 : position;
+                            notifyDataSetChanged();
+                        } catch (ClassCastException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+
+            }
+        });
     }
 
     @Override
@@ -130,21 +125,5 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 //            mImageView.setMaxHeight(imageWidth);
 //            mImageView.setMaxWidth(imageWidth);
         }
-    }
-
-    public void setFragmentTag(String fragmentTag){
-        this.mFragmentTag = fragmentTag;
-    }
-
-    public Post getItem(int position) {
-        return mList.get(position);
-    }
-
-    public int getSelectedPosition() {
-        return mSelectedPosition;
-    }
-
-    public void setSelectedPosition(int i) {
-        mSelectedPosition = i;
     }
 }
