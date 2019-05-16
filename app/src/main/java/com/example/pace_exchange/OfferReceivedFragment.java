@@ -271,7 +271,8 @@ public class OfferReceivedFragment extends Fragment {
                 });
             }
         }else{
-//            mMyOfferAdapter.notifyDataSetChanged(); //still need to notify the adapter if the list is empty
+            // Still need to notify the adapter if the list is empty.
+            mMyOfferAdapter.notifyDataSetChanged();
         }
 
     }
