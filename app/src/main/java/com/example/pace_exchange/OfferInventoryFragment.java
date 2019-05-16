@@ -117,7 +117,16 @@ public class OfferInventoryFragment extends Fragment {
         mRecyclerView.addItemDecoration(itemDecorator);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), NUM_GRID_COLUMNS);
         mRecyclerView.setLayoutManager(gridLayoutManager);
-        mMyAdapter = new MyAdapter(getContext(), mItems);
+        mMyAdapter = new MyAdapter(getContext(), mItems, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = (int) v.getTag();
+                int selectedPosition = mMyAdapter.getSelectedPosition() == position ? -1 : position;
+                mMyAdapter.setSelectedPosition(selectedPosition);
+                mMyAdapter.notifyDataSetChanged();
+            }
+        });
+//        mMyAdapter.setFragmentTag(getString(R.string.fragment_offer_inventory));
         mRecyclerView.setAdapter(mMyAdapter);
     }
 

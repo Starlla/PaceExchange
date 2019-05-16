@@ -138,7 +138,15 @@ public class MyItemsFragment extends Fragment {
         mRecyclerView.addItemDecoration(itemDecorator);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), NUM_GRID_COLUMNS);
         mRecyclerView.setLayoutManager(gridLayoutManager);
-        mMyAdapter = new MyAdapter(getActivity(), mPosts);
+        mMyAdapter = new MyAdapter(getActivity(), mPosts, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = (int) v.getTag();
+                Post post = mMyAdapter.getItem(position);
+                viewPost(post.getPost_id(), post.getUser_id());
+            }
+        });
+//        mMyAdapter.setFragmentTag(getString(R.string.fragment_my_items));
         mRecyclerView.setAdapter(mMyAdapter);
 
         Query query = mDatabaseReference.orderByChild("user_id").equalTo(mUid);
