@@ -311,7 +311,7 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
                     post.setPost_id(postId);
                     post.setTitle(mTitle.getText().toString());
                     post.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    post.setStatus(Post.STATUS_VALUE_ATIVE);
+                    post.setStatus(Post.STATUS_VALUE_ACTIVE);
 
                     reference.child(getString(R.string.node_posts))
                             .child(postId)

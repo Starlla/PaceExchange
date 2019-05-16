@@ -10,8 +10,8 @@ public class Post {
     private String status;
 
     //when post first created,the status is "ACTIVE"
-    public static final String STATUS_VALUE_ATIVE = "ACTIVE";
-    public static final String STATUS_VALUE_INATIVE = "INACTIVE";
+    public static final String STATUS_VALUE_ACTIVE = "ACTIVE";
+    public static final String STATUS_VALUE_INACTIVE = "INACTIVE";
     public static final String STATUS_VALUE_LOCKED = "LOCKED";
     public static final String STATUS_VALUE_TRADED = "TRADED";
 

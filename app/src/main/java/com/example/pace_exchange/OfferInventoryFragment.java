@@ -210,6 +210,7 @@ public class OfferInventoryFragment extends Fragment {
                     newOfferValue.put("sender_post_id",selectedPostId );
                     newOfferValue.put("receiver_uid", mWantPostUserId);
                     newOfferValue.put("sender_uid",uid );
+                    newOfferValue.put(getString(R.string.field_status),Post.STATUS_VALUE_ACTIVE );
 
                     reference.child("offers")
                             .child(offer_id)

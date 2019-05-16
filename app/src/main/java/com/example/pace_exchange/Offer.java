@@ -8,12 +8,15 @@ public class Offer {
     private String receiver_uid;
     private String sender_uid;
 
-    public Offer(String offer_id, String receiver_post_id, String sender_post_id, String receiver_uid, String sender_uid) {
+    private String status;
+
+    public Offer(String offer_id, String receiver_post_id, String sender_post_id, String receiver_uid, String sender_uid,String status) {
         this.offer_id = offer_id;
         this.receiver_post_id = receiver_post_id;
         this.sender_post_id = sender_post_id;
         this.receiver_uid = receiver_uid;
         this.sender_uid = sender_uid;
+        this.status = status;
     }
 
 
@@ -59,6 +62,13 @@ public class Offer {
     public void setSender_uid(String sender_uid) {
         this.sender_uid = sender_uid;
     }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     @Override
     public String toString() {
@@ -68,6 +78,9 @@ public class Offer {
                 ", sender_post_id='" + sender_post_id + '\'' +
                 ", receiver_uid='" + receiver_uid + '\'' +
                 ", sender_uid='" + sender_uid + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
+
+
 }

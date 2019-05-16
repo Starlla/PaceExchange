@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -57,6 +58,8 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
         private ImageView mReceiverImage;
         private ImageView mSenderImage;
+        private TextView mReceiverStatusText;
+        private TextView mSenderStatusText;
         private Button mAcceptButton;
         private Button mRejectButton;
         private Button mCancelButton;
@@ -66,6 +69,8 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
             super(itemView);
             mReceiverImage = itemView.findViewById(R.id.offer_receiver_image);
             mSenderImage = itemView.findViewById(R.id.offer_sender_image);
+            mReceiverStatusText = itemView.findViewById(R.id.offer_receiver_status_text);
+            mSenderStatusText = itemView.findViewById(R.id.offer_sender_status_text);
             mAcceptButton = itemView.findViewById(R.id.offer_accept_button);
             mRejectButton = itemView.findViewById(R.id.offer_reject_button);
             mCancelButton = itemView.findViewById(R.id.offer_cancel_button);
@@ -107,11 +112,17 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder viewHolder, int position) {
         OfferPostItem currentOffer = mOfferList.get(position);
+        if(!currentOffer.getOfferStatus().equals(Post.STATUS_VALUE_ACTIVE)){
+            viewHolder.mReceiverStatusText.setVisibility(View.VISIBLE);
+            viewHolder.mReceiverStatusText.setText(currentOffer.getOfferStatus());
+            viewHolder.mSenderStatusText.setVisibility(View.VISIBLE);
+            viewHolder.mSenderStatusText.setText(currentOffer.getOfferStatus());
+        }
+
         if (fragmentTag.equals(OfferSendFragment.TAG)) {
             viewHolder.mAcceptButton.setVisibility(View.GONE);
             viewHolder.mRejectButton.setVisibility(View.GONE);
             viewHolder.mCancelButton.setVisibility(View.VISIBLE);
-
             viewHolder.mCancelButton.setOnClickListener(v ->
                     mSendListener.onCancelButtonClick(position));
 

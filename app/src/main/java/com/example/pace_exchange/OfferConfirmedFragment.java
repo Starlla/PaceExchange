@@ -233,7 +233,8 @@ public class OfferConfirmedFragment extends Fragment {
                             Offer offer = singleSnapshot.getValue(Offer.class);
                             Log.d(TAG, "onDataChange: found a offer: " + offer.getOffer_id());
                             mOffers.add(offer);
-                            getTwoPostsFromOffer(offer.getReceiver_post_id(),offer.getSender_post_id(),offer.getOffer_id());
+                            getTwoPostsFromOffer(offer.getReceiver_post_id(),offer.getSender_post_id(),
+                                    offer.getOffer_id(),offer.getStatus());
 //                            mMyOfferAdapter.notifyDataSetChanged();
                         } else {
                             // Offer is deleted. Delete the record in table offer_confirmed in DB.
@@ -260,7 +261,7 @@ public class OfferConfirmedFragment extends Fragment {
                 .removeValue();
     }
 
-    private void getTwoPostsFromOffer(String receiverPostId,String senderPostId, String offerId){
+    private void getTwoPostsFromOffer(String receiverPostId,String senderPostId, String offerId, String status){
         Post[] twoPostArray = new Post[2];
         Log.d(TAG, "getPosts: getting post information for: receiver post: "
                 + receiverPostId +" sender post " + senderPostId);
@@ -277,7 +278,7 @@ public class OfferConfirmedFragment extends Fragment {
                     Post post = singleSnapshot.getValue(Post.class);
                     Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
                     twoPostArray[0] = post;
-                    getNextPost(twoPostArray,senderPostId, offerId);
+                    getNextPost(twoPostArray,senderPostId, offerId, status);
                 } else {
                     // Post is deleted by its author. Delete the record in table offers in DB.
                     Util.deleteOfferRecord(offerId);
@@ -291,7 +292,7 @@ public class OfferConfirmedFragment extends Fragment {
         });
     }
 
-    private void getNextPost(Post[] twoPostArray,String postId, String offerID){
+    private void getNextPost(Post[] twoPostArray,String postId, String offerID, String status){
         if(twoPostArray[0] != null){
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
             Log.d(TAG, "getPosts: getting post information fo second post " + postId);
@@ -307,7 +308,7 @@ public class OfferConfirmedFragment extends Fragment {
                         Post post = singleSnapshot.getValue(Post.class);
                         Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
                         twoPostArray[1] = post;
-                        OfferPostItem mTwoPost = new OfferPostItem(offerID,twoPostArray[0], twoPostArray[1]);
+                        OfferPostItem mTwoPost = new OfferPostItem(offerID,status,twoPostArray[0], twoPostArray[1]);
                         mOfferList.add(mTwoPost);
                         mMyOfferAdapter.notifyDataSetChanged();
 
