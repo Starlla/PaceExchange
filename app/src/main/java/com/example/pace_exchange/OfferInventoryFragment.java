@@ -223,7 +223,7 @@ public class OfferInventoryFragment extends Fragment {
 
                     Toast.makeText(getActivity(),
                             R.string.toast_offer_created, Toast.LENGTH_SHORT).show();
-//                    getActivity().getSupportFragmentManager().popBackStack();
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
             }
         });
