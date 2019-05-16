@@ -229,6 +229,7 @@ public class OfferReceivedFragment extends Fragment {
                     getOffers();
                 }
                 mMyOfferAdapter.notifyDataSetChanged();
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
