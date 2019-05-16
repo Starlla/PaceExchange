@@ -55,8 +55,8 @@ public class OfferReceivedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_offer_received, container, false);
-        mRecyclerView = view.findViewById(R.id.offer_received_recycler_view);
+        View view = inflater.inflate(R.layout.fragment_offer_page, container, false);
+        mRecyclerView = view.findViewById(R.id.offer_page_recycler_view);
         mOfferList = new ArrayList<>();
         mOffersIds = new ArrayList<>();
         mOffers = new ArrayList<>();
