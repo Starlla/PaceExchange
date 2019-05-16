@@ -48,6 +48,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.mStatus.setVisibility(View.VISIBLE);
             holder.mStatus.setText(post.getStatus());
         }
+        holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(mListener);
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
 //            @Override
