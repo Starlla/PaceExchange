@@ -46,7 +46,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.mStatus.setVisibility(View.VISIBLE);
             holder.mStatus.setText(post.getStatus());
         }
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +57,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     if(fragment.getTag().equals(mContext.getString(R.string.fragment_shop))){
                         try {
                             ShopFragment mFragment = (ShopFragment) fragment;
-                            mFragment.viewPost(post.getPost_id(), post.getUser_id(),post.getStatus());
+                            mFragment.viewPost(post.getPost_id(), post.getUser_id());
                         } catch (ClassCastException e) {
                             e.printStackTrace();
                         }
@@ -67,7 +66,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     if(fragment.getTag().equals(mContext.getString(R.string.fragment_my_items))){
                         try {
                             MyItemsFragment mFragment = (MyItemsFragment) fragment;
-                            mFragment.viewPost(post.getPost_id(),post.getUser_id(),post.getStatus());
+                            mFragment.viewPost(post.getPost_id(),post.getUser_id());
                         } catch (ClassCastException e) {
                             e.printStackTrace();
                         }
@@ -76,7 +75,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     if(fragment.getTag().equals(mContext.getString(R.string.fragment_my_likes))){
                         try {
                             MyLikesFragment mFragment = (MyLikesFragment) fragment;
-                            mFragment.viewPost(post.getPost_id(),post.getUser_id(),post.getStatus());
+                            mFragment.viewPost(post.getPost_id(),post.getUser_id());
                         } catch (ClassCastException e) {
                             e.printStackTrace();
                         }

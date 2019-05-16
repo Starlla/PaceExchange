@@ -106,7 +106,15 @@ public class MyLikesFragment extends Fragment {
         mRecyclerView.addItemDecoration(itemDecorator);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), NUM_GRID_COLUMNS);
         mRecyclerView.setLayoutManager(gridLayoutManager);
-        mMyAdapter = new MyAdapter(getActivity(), mPosts);
+        mMyAdapter = new MyAdapter(getActivity(), mPosts,new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = (int) v.getTag();
+                Post post = mMyAdapter.getItem(position);
+                viewPost(post.getPost_id(), post.getUser_id());
+            }
+        });
+//        mMyAdapter.setFragmentTag(getString(R.string.fragment_my_likes));
         mRecyclerView.setAdapter(mMyAdapter);
     }
 
@@ -131,6 +139,7 @@ public class MyLikesFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mDatabaseReference.removeEventListener(mValueEventListener);
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
