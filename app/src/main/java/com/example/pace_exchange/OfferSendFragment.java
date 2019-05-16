@@ -57,7 +57,7 @@ public class OfferSendFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_offer_send, container, false);
         mRecyclerView = view.findViewById(R.id.offer_send_recycler_view);
-        mOfferList = new ArrayList<>();
+
         mSendOfferItems =new ArrayList<>();
         mReceivedOfferItemIds = new ArrayList<>();
         mSendOfferItemIds = new ArrayList<>();

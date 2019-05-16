@@ -112,11 +112,12 @@ public class OfferReceivedFragment extends Fragment {
         mMyOfferAdapter.setReceivedOfferInteraction(new MyOfferAdapter.OnReceivedOfferInteractionListener() {
             @Override
             public void onAcceptButtonClick(int position) {
-                String senderId = mOfferList.get(position).getSenderPost().getUser_id();
-                String receiverId = mOfferList.get(position).getReceiverPost().getUser_id();
-                String senderPostId = mOfferList.get(position).getSenderPost().getPost_id();
-                String receiverPostId = mOfferList.get(position).getReceiverPost().getPost_id();
-                String offerId = mOfferList.get(position).getOfferID();
+                OfferPostItem offerPostItem = mOfferList.get(position);
+                String senderId = offerPostItem.getSenderPost().getUser_id();
+                String receiverId = offerPostItem.getReceiverPost().getUser_id();
+                String senderPostId = offerPostItem.getSenderPost().getPost_id();
+                String receiverPostId = offerPostItem.getReceiverPost().getPost_id();
+                String offerId = offerPostItem.getOfferID();
 
                 // Change status of both posts.
                 mDatabaseReference.child(getString(R.string.node_posts))
@@ -138,17 +139,17 @@ public class OfferReceivedFragment extends Fragment {
                         .child(receiverPostId)
                         .removeValue();
 
-                // Delete in three offers tables.
+                // Delete in two offers tables.
 
                 // Add to offer_confirmed table.
                 mDatabaseReference.child(getString(R.string.node_offer_confirmed))
                         .child(senderId)
                         .child(offerId)
-                        .removeValue();
-                mDatabaseReference.child(getString(R.string.node_inventories))
+                        .setValue(receiverId);
+                mDatabaseReference.child(getString(R.string.node_offer_confirmed))
                         .child(receiverId)
                         .child(offerId)
-                        .removeValue();
+                        .setValue(senderId);
             }
 
             @Override

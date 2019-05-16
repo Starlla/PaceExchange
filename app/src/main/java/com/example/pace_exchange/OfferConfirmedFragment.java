@@ -112,7 +112,39 @@ public class OfferConfirmedFragment extends Fragment {
         mMyOfferAdapter.setConfirmedOfferInteraction(new MyOfferAdapter.OnConfirmedOfferInteractionListener() {
             @Override
             public void onRemoveButtonClick(int position) {
-                // to be implemented
+                OfferPostItem offerPostItem = mOfferList.get(position);
+                String senderId = offerPostItem.getSenderPost().getUser_id();
+                String receiverId = offerPostItem.getReceiverPost().getUser_id();
+                String offerId = offerPostItem.getOfferID();
+
+                mDatabaseReference.child(getString(R.string.node_offer_confirmed))
+                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .child(offerId)
+                        .removeValue();
+
+                // Check if offer confirmed record also remove by the other user, if so, remove offer and both posts.
+                String otherUserId = senderId == FirebaseAuth.getInstance().getCurrentUser().getUid() ? receiverId : senderId;
+                Query query = mDatabaseReference.child(getString(R.string.node_offer_confirmed))
+                        .child(otherUserId)
+                        .equalTo(offerId);
+
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (!dataSnapshot.hasChildren()) {
+                            mDatabaseReference.child(getString(R.string.node_offers))
+                                    .child(offerId)
+                                    .removeValue();
+                            // Add delete both posts.
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                mMyOfferAdapter.notifyDataSetChanged();
             }
 
             // change to use Interface!!!!

@@ -116,6 +116,7 @@ public class ViewPostFragment extends Fragment {
         mSenderItemUserIdMap = new HashMap<>();
         String specialCode = (String) getArguments().get(getString(R.string.arg_special_code));
         if (specialCode != null && specialCode == NO_ACTION) {
+            // View post from offer fragment.
             mButtonContainer.setVisibility(View.GONE);
             if (!mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                 getLikeInfo();
@@ -124,11 +125,13 @@ public class ViewPostFragment extends Fragment {
                 mLike.setVisibility(View.GONE);
             }
         } else if (mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            // View my post.
             mLike.setVisibility(View.GONE);
             mPostStartOffer.setVisibility(View.GONE);
             addUpdateClickListener();
             addRemoveClickListener();
         } else {
+            // View other user's post.
             mPostUpdate.setVisibility(View.INVISIBLE);
             mPostRemove.setVisibility(View.INVISIBLE);
             getLikeInfo();
