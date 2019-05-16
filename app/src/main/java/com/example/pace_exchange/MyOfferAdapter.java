@@ -27,6 +27,7 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
     public interface OnReceivedOfferInteractionListener{
         void onAcceptButtonClick(int position);
         void onRejectButtonClick(int position);
+        void onRemoveButtonClick(int position);
         void onImageClick(String postId, String userId);
     }
     public interface OnSendOfferInteractionListener{
@@ -117,6 +118,9 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
             viewHolder.mReceiverStatusText.setText(currentOffer.getOfferStatus());
             viewHolder.mSenderStatusText.setVisibility(View.VISIBLE);
             viewHolder.mSenderStatusText.setText(currentOffer.getOfferStatus());
+            viewHolder.mAcceptButton.setVisibility(View.GONE);
+            viewHolder.mRejectButton.setVisibility(View.GONE);
+            viewHolder.mRemoveButton.setVisibility(View.VISIBLE);
         }
 
         if (fragmentTag.equals(OfferSendFragment.TAG)) {

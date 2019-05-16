@@ -261,10 +261,10 @@ public class OfferSendFragment extends Fragment {
                     DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
                     Post post = singleSnapshot.getValue(Post.class);
                     Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
-                    if(post.getStatus().equals(Post.STATUS_VALUE_ACTIVE)) {
+//                    if(post.getStatus().equals(Post.STATUS_VALUE_ACTIVE)) {
                         twoPostArray[0] = post;
                         getNextPost(twoPostArray, senderPostId, offerId, status);
-                    }
+//                    }
                     mMyOfferAdapter.notifyDataSetChanged();
                 } else {
                     // Post is deleted by its author. Delete the record in table offers in DB.
@@ -294,13 +294,13 @@ public class OfferSendFragment extends Fragment {
                         DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
                         Post post = singleSnapshot.getValue(Post.class);
                         Log.d(TAG, "onDataChange: found a post: " + post.getTitle());
-                        if(post.getStatus().equals(Post.STATUS_VALUE_ACTIVE)) {
+//                        if(post.getStatus().equals(Post.STATUS_VALUE_ACTIVE)) {
                             twoPostArray[1] = post;
                             OfferPostItem mTwoPost = new OfferPostItem(offerID, status, twoPostArray[0], twoPostArray[1]);
                             mOfferList.add(mTwoPost);
                             mMyOfferAdapter.notifyDataSetChanged();
-                        }
-                        mMyOfferAdapter.notifyDataSetChanged();
+//                        }
+//                        mMyOfferAdapter.notifyDataSetChanged();
                         twoPostArray[0] = null;
                         twoPostArray[1] = null;
                     } else {

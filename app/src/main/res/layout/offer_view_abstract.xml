@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="100dp"
-        android:layout_height="100dp">
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/offer_receiver_image"
             android:layout_width="100dp"
@@ -23,8 +23,10 @@
             android:padding="2dp"
             android:layout_centerVertical="true"
             android:textAlignment="center"
+            android:textColor="@color/White"
             android:background="#80737373"
             android:visibility="gone"
+            android:gravity="center"
             />
 
     </RelativeLayout>
@@ -39,7 +41,7 @@
 
     <RelativeLayout
         android:layout_width="100dp"
-        android:layout_height="100dp">
+        android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/offer_sender_image"
         android:padding="2dp"
@@ -51,8 +53,10 @@
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:padding="2dp"
+        android:gravity="center"
         android:layout_centerVertical="true"
         android:textAlignment="center"
+        android:textColor="@color/White"
         android:background="#80737373"
         android:visibility="gone"
         />
@@ -66,7 +70,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        >
         <Button
             android:id="@+id/offer_accept_button"
             android:layout_width="wrap_content"
@@ -90,7 +95,6 @@
             android:focusable="false"/>
         <Button
             android:id="@+id/offer_cancel_button"
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel_button"
@@ -102,7 +106,6 @@
             android:visibility="gone"/>
         <Button
             android:id="@+id/offer_remove_button"
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/remove_button"

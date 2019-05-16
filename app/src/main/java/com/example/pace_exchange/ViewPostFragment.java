@@ -381,8 +381,6 @@ public class ViewPostFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
-
     }
 
     private void addItemToMyLikes() {
