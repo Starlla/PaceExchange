@@ -143,7 +143,7 @@ public class MyItemsFragment extends Fragment {
             public void onClick(View v) {
                 int position = (int) v.getTag();
                 Post post = mMyAdapter.getItem(position);
-                viewPost(post.getPost_id(), post.getUser_id());
+                viewPost(post.getPost_id(), post.getUser_id(), post.getStatus());
             }
         });
 //        mMyAdapter.setFragmentTag(getString(R.string.fragment_my_items));
