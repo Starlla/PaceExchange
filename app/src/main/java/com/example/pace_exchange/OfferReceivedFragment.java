@@ -318,8 +318,7 @@ public class OfferReceivedFragment extends Fragment {
                 .child(mSenderUserId)
                 .child(offerId)
                 .removeValue();
-        mDatabaseReference.child(getString(R.string.node_offers))
-                .child(offerId).removeValue();
+        Util.deleteOfferRecord(offerId);
         mMyOfferAdapter.notifyDataSetChanged();
     }
 
@@ -346,22 +345,20 @@ public class OfferReceivedFragment extends Fragment {
 
     //Delete post end with post id in offer id
     private void InActiveAsSenderOffer(String relatedSenderOfferPostId) {
-
         mDatabaseReference.child(getString(R.string.node_offers)).orderByKey().endAt(relatedSenderOfferPostId).
-                addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.getChildren().iterator().hasNext()){
-                            DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
-                            mDatabaseReference.child(getString(R.string.node_offers)).child(singleSnapshot.getKey()).child("status").setValue(Post.STATUS_VALUE_INACTIVE);
-                            Log.d(TAG, "InActivate Offer: " + singleSnapshot.getKey());
-                        }
-
+            addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.getChildren().iterator().hasNext()){
+                        DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                        mDatabaseReference.child(getString(R.string.node_offers)).child(singleSnapshot.getKey()).child("status").setValue(Post.STATUS_VALUE_INACTIVE);
+                        Log.d(TAG, "InActivate Offer: " + singleSnapshot.getKey());
                     }
+                }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
         });
     }
 

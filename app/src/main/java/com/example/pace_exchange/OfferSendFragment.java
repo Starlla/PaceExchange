@@ -114,29 +114,14 @@ public class OfferSendFragment extends Fragment {
             @Override
             public void onCancelButtonClick(int position) {
                 Log.d(TAG,"Cancel Button Clicked");
-                String mReceiverUserId = mOfferList.get(position).getReceiverPost().getUser_id();
-                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-                String offerId = mOfferList.get(position).getOfferID();
-                databaseReference.child(getString(R.string.node_offer_send))
-                        .child(uid)
-                        .child(offerId)
-                        .removeValue();
-                databaseReference.child(getString(R.string.node_offer_received))
-                        .child(mReceiverUserId)
-                        .child(offerId)
-                        .removeValue();
-                databaseReference.child(getString(R.string.node_offers))
-                        .child(offerId).removeValue();
-                mMyOfferAdapter.notifyDataSetChanged();
+                deleteOrRemoveSingleOfferRecord(position);
             }
 
         });
         mMyOfferAdapter.setGeneralSituationInteration(new MyOfferAdapter.OnGeneralSituationInterationListener() {
             @Override
             public void onRemoveButtonClick(int position) {
-
+                deleteOrRemoveSingleOfferRecord(position);
             }
 
             @Override
@@ -156,6 +141,22 @@ public class OfferSendFragment extends Fragment {
             }
         });
         mRecyclerView.setAdapter(mMyOfferAdapter);
+    }
+
+    private void deleteOrRemoveSingleOfferRecord(int position) {
+        String mReceiverUserId = mOfferList.get(position).getReceiverPost().getUser_id();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        String offerId = mOfferList.get(position).getOfferID();
+        databaseReference.child(getString(R.string.node_offer_send))
+                .child(uid)
+                .child(offerId)
+                .removeValue();
+        databaseReference.child(getString(R.string.node_offer_received))
+                .child(mReceiverUserId)
+                .child(offerId)
+                .removeValue();
+        Util.deleteOfferRecord(offerId);
     }
 
     ValueEventListener mValueEventListener = new ValueEventListener() {
