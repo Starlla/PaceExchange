@@ -13,8 +13,8 @@ public class Post {
     public static final String STATUS_VALUE_ACTIVE = "ACTIVE";
     public static final String STATUS_VALUE_INACTIVE = "INACTIVE";
     public static final String STATUS_VALUE_LOCKED = "LOCKED";
-    public static final String STATUS_VALUE_TRADED = "TRADED";
     public static final String STATUS_VALUE_NO_STATUS = "NO_STATUS";
+    public static final String STATUS_VALUE_TRADED = "TRADED";
 
     public Post(String post_id, String user_id, String image, String title, String description, String status) {
         this.post_id = post_id;

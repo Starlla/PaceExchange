@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -168,19 +169,26 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
             viewHolder.mAcceptButton.setVisibility(View.GONE);
             viewHolder.mRejectButton.setVisibility(View.GONE);
             viewHolder.mCancelButton.setVisibility(View.GONE);
-            if(currentOffer.getOfferStatus().equals(Post.STATUS_VALUE_LOCKED)){
+            if(currentOffer.getOfferStatus().equals(Post.STATUS_VALUE_LOCKED)
+                    ||(currentOffer.getOfferStatus().equals(Offer.STATUS_VALUE_SENDER_FINISHED) && FirebaseAuth.getInstance().getUid().equals(currentOffer.getReceiverPost().getUser_id()))
+                    || (currentOffer.getOfferStatus().equals(Offer.STATUS_VALUE_RECEIVER_FINISHED) && FirebaseAuth.getInstance().getUid().equals(currentOffer.getSenderPost().getUser_id()))
+            ){
                 viewHolder.mFinishedButton.setVisibility(View.VISIBLE);
                 viewHolder.mRemoveButton.setVisibility(View.INVISIBLE);
                 viewHolder.mFinishedButton.setOnClickListener(v -> {
-                    mGeneralListener.onRemoveButtonClick(position);
+                    mConfirmedListener.onFinishedButtonClick(position);
                 });
 
             }
-            if(currentOffer.getOfferStatus().equals(Post.STATUS_VALUE_TRADED)){
+            if(currentOffer.getOfferStatus().equals(Offer.STATUS_VALUE_SENDER_FINISHED)){
+
+
+            }
+            if(currentOffer.getOfferStatus().equals(Offer.STATUS_VALUE_TRADED)){
                 viewHolder.mFinishedButton.setVisibility(View.INVISIBLE);
                 viewHolder.mRemoveButton.setVisibility(View.VISIBLE);
                 viewHolder.mRemoveButton.setOnClickListener(v->{
-                    mConfirmedListener.onFinishedButtonClick(position);
+                    mGeneralListener.onRemoveButtonClick(position);
                 });
             }
 

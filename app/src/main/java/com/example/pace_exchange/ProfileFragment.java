@@ -150,7 +150,7 @@ public class ProfileFragment extends Fragment {
     public void setMyProfileTabOnClickedListener(){
         mMyProfileTab.setOnClickListener(v -> {
             Bundle args = new Bundle();
-            args.putString(getString(R.string.arg_user_id), mUid);
+            args.putString(ARG_UID, mUid);
             MyProfileFragment fragment = new MyProfileFragment();
             fragment.setArguments(args);
             mClickHandler.myProfileTabClicked(fragment);

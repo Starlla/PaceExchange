@@ -1,6 +1,10 @@
 package com.example.pace_exchange;
 
 public class Offer {
+    public static final String STATUS_VALUE_SENDER_FINISHED = "SENDER FINISHED";
+    public static final String STATUS_VALUE_RECEIVER_FINISHED = "RECEIVER FINISHED";
+    public static final String STATUS_VALUE_LOCKED = "LOCKED";
+    public static final String STATUS_VALUE_TRADED = "TRADED";
 
     private String offer_id;
     private String receiver_post_id;

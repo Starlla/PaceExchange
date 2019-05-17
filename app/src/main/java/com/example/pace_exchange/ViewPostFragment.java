@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -80,6 +81,7 @@ public class ViewPostFragment extends Fragment {
         databaseReference= FirebaseDatabase.getInstance().getReference();
         currentUserDBReference = databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
     }
 
     @Nullable
@@ -139,6 +141,11 @@ public class ViewPostFragment extends Fragment {
             } else if (mPostStatus.equals(Post.STATUS_VALUE_ACTIVE)) {
                 addUpdateClickListener();
                 addRemoveClickListener();
+            }else if(mPostStatus.equals(Post.STATUS_VALUE_TRADED)){
+                mPostStatusView.setVisibility(View.VISIBLE);
+                mPostRemove.setVisibility(View.VISIBLE);
+                addRemoveClickListener();
+
             }
         } else {
             // View other user's post.
