@@ -91,6 +91,7 @@ public class OfferInventoryFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mDataListener = null;
     }
 
     public interface OnFragmentInteractionListener {

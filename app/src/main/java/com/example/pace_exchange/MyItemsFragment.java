@@ -2,6 +2,7 @@ package com.example.pace_exchange;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.renderscript.Sampler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -129,6 +130,8 @@ public class MyItemsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mClickHandler = null;
+        mItemListener = null;
+
     }
 
     private void configureRecyclerView() {
@@ -150,17 +153,8 @@ public class MyItemsFragment extends Fragment {
         mRecyclerView.setAdapter(mMyAdapter);
 
         Query query = mDatabaseReference.orderByChild("user_id").equalTo(mUid);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Util.getPostIdsThenGetPosts(mPostIds,mPosts,mMyAdapter,getString(R.string.node_inventories));
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        query.addValueEventListener(mItemListener);
     }
 
     private void getUserInfo() {
@@ -217,5 +211,17 @@ public class MyItemsFragment extends Fragment {
         fragmentTransaction.commit();
 //        mFrameLayout.setVisibility(View.VISIBLE);
     }
+
+    ValueEventListener mItemListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            Util.getPostIdsThenGetPosts(mPostIds,mPosts,mMyAdapter,getString(R.string.node_inventories));
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
 
 }
