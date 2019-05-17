@@ -140,7 +140,6 @@ public class OfferConfirmedFragment extends Fragment {
                         }
                     }
 
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
