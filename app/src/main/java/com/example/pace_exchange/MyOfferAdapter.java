@@ -121,12 +121,16 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
             viewHolder.mAcceptButton.setVisibility(View.GONE);
             viewHolder.mRejectButton.setVisibility(View.GONE);
             viewHolder.mRemoveButton.setVisibility(View.VISIBLE);
+            viewHolder.mCancelButton.setVisibility(View.GONE);
         }
+
+
 
         if (fragmentTag.equals(OfferSendFragment.TAG)) {
             viewHolder.mAcceptButton.setVisibility(View.GONE);
             viewHolder.mRejectButton.setVisibility(View.GONE);
-            viewHolder.mCancelButton.setVisibility(View.VISIBLE);
+            if(currentOffer.getOfferStatus().equals(Post.STATUS_VALUE_ACTIVE)){
+            viewHolder.mCancelButton.setVisibility(View.VISIBLE);}
             viewHolder.mCancelButton.setOnClickListener(v ->
                     mSendListener.onCancelButtonClick(position));
 
@@ -138,6 +142,7 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
                     mSendListener.onImageClick(currentOffer.getSenderPost().getPost_id(),
                             currentOffer.getSenderPost().getUser_id()));
         } else if (fragmentTag.equals(OfferReceivedFragment.TAG)) {
+
             viewHolder.mAcceptButton.setOnClickListener(v -> {
                 mReceivedListener.onAcceptButtonClick(position);
             });

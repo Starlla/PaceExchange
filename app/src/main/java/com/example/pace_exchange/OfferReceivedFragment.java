@@ -124,11 +124,7 @@ public class OfferReceivedFragment extends Fragment {
                         .child(receiverPostId)
                         .child(getString(R.string.field_status))
                         .setValue(Post.STATUS_VALUE_LOCKED);
-                //Change status in offers.
-                mDatabaseReference.child(getString(R.string.node_offers))
-                        .child(offerId)
-                        .child(getString(R.string.field_status))
-                        .setValue(Post.STATUS_VALUE_LOCKED);
+
 
                 // Delete posts in both inventories
 //                mDatabaseReference.child(getString(R.string.node_inventories))
@@ -153,39 +149,102 @@ public class OfferReceivedFragment extends Fragment {
                         .removeValue();
 
                 //change offer status to INACTIVE related to this two Posts
-                mDatabaseReference.child(getString(R.string.node_offers)).orderByKey().startAt(receiverPostId).
+                mDatabaseReference.child(getString(R.string.node_offer_received)).orderByKey().equalTo(receiverId).
                         addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            public void onDataChange(DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.getChildren().iterator().hasNext()){
                                     DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
-                                    mDatabaseReference.child(getString(R.string.node_offers)).child(singleSnapshot.getKey()).child("status").setValue(Post.STATUS_VALUE_INACTIVE);
-                                    Log.d(TAG, "InActivate Offer: " + singleSnapshot.getKey());
+                                    for(DataSnapshot snapshot: singleSnapshot.getChildren()){
+                                        Log.d(TAG,snapshot.getKey());
+                                        if (snapshot.getKey().startsWith(receiverPostId)){
+                                            String offer_id =snapshot.getKey();
+                                            mDatabaseReference.child(getString(R.string.node_offers))
+                                                    .child(offer_id)
+                                                    .child(getString(R.string.field_status)).setValue(Post.STATUS_VALUE_INACTIVE);
+
+                                        }
+                                    }
                                 }
+                                Log.d(TAG,"offer id Not Found");
                             }
-
                             @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                            public void onCancelled(DatabaseError databaseError) {
                             }
                         });
 
-                mDatabaseReference.child(getString(R.string.node_offers)).orderByKey().endAt(senderPostId).
+                mDatabaseReference.child(getString(R.string.node_offer_received)).orderByKey().equalTo(receiverId).
                         addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            public void onDataChange(DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.getChildren().iterator().hasNext()){
                                     DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
-                                    mDatabaseReference.child(getString(R.string.node_offers)).child(singleSnapshot.getKey()).child("status").setValue(Post.STATUS_VALUE_INACTIVE);
-                                    Log.d(TAG, "InActivate Offer: " + singleSnapshot.getKey());
+                                    for(DataSnapshot snapshot: singleSnapshot.getChildren()){
+                                        Log.d(TAG,snapshot.getKey());
+                                        if (snapshot.getKey().endsWith(receiverPostId)){
+                                            String offer_id =snapshot.getKey();
+                                            mDatabaseReference.child(getString(R.string.node_offers))
+                                                    .child(offer_id)
+                                                    .child(getString(R.string.field_status)).setValue(Post.STATUS_VALUE_INACTIVE);
+
+                                        }
+                                    }
                                 }
+                                Log.d(TAG,"offer id Not Found");
                             }
-
                             @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                            public void onCancelled(DatabaseError databaseError) {
                             }
                         });
+
+                mDatabaseReference.child(getString(R.string.node_offer_received)).orderByKey().equalTo(senderId).
+                        addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.getChildren().iterator().hasNext()){
+                                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                                    for(DataSnapshot snapshot: singleSnapshot.getChildren()){
+                                        Log.d(TAG,snapshot.getKey());
+                                        if (snapshot.getKey().endsWith(senderPostId)){
+                                            String offer_id =snapshot.getKey();
+                                            mDatabaseReference.child(getString(R.string.node_offers))
+                                                    .child(offer_id)
+                                                    .child(getString(R.string.field_status)).setValue(Post.STATUS_VALUE_INACTIVE);
+
+                                        }
+                                    }
+                                }
+                                Log.d(TAG,"offer id Not Found");
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
+
+                mDatabaseReference.child(getString(R.string.node_offer_received)).orderByKey().equalTo(senderId).
+                        addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.getChildren().iterator().hasNext()){
+                                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                                    for(DataSnapshot snapshot: singleSnapshot.getChildren()){
+                                        Log.d(TAG,snapshot.getKey());
+                                        if (snapshot.getKey().startsWith(senderPostId)){
+                                            String offer_id =snapshot.getKey();
+                                            mDatabaseReference.child(getString(R.string.node_offers))
+                                                    .child(offer_id)
+                                                    .child(getString(R.string.field_status)).setValue(Post.STATUS_VALUE_INACTIVE);
+
+                                        }
+                                    }
+                                }
+                                Log.d(TAG,"offer id Not Found");
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
+
 
 
                 // Add to offer_confirmed table.
@@ -197,6 +256,11 @@ public class OfferReceivedFragment extends Fragment {
                         .child(receiverId)
                         .child(offerId)
                         .setValue(senderId);
+                //Change status in offers.
+                mDatabaseReference.child(getString(R.string.node_offers))
+                        .child(offerId)
+                        .child(getString(R.string.field_status))
+                        .setValue(Post.STATUS_VALUE_LOCKED);
             }
 
             @Override
