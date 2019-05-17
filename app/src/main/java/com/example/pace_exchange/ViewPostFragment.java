@@ -129,18 +129,14 @@ public class ViewPostFragment extends Fragment {
             } else {
                 mLike.setVisibility(View.GONE);
             }
-
-        }else if (mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+        } else if (mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             // View my post.
             mLike.setVisibility(View.GONE);
             mPostStartOffer.setVisibility(View.GONE);
             if (mPostStatus.equals(Post.STATUS_VALUE_LOCKED)){
-                mPostUpdate.setVisibility(View.INVISIBLE);
-                mPostRemove.setVisibility(View.INVISIBLE);
                 mPostStatusView.setVisibility(View.VISIBLE);
-             }
-
-            if (mPostStatus.equals(Post.STATUS_VALUE_ACTIVE)) {
+                mButtonContainer.setVisibility(View.GONE);
+            } else if (mPostStatus.equals(Post.STATUS_VALUE_ACTIVE)) {
                 addUpdateClickListener();
                 addRemoveClickListener();
             }
@@ -152,18 +148,12 @@ public class ViewPostFragment extends Fragment {
             addLikeAndOfferClickListener();
             if (mPostStatus.equals(Post.STATUS_VALUE_LOCKED)) {
                 mPostStatusView.setVisibility(View.VISIBLE);
-                mPostStartOffer.setVisibility(View.GONE);}
-            if (mPostStatus.equals(Post.STATUS_VALUE_ACTIVE)) {
+                mButtonContainer.setVisibility(View.GONE);
+            } else if (mPostStatus.equals(Post.STATUS_VALUE_ACTIVE)) {
                 mPostUpdate.setVisibility(View.INVISIBLE);
                 mPostRemove.setVisibility(View.INVISIBLE);
             }
-
-
         }
-
-
-
-
 //        hideSoftKeyboard();
     }
 
