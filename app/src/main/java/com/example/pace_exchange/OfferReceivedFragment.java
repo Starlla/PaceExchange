@@ -45,6 +45,16 @@ public class OfferReceivedFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            mListener = (OfferReceivedFragment.OnOfferReceivedFragmentInteractionListener) context;
+        }catch(ClassCastException e){
+            new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -63,15 +73,7 @@ public class OfferReceivedFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try{
-            mListener = (OfferReceivedFragment.OnOfferReceivedFragmentInteractionListener) context;
-        }catch(ClassCastException e){
-            new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
-        }
-    }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

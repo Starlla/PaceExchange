@@ -61,7 +61,7 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_marginStart="10dp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -81,6 +81,7 @@
 
         <Button
             android:id="@+id/offer_reject_button"
+            android:layout_below="@+id/offer_accept_button"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,7 +115,20 @@
             android:focusableInTouchMode="false"
             android:focusable="false"
             android:visibility="gone" />
+        <Button
+            android:id="@+id/offer_finished_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/finished_button"
+            android:textColor="@color/White"
+            android:background="@drawable/post_bt_ui"
+            android:minHeight="35dp"
+            android:focusableInTouchMode="false"
+            android:focusable="false"
+            android:visibility="gone" />
 
-    </LinearLayout>
+
+
+    </RelativeLayout>
 
 </LinearLayout>

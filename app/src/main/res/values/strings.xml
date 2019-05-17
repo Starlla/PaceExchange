@@ -135,4 +135,5 @@
     <string name="arg_post_status">arg_post_status</string>
     <string name="please_sign_up_with_your_pace_email">Please sign up with your pace email.</string>
     <string name="your_password_must_be_at_least_10_characters">\"Your password must be at least 10 characters.\"</string>
+    <string name="finished_button">FINISHED</string>
 </resources>
