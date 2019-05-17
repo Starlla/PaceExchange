@@ -103,7 +103,7 @@ public class ProfileFragment extends Fragment {
     public void setMyItemsTabOnClickListener(){
         mMyItemsTab.setOnClickListener(v->{
             Bundle args = new Bundle();
-            args.putString(ARG_UID,mUid);
+            args.putString(getString(R.string.arg_user_id), mUid);
             MyItemsFragment fragment = new MyItemsFragment();
             fragment.setArguments(args);
 
@@ -150,7 +150,7 @@ public class ProfileFragment extends Fragment {
     public void setMyProfileTabOnClickedListener(){
         mMyProfileTab.setOnClickListener(v -> {
             Bundle args = new Bundle();
-            args.putString(ARG_UID,mUid);
+            args.putString(getString(R.string.arg_user_id), mUid);
             MyProfileFragment fragment = new MyProfileFragment();
             fragment.setArguments(args);
             mClickHandler.myProfileTabClicked(fragment);

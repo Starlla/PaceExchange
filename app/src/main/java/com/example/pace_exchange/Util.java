@@ -39,9 +39,8 @@ public class Util {
                 .removeValue();
     }
 
-
-
-    static void getPostIdsThenGetPosts(ArrayList<String> mPostIDList, ArrayList<Post> mPostList,MyAdapter mAdapter, String node){
+    static void getPostIdsThenGetPosts(String uid, ArrayList<String> mPostIDList,
+                                       ArrayList<Post> mPostList, MyAdapter mAdapter, String node){
         Log.d(TAG, "Getting " +node +"list.");
         if(mPostList != null){
             mPostList.clear();
@@ -54,7 +53,7 @@ public class Util {
 
         Query query = reference.child(node)
                 .orderByKey()
-                .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                .equalTo(uid);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

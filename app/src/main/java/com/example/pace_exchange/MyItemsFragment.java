@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,21 +95,25 @@ public class MyItemsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Context context = getContext();
-        if (context.getClass() == MainActivity.class) {
-            Fragment fragment = ((MainActivity) context).currentFragment;
-            if (fragment.getTag().equals(context.getString(R.string.fragment_shop))
-            ||fragment.getTag().equals(context.getString(R.string.fragment_my_likes)) ) {
-                targetItemPageType = OTHER_USER_ITEMS;
-            }
-        }
+//        if (context.getClass() == MainActivity.class) {
+//            Fragment fragment = ((MainActivity) context).currentFragment;
+//            if (fragment.getTag().equals(context.getString(R.string.fragment_shop))
+//            ||fragment.getTag().equals(context.getString(R.string.fragment_my_likes)) ) {
+//                targetItemPageType = OTHER_USER_ITEMS;
+//            }
+//        }
         Bundle args = getArguments();
-        if (args != null){
-            if(targetItemPageType !=null){
-                if(targetItemPageType.equals(OTHER_USER_ITEMS)) mUid = args.getString(ViewPostFragment.WANT_POST_USER_UID);
-            }
-            else{ mUid = args.getString(ProfileFragment.ARG_UID);}
+//        if (args != null){
+//            if(targetItemPageType !=null){
+//                if(targetItemPageType.equals(OTHER_USER_ITEMS)) mUid = args.getString(ViewPostFragment.WANT_POST_USER_UID);
+//            }
+//            else{ mUid = args.getString(ProfileFragment.ARG_UID);}
+//
+//        }
+//        mUid = args.getString(ProfileFragment.ARG_UID) == null ? args.getString(ViewPostFragment.WANT_POST_USER_UID) : args.getString(ProfileFragment.ARG_UID);
 
-        }
+        mUid = args.getString(getString(R.string.arg_user_id));
+//        Log.d("!!!!!!!!!!!", mUid);
 
         getUserInfo();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child(getString(R.string.node_posts));
@@ -135,7 +140,6 @@ public class MyItemsFragment extends Fragment {
     }
 
     private void configureRecyclerView() {
-
         mRecyclerView.setHasFixedSize(true);
         RecyclerViewMargin itemDecorator = new RecyclerViewMargin(GRID_ITEM_MARGIN, NUM_GRID_COLUMNS);
         mRecyclerView.addItemDecoration(itemDecorator);
@@ -215,7 +219,7 @@ public class MyItemsFragment extends Fragment {
     ValueEventListener mItemListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            Util.getPostIdsThenGetPosts(mPostIds,mPosts,mMyAdapter,getString(R.string.node_inventories));
+            Util.getPostIdsThenGetPosts(mUid, mPostIds,mPosts,mMyAdapter,getString(R.string.node_inventories));
         }
 
         @Override

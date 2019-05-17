@@ -122,7 +122,7 @@ public class MyLikesFragment extends Fragment {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             Log.d(TAG, "onDataChange: a change was made to this users watch list node.");
-            Util.getPostIdsThenGetPosts(mPostsIds,mPosts,mMyAdapter,getString(R.string.node_likes));
+            Util.getPostIdsThenGetPosts(mUid, mPostsIds,mPosts,mMyAdapter,getString(R.string.node_likes));
         }
         @Override
         public void onCancelled(DatabaseError databaseError) {

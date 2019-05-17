@@ -276,7 +276,7 @@ public class ViewPostFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
-                args.putString(WANT_POST_USER_UID,mPostUserId);
+                args.putString(getString(R.string.arg_user_id), mPostUserId);
                 MyItemsFragment fragment = new MyItemsFragment();
                 fragment.setArguments(args);
 
