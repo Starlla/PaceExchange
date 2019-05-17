@@ -143,6 +143,7 @@ public class OfferConfirmedFragment extends Fragment {
 
                     }
                 });
+
                 mMyOfferAdapter.notifyDataSetChanged();
             }
 
@@ -163,7 +164,12 @@ public class OfferConfirmedFragment extends Fragment {
             }
         });
 
+        mMyOfferAdapter.setConfirmedOfferInteraction(new MyOfferAdapter.OnConfirmedOfferInteractionListener() {
+            @Override
+            public void onFinishedButtonClick(int position) {
 
+            }
+        });
 
         mRecyclerView.setAdapter(mMyOfferAdapter);
     }

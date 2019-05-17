@@ -54,7 +54,6 @@ public class OfferFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         setToolbar();
         setupViewPager();
-
     }
 
     private void setupViewPager(){
