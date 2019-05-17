@@ -159,10 +159,11 @@ public class OfferReceivedFragment extends Fragment {
                                         Log.d(TAG,snapshot.getKey());
                                         if (snapshot.getKey().startsWith(receiverPostId)){
                                             String offer_id =snapshot.getKey();
+                                            System.out.println(offer_id);
                                             mDatabaseReference.child(getString(R.string.node_offers))
                                                     .child(offer_id)
                                                     .child(getString(R.string.field_status)).setValue(Post.STATUS_VALUE_INACTIVE);
-
+                                            mMyOfferAdapter.notifyDataSetChanged();
                                         }
                                     }
                                 }
@@ -173,7 +174,7 @@ public class OfferReceivedFragment extends Fragment {
                             }
                         });
 
-                mDatabaseReference.child(getString(R.string.node_offer_received)).orderByKey().equalTo(receiverId).
+                mDatabaseReference.child(getString(R.string.node_offer_send)).orderByKey().equalTo(receiverId).
                         addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -183,9 +184,11 @@ public class OfferReceivedFragment extends Fragment {
                                         Log.d(TAG,snapshot.getKey());
                                         if (snapshot.getKey().endsWith(receiverPostId)){
                                             String offer_id =snapshot.getKey();
+                                            System.out.println(offer_id);
                                             mDatabaseReference.child(getString(R.string.node_offers))
                                                     .child(offer_id)
                                                     .child(getString(R.string.field_status)).setValue(Post.STATUS_VALUE_INACTIVE);
+                                            mMyOfferAdapter.notifyDataSetChanged();
 
                                         }
                                     }
@@ -197,7 +200,7 @@ public class OfferReceivedFragment extends Fragment {
                             }
                         });
 
-                mDatabaseReference.child(getString(R.string.node_offer_received)).orderByKey().equalTo(senderId).
+                mDatabaseReference.child(getString(R.string.node_offer_send)).orderByKey().equalTo(senderId).
                         addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -207,9 +210,11 @@ public class OfferReceivedFragment extends Fragment {
                                         Log.d(TAG,snapshot.getKey());
                                         if (snapshot.getKey().endsWith(senderPostId)){
                                             String offer_id =snapshot.getKey();
+                                            System.out.println(offer_id);
                                             mDatabaseReference.child(getString(R.string.node_offers))
                                                     .child(offer_id)
                                                     .child(getString(R.string.field_status)).setValue(Post.STATUS_VALUE_INACTIVE);
+                                            mMyOfferAdapter.notifyDataSetChanged();
 
                                         }
                                     }
@@ -231,9 +236,11 @@ public class OfferReceivedFragment extends Fragment {
                                         Log.d(TAG,snapshot.getKey());
                                         if (snapshot.getKey().startsWith(senderPostId)){
                                             String offer_id =snapshot.getKey();
+                                            System.out.println(offer_id);
                                             mDatabaseReference.child(getString(R.string.node_offers))
                                                     .child(offer_id)
                                                     .child(getString(R.string.field_status)).setValue(Post.STATUS_VALUE_INACTIVE);
+                                            mMyOfferAdapter.notifyDataSetChanged();
 
                                         }
                                     }
