@@ -132,7 +132,13 @@ public class OfferSendFragment extends Fragment {
                 mMyOfferAdapter.notifyDataSetChanged();
             }
 
-            // change to use Interface!!!!
+        });
+        mMyOfferAdapter.setGeneralSituationInteration(new MyOfferAdapter.OnGeneralSituationInterationListener() {
+            @Override
+            public void onRemoveButtonClick(int position) {
+
+            }
+
             @Override
             public void onImageClick(String postId, String userId) {
                 Bundle args = new Bundle();
@@ -146,6 +152,7 @@ public class OfferSendFragment extends Fragment {
                 fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_view_post));
                 fragmentTransaction.addToBackStack(getString(R.string.fragment_view_post));
                 fragmentTransaction.commit();
+
             }
         });
         mRecyclerView.setAdapter(mMyOfferAdapter);

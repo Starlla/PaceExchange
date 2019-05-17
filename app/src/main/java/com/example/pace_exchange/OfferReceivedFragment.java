@@ -215,7 +215,6 @@ public class OfferReceivedFragment extends Fragment {
                                                     .child(offer_id)
                                                     .child(getString(R.string.field_status)).setValue(Post.STATUS_VALUE_INACTIVE);
                                             mMyOfferAdapter.notifyDataSetChanged();
-
                                         }
                                     }
                                 }
@@ -253,7 +252,6 @@ public class OfferReceivedFragment extends Fragment {
                         });
 
 
-
                 // Add to offer_confirmed table.
                 mDatabaseReference.child(getString(R.string.node_offer_confirmed))
                         .child(senderId)
@@ -273,27 +271,22 @@ public class OfferReceivedFragment extends Fragment {
             @Override
             public void onRejectButtonClick(int position) {
                 String mSenderUserId = mOfferList.get(position).getSenderPost().getUser_id();
-                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                String mReceiverUserId = mOfferList.get(position).getReceiverPost().getUser_id();
                 String offerId = mOfferList.get(position).getOfferID();
-                mDatabaseReference.child(getString(R.string.node_offer_received))
-                        .child(uid)
-                        .child(offerId)
-                        .removeValue();
-                mDatabaseReference.child(getString(R.string.node_offer_send))
-                        .child(mSenderUserId)
-                        .child(offerId)
-                        .removeValue();
-                mDatabaseReference.child(getString(R.string.node_offers))
-                        .child(offerId).removeValue();
-                mMyOfferAdapter.notifyDataSetChanged();
+                RemoveSingleOfferRecord(mReceiverUserId,mSenderUserId, offerId);
             }
 
+        });
+
+        mMyOfferAdapter.setGeneralSituationInteration(new MyOfferAdapter.OnGeneralSituationInterationListener() {
             @Override
             public void onRemoveButtonClick(int position) {
-
+                String mSenderUserId = mOfferList.get(position).getSenderPost().getUser_id();
+                String mReceiverUserId = mOfferList.get(position).getReceiverPost().getUser_id();
+                String offerId = mOfferList.get(position).getOfferID();
+                RemoveSingleOfferRecord(mReceiverUserId,mSenderUserId,offerId);
             }
 
-            // change to use Interface!!!!
             @Override
             public void onImageClick(String postId, String userId) {
                 Bundle args = new Bundle();
@@ -307,10 +300,27 @@ public class OfferReceivedFragment extends Fragment {
                 fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_view_post));
                 fragmentTransaction.addToBackStack(getString(R.string.fragment_view_post));
                 fragmentTransaction.commit();
+
             }
         });
 
+
+
         mRecyclerView.setAdapter(mMyOfferAdapter);
+    }
+
+    private void RemoveSingleOfferRecord(String mReceiverUserId, String mSenderUserId, String offerId) {
+        mDatabaseReference.child(getString(R.string.node_offer_received))
+                .child(mReceiverUserId)
+                .child(offerId)
+                .removeValue();
+        mDatabaseReference.child(getString(R.string.node_offer_send))
+                .child(mSenderUserId)
+                .child(offerId)
+                .removeValue();
+        mDatabaseReference.child(getString(R.string.node_offers))
+                .child(offerId).removeValue();
+        mMyOfferAdapter.notifyDataSetChanged();
     }
 
     //Delete post start with post id in offer id

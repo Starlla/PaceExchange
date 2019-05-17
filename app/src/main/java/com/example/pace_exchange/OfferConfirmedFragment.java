@@ -108,7 +108,7 @@ public class OfferConfirmedFragment extends Fragment {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mMyOfferAdapter = new MyOfferAdapter(getActivity(), mOfferList);
         mMyOfferAdapter.setFragmentTag(TAG);
-        mMyOfferAdapter.setConfirmedOfferInteraction(new MyOfferAdapter.OnConfirmedOfferInteractionListener() {
+        mMyOfferAdapter.setGeneralSituationInteration(new MyOfferAdapter.OnGeneralSituationInterationListener() {
             @Override
             public void onRemoveButtonClick(int position) {
                 OfferPostItem offerPostItem = mOfferList.get(position);
@@ -162,6 +162,8 @@ public class OfferConfirmedFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+
+
 
         mRecyclerView.setAdapter(mMyOfferAdapter);
     }
