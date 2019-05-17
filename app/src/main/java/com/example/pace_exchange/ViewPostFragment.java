@@ -113,7 +113,6 @@ public class ViewPostFragment extends Fragment {
             new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
 
         }
-
     }
 
     private void init() {

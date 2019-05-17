@@ -115,14 +115,6 @@ public class OfferReceivedFragment extends Fragment {
                 String receiverPostId = offerPostItem.getReceiverPost().getPost_id();
                 String offerId = offerPostItem.getOfferID();
 
-                //change offer status to INACTIVE related to this two Posts
-                //Start At (As Receiver in Offer)
-                InActiveAsReceiverOffer(receiverPostId);
-                InActiveAsReceiverOffer(senderPostId);
-                //End At (As Sender in Offer)
-                InActiveAsSenderOffer(receiverPostId);
-                InActiveAsSenderOffer(senderPostId);
-
                 // Change status of both posts.
                 mDatabaseReference.child(getString(R.string.node_posts))
                         .child(senderPostId)
@@ -130,6 +122,11 @@ public class OfferReceivedFragment extends Fragment {
                         .setValue(Post.STATUS_VALUE_LOCKED);
                 mDatabaseReference.child(getString(R.string.node_posts))
                         .child(receiverPostId)
+                        .child(getString(R.string.field_status))
+                        .setValue(Post.STATUS_VALUE_LOCKED);
+                //Change status in offers.
+                mDatabaseReference.child(getString(R.string.node_offers))
+                        .child(offerId)
                         .child(getString(R.string.field_status))
                         .setValue(Post.STATUS_VALUE_LOCKED);
 
@@ -143,23 +140,6 @@ public class OfferReceivedFragment extends Fragment {
 //                        .child(receiverPostId)
 //                        .removeValue();
 
-
-                // Add to offer_confirmed table.
-                mDatabaseReference.child(getString(R.string.node_offer_confirmed))
-                        .child(senderId)
-                        .child(offerId)
-                        .setValue(receiverId);
-                mDatabaseReference.child(getString(R.string.node_offer_confirmed))
-                        .child(receiverId)
-                        .child(offerId)
-                        .setValue(senderId);
-
-                //Change status in offers.(Need to change after inactive, since marked as inactive also first)
-                mDatabaseReference.child(getString(R.string.node_offers))
-                        .child(offerId)
-                        .child(getString(R.string.field_status))
-                        .setValue(Post.STATUS_VALUE_LOCKED);
-
                 // Delete in two offers tables for this transaction
                 //From my side (receiver)
                 mDatabaseReference.child(getString(R.string.node_offer_received))
@@ -171,6 +151,52 @@ public class OfferReceivedFragment extends Fragment {
                         .child(senderId)
                         .child(offerId)
                         .removeValue();
+
+                //change offer status to INACTIVE related to this two Posts
+                mDatabaseReference.child(getString(R.string.node_offers)).orderByKey().startAt(receiverPostId).
+                        addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.getChildren().iterator().hasNext()){
+                                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                                    mDatabaseReference.child(getString(R.string.node_offers)).child(singleSnapshot.getKey()).child("status").setValue(Post.STATUS_VALUE_INACTIVE);
+                                    Log.d(TAG, "InActivate Offer: " + singleSnapshot.getKey());
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                mDatabaseReference.child(getString(R.string.node_offers)).orderByKey().endAt(senderPostId).
+                        addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.getChildren().iterator().hasNext()){
+                                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                                    mDatabaseReference.child(getString(R.string.node_offers)).child(singleSnapshot.getKey()).child("status").setValue(Post.STATUS_VALUE_INACTIVE);
+                                    Log.d(TAG, "InActivate Offer: " + singleSnapshot.getKey());
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+
+                // Add to offer_confirmed table.
+                mDatabaseReference.child(getString(R.string.node_offer_confirmed))
+                        .child(senderId)
+                        .child(offerId)
+                        .setValue(receiverId);
+                mDatabaseReference.child(getString(R.string.node_offer_confirmed))
+                        .child(receiverId)
+                        .child(offerId)
+                        .setValue(senderId);
             }
 
             @Override
