@@ -48,13 +48,13 @@
 
     <EditText
         android:layout_marginTop="20dp"
-        android:id="@+id/sign_up_email_field"
+        android:id="@+id/sign_up_last_name_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_pace_email"
+        android:hint="@string/hint_last_name"
         android:textColorHint="@color/White"
         android:textColor="@color/White"
-        android:layout_below="@+id/sign_up_last_name_field"
+        android:layout_below="@+id/sign_up_first_name_field"
         android:layout_centerHorizontal="true"
         android:layout_marginRight="80dp"
         android:layout_marginLeft="80dp"
@@ -66,13 +66,13 @@
 
     <EditText
         android:layout_marginTop="20dp"
-        android:id="@+id/sign_up_last_name_field"
+        android:id="@+id/sign_up_email_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_last_name"
+        android:hint="@string/hint_pace_email"
         android:textColorHint="@color/White"
         android:textColor="@color/White"
-        android:layout_below="@+id/sign_up_first_name_field"
+        android:layout_below="@+id/sign_up_last_name_field"
         android:layout_centerHorizontal="true"
         android:layout_marginRight="80dp"
         android:layout_marginLeft="80dp"

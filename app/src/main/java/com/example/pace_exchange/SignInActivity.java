@@ -1,6 +1,7 @@
 package com.example.pace_exchange;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener{
-
 
     private EditText emailInput;
     private EditText passwordInput;
@@ -36,7 +36,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onStart() {
         super.onStart();
-        // check if the user has signed in, if so then update
+        // Check if the user has signed in, if so then update.
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
@@ -54,13 +54,13 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    // successfully sign in, update
+                    // Successfully sign in, update.
                     FirebaseUser user = auth.getCurrentUser();
                     Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                     intent.putExtra(getString(R.string.extra_user), user);
                     startActivity(intent);
                 } else {
-                    // fail to sign in, display a message to the user
+                    // Fail to sign in, display a message to the user.
                     Toast.makeText(SignInActivity.this, R.string.unable_to_sign_in, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -69,23 +69,25 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     private boolean isValid() {
         boolean isValid = true;
+        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_error_24dp);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+
         String email = emailInput.getText().toString();
         if (email.isEmpty()) {
-            emailInput.setError(getString(R.string.this_field_cannot_be_blank), ContextCompat.getDrawable(this, R.drawable.ic_error_24dp));
+            emailInput.requestFocus();
+            emailInput.setError(getString(R.string.this_field_cannot_be_blank), drawable);
             isValid = false;
         } else if (!email.endsWith(getString(R.string.email_suffix))) {
-            emailInput.setError(getString(R.string.please_sign_in_with_your_pace_email));
+            emailInput.requestFocus();
+            emailInput.setError(getString(R.string.please_sign_in_with_your_pace_email), drawable);
             isValid = false;
-        } else {
-            emailInput.setError(null);
         }
 
         String password = passwordInput.getText().toString();
         if (password.isEmpty()) {
-            passwordInput.setError(getString(R.string.this_field_cannot_be_blank));
+            passwordInput.requestFocus();
+            passwordInput.setError(getString(R.string.this_field_cannot_be_blank), drawable);
             isValid = false;
-        } else {
-            passwordInput.setError(null);
         }
         return isValid;
     }

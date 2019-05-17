@@ -52,6 +52,9 @@
     <string name="field_description">description</string>
     <string name="field_image">image</string>
     <string name="field_status">status</string>
+    <string name="field_first_name">first_name</string>
+    <string name="field_last_name">last_name</string>
+    <string name="field_email">email</string>
 
     <!-- Intent extras and Bundle arguments -->
     <string name="arg_user_id">arg_user_id</string>
@@ -129,4 +132,6 @@
     <string name="my_profile_fragment_edit_text">Edit</string>
     <string name="hint_description">Description</string>
     <string name="arg_post_status">arg_post_status</string>
+    <string name="please_sign_up_with_your_pace_email">Please sign up with your pace email.</string>
+    <string name="your_password_must_be_at_least_10_characters">\"Your password must be at least 10 characters.\"</string>
 </resources>

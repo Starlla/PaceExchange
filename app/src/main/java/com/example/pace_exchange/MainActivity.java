@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
         final FirebaseUser user = (FirebaseUser) bd.get(getString(R.string.extra_user));
 
         if (user != null) {
-            String email = user.getEmail();
+//            String email = user.getEmail();
             uid = user.getUid();
 
         }

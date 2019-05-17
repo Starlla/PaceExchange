@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".SignInActivity"
     android:background="@color/PurpleBlue">
+
     <ImageView
         android:id="@+id/sign_in_logo"
         android:layout_marginTop="40dp"
@@ -13,7 +14,6 @@
         android:layout_height="230dp"
         android:src="@drawable/ic_pace_exchange_logo"
         android:layout_centerHorizontal="true"/>
-
 
         <EditText
             android:layout_below="@id/sign_in_logo"
