@@ -149,8 +149,10 @@ public class OfferInventoryFragment extends Fragment {
                 if (dataSnapshot.exists()) {
                     DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
                     for (DataSnapshot snapshot : singleSnapshot.getChildren()) {
+                        //Only display active item
                         String postId = snapshot.child(getString(R.string.field_post_id)).getValue().toString();
                         mPostIds.add(postId);
+
                     }
                 }
                 getPosts();
@@ -178,8 +180,10 @@ public class OfferInventoryFragment extends Fragment {
                             DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
                             if (singleSnapshot != null) {
                                 Post post = singleSnapshot.getValue(Post.class);
-                                mItems.add(post);
-                                mMyAdapter.notifyDataSetChanged();
+                                if(post.getStatus().equals(Post.STATUS_VALUE_ACTIVE)) {
+                                    mItems.add(post);
+                                    mMyAdapter.notifyDataSetChanged();
+                                }
                             }
                         } else {
                             mMyAdapter.notifyDataSetChanged();

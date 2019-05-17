@@ -145,6 +145,7 @@ public class ViewPostFragment extends Fragment {
                 mPostStatusView.setVisibility(View.VISIBLE);
                 mPostRemove.setVisibility(View.VISIBLE);
                 addRemoveClickListener();
+                mPostUpdate.setVisibility(View.GONE);
 
             }
         } else {
