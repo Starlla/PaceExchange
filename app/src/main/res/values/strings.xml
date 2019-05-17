@@ -55,6 +55,7 @@
     <string name="field_first_name">first_name</string>
     <string name="field_last_name">last_name</string>
     <string name="field_email">email</string>
+    <string name="field_user_id">user_id</string>
 
     <!-- Intent extras and Bundle arguments -->
     <string name="arg_user_id">arg_user_id</string>

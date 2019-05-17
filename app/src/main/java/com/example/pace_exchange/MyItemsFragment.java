@@ -45,7 +45,6 @@ public class MyItemsFragment extends Fragment {
     MyAdapter mMyAdapter;
     RecyclerView mRecyclerView;
     Toolbar toolbar;
-    String targetItemPageType;
 
     private static final int NUM_GRID_COLUMNS = 2;
     private static final int GRID_ITEM_MARGIN = Util.dpToPx(14);
@@ -64,14 +63,6 @@ public class MyItemsFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -83,38 +74,18 @@ public class MyItemsFragment extends Fragment {
         mMyItemsProfilePhoto = view.findViewById(R.id.profile_image2);
         mPosts = new ArrayList<>();
         mPostIds = new ArrayList<>();
-        toolbar =view.findViewById(R.id.my_items_toolbar);
+        toolbar = view.findViewById(R.id.my_items_toolbar);
 
 
         setToolbar();
         return view;
     }
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Context context = getContext();
-//        if (context.getClass() == MainActivity.class) {
-//            Fragment fragment = ((MainActivity) context).currentFragment;
-//            if (fragment.getTag().equals(context.getString(R.string.fragment_shop))
-//            ||fragment.getTag().equals(context.getString(R.string.fragment_my_likes)) ) {
-//                targetItemPageType = OTHER_USER_ITEMS;
-//            }
-//        }
         Bundle args = getArguments();
-//        if (args != null){
-//            if(targetItemPageType !=null){
-//                if(targetItemPageType.equals(OTHER_USER_ITEMS)) mUid = args.getString(ViewPostFragment.WANT_POST_USER_UID);
-//            }
-//            else{ mUid = args.getString(ProfileFragment.ARG_UID);}
-//
-//        }
-//        mUid = args.getString(ProfileFragment.ARG_UID) == null ? args.getString(ViewPostFragment.WANT_POST_USER_UID) : args.getString(ProfileFragment.ARG_UID);
-
         mUid = args.getString(getString(R.string.arg_user_id));
-//        Log.d("!!!!!!!!!!!", mUid);
-
         getUserInfo();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child(getString(R.string.node_posts));
         configureRecyclerView();
@@ -136,7 +107,6 @@ public class MyItemsFragment extends Fragment {
         super.onDetach();
         mClickHandler = null;
         mItemListener = null;
-
     }
 
     private void configureRecyclerView() {
@@ -153,10 +123,9 @@ public class MyItemsFragment extends Fragment {
                 viewPost(post.getPost_id(), post.getUser_id(), post.getStatus());
             }
         });
-//        mMyAdapter.setFragmentTag(getString(R.string.fragment_my_items));
         mRecyclerView.setAdapter(mMyAdapter);
 
-        Query query = mDatabaseReference.orderByChild("user_id").equalTo(mUid);
+        Query query = mDatabaseReference.orderByChild(getString(R.string.field_user_id)).equalTo(mUid);
 
         query.addValueEventListener(mItemListener);
     }
@@ -219,7 +188,7 @@ public class MyItemsFragment extends Fragment {
     ValueEventListener mItemListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            Util.getPostIdsThenGetPosts(mUid, mPostIds,mPosts,mMyAdapter,getString(R.string.node_inventories));
+            Util.getPostIdsThenGetPosts(mUid, mPostIds, mPosts, mMyAdapter, getString(R.string.node_inventories));
         }
 
         @Override
@@ -227,5 +196,4 @@ public class MyItemsFragment extends Fragment {
 
         }
     };
-
 }
