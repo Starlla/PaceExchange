@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -148,15 +149,17 @@ public class OfferSendFragment extends Fragment {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         String offerId = mOfferList.get(position).getOfferID();
-        databaseReference.child(getString(R.string.node_offer_send))
+        databaseReference.child("offer_send")
                 .child(uid)
                 .child(offerId)
                 .removeValue();
-        databaseReference.child(getString(R.string.node_offer_received))
+        databaseReference.child("offer_received")
                 .child(mReceiverUserId)
                 .child(offerId)
                 .removeValue();
         Util.deleteOfferRecord(offerId);
+        mRecyclerView.setAdapter(mMyOfferAdapter);
+        Toast.makeText(getActivity(), getContext().getString(R.string.offer_canceled_toast), Toast.LENGTH_SHORT).show();
     }
 
     ValueEventListener mValueEventListener = new ValueEventListener() {
@@ -181,7 +184,7 @@ public class OfferSendFragment extends Fragment {
             mOfferList.clear();
         }
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        Query query = reference.child(getString(R.string.node_offer_send))
+        Query query = reference.child("offer_send")
                 .orderByKey()
                 .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {

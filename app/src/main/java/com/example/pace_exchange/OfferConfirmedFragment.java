@@ -330,7 +330,6 @@ public class OfferConfirmedFragment extends Fragment {
                 } else {
                     // Post is deleted by its author. Delete the record in table offers in DB.
                     Util.deleteOfferRecord(offerId);
-                    mMyOfferAdapter.notifyDataSetChanged();
                 }
             }
             @Override

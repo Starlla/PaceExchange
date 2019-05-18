@@ -264,7 +264,7 @@ public class OfferReceivedFragment extends Fragment {
                 String mReceiverUserId = mOfferList.get(position).getReceiverPost().getUser_id();
                 String offerId = mOfferList.get(position).getOfferID();
                 RemoveSingleOfferRecord(mReceiverUserId,mSenderUserId, offerId);
-
+                mRecyclerView.setAdapter(mMyOfferAdapter);
             }
         });
 
