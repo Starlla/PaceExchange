@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
     static final String ARG_POST_ID = "arg_post_id";
     static final String ARG_POST_STATUS = "arg_post_status";
     static final String ARG_NO_ITEM = "arg_no_item";
+    public static final String FRAGMENT_TAG = "fragment_tag";
     static final String ARG_SPECIAL_CODE = "arg_special_code";
     //when post first created,the status is "ACTIVE"
     public static final String STATUS_VALUE_ACTIVE = "ACTIVE";
@@ -129,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
                 case R.id.post_tab_icon:
                     currentFragment = postFragment;
                     currentTag = getString(R.string.fragment_post);
+                    Bundle args = new Bundle();
                     currentTabText = postTabText;
                     postIconView.setColorFilter(getResources().getColor(R.color.colorSelect));
                     break;
@@ -136,6 +138,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
             if(currentTabText != null) {
                 currentTabText.setTextColor(ContextCompat.getColor(this, R.color.colorSelect));
             }
+//            Bundle args = new Bundle();
+//            currentFragment.setArguments(args);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, currentFragment,currentTag).commit();
         };
         //add above listener to tabs
@@ -232,8 +236,13 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
     }
 
     @Override
-    public void startOfferButtonClicked(OfferInventoryFragment fragment) {
-        currentFragment = fragment;
+    public void startOfferButtonClicked(Bundle args) {
+        OfferInventoryFragment fragment = new OfferInventoryFragment();
+        fragment.setArguments(args);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_offer_inventory));
+        fragmentTransaction.addToBackStack(getString(R.string.fragment_offer_inventory));
+        fragmentTransaction.commit();
 
     }
 }

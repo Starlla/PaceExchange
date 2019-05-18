@@ -108,6 +108,7 @@ public class ViewPostFragment extends Fragment {
             mPostId = (String) getArguments().get(MainActivity.ARG_POST_ID);
             mPostUserId = (String) getArguments().get(MainActivity.ARG_UID);
             mPostStatus = (String) getArguments().get(MainActivity.ARG_POST_STATUS);
+            System.out.println(mPostId + "ooooo"+mPostUserId+ "000" + mPostStatus);
         }
         init();
     }
@@ -115,14 +116,12 @@ public class ViewPostFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if(isAdded()){
             try {
                 mListener = (ViewPostFragment.StartOfferButtonClickHandler) context;
             } catch (ClassCastException e) {
                 throw new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
-
             }
-        }
+
     }
 
     private void init() {
@@ -131,6 +130,9 @@ public class ViewPostFragment extends Fragment {
         mSenderItemUserIdMap = new HashMap<>();
         String specialCode = (String) getArguments().get(getString(R.string.arg_special_code));
         if (specialCode != null && specialCode == NO_ACTION) {
+            if(!mPostStatus.equals(MainActivity.STATUS_VALUE_ACTIVE)){
+                mPostStatusView.setVisibility(View.VISIBLE);
+            }
             // View post from offer fragment.
             mButtonContainer.setVisibility(View.GONE);
             if (!mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
@@ -268,13 +270,7 @@ public class ViewPostFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString(getString(R.string.extra_post_id),mPostId);
                 args.putString(MainActivity.ARG_UID, mPostUserId);
-                OfferInventoryFragment fragment = new OfferInventoryFragment();
-                fragment.setArguments(args);
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_offer_inventory));
-                fragmentTransaction.addToBackStack(getString(R.string.fragment_offer_inventory));
-                fragmentTransaction.commit();
-                mListener.startOfferButtonClicked(fragment);
+                mListener.startOfferButtonClicked(args);
             }
         });
 
@@ -301,7 +297,7 @@ public class ViewPostFragment extends Fragment {
             public void onClick(View v) {
                 // Change to use Interface to pass args!!!
                 Bundle args = new Bundle();
-                args.putString(getString(R.string.arg_user_id), mPostId);
+                args.putString(MainActivity.ARG_POST_ID, mPostId);
                 PostFragment fragment = new PostFragment();
                 fragment.setArguments(args);
 
@@ -462,7 +458,7 @@ public class ViewPostFragment extends Fragment {
     }
 
     public interface StartOfferButtonClickHandler{
-        void startOfferButtonClicked(OfferInventoryFragment fragment);
+        void startOfferButtonClicked(Bundle args);
     }
 
 

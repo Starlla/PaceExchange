@@ -62,7 +62,6 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
     public void getImagePath(Uri imagePath) {
         Log.d(TAG, "getImagePath: setting the image to imageview");
         UniversalImageLoader.setImage(imagePath.toString(), mPostImage);
-
         mSelectedBitmap = null;
         mSelectedUri = imagePath;
     }
@@ -107,7 +106,6 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
         mSave = view.findViewById(R.id.btn_save);
         mCancel = view.findViewById(R.id.btn_cancel);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-//        mPostId = getArguments() == null ? "" : getArguments().getString(MainActivity.ARG_UID);
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
         return view;
     }
@@ -124,9 +122,11 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
         if(args != null) {
             mUid = args.getString(MainActivity.ARG_UID);
             mPostId = args.getString(MainActivity.ARG_POST_ID);
-        }
+            System.out.println("ababbababba"+ mPostId);
+        }else{mPostId="";}
+
         // For edit in view post fragment in my items fragment
-        if (mPostId != null) {
+        if (mPostId !="") {
             getPostInfo();
             mPost.setVisibility(View.GONE);
             mSave.setVisibility(View.VISIBLE);
@@ -312,11 +312,11 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
                     post.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     post.setStatus(MainActivity.STATUS_VALUE_ACTIVE);
 
-                    reference.child(getString(R.string.node_posts))
+                    reference.child("posts")
                             .child(postId)
                             .setValue(post);
 
-                    reference.child(getString(R.string.node_inventories))
+                    reference.child("inventories")
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .child(postId)
                             .child(getString(R.string.field_post_id))
@@ -324,7 +324,7 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
 
                     resetFields();
                 } else {
-                    reference.child(getString(R.string.node_posts))
+                    reference.child("posts")
                             .child(postId)
                             .child(getString(R.string.field_image))
                             .setValue(firebaseUri.toString());
@@ -357,7 +357,7 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
 
     private void getPostInfo() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        Query query = reference.child(getString(R.string.node_posts)).orderByKey().equalTo(mPostId);
+        Query query = reference.child("posts").orderByKey().equalTo(mPostId);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
