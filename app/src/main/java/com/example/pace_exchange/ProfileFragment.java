@@ -15,6 +15,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,15 +26,22 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ProfileFragment extends Fragment {
 
-    static final String ARG_UID = "UID";
+
+//    public static ProfileFragment newInstance(String uid) {
+//        ProfileFragment fragment = new ProfileFragment();
+//        Bundle args = new Bundle();
+//        args.putString(ARG_UID, uid);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
 
     interface ProfileFragmentButtonClickHandler{
         void signOutButtonClicked();
-        void myItemsTabClicked(MyItemsFragment fragment);
-        void myLikesTabClicked(MyLikesFragment fragment);
-        void myOfferTabClicked(OfferFragment fragment);
-        void myProfileTabClicked(MyProfileFragment fragment);
+        void myItemsTabClicked();
+        void myLikesTabClicked();
+        void myOfferTabClicked();
+        void myProfileTabClicked();
     }
 
     View mSignOutTab;
@@ -55,7 +63,7 @@ public class ProfileFragment extends Fragment {
         try{
             mClickHandler = (ProfileFragmentButtonClickHandler) context;
         }catch(ClassCastException e){
-            new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
+            throw new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
 
         }
 
@@ -74,6 +82,8 @@ public class ProfileFragment extends Fragment {
         mOfferTab= view.findViewById(R.id.relLayout_offer);
         mMyProfileTab = view.findViewById(R.id.relLayout_my_profile);
         mFrameLayout = view.findViewById(R.id.fragment_container);
+        mUid = FirebaseAuth.getInstance().getUid();
+        mFrameLayout=(FrameLayout)view.findViewById(R.id.container);
         return view;
     }
 
@@ -85,87 +95,35 @@ public class ProfileFragment extends Fragment {
             mClickHandler.signOutButtonClicked();
         });
 
+        mMyItemsTab.setOnClickListener(v -> {
+            mClickHandler.myItemsTabClicked();
+        });
+       mMyLikesTab.setOnClickListener(v->{
+           mClickHandler.myLikesTabClicked();
+       });
+       mMyProfileTab.setOnClickListener(v->{
+           mClickHandler.myProfileTabClicked();
+       });
+       mOfferTab.setOnClickListener(v -> {
+           mClickHandler.myOfferTabClicked();
+       });
+
         populateView();
-        setMyItemsTabOnClickListener();
-        setMyProfileTabOnClickedListener();
-        setMyLikesTabOnClickListener();
-        setMyOfferTabOnClickListener();
     }
 
     private void populateView(){
         Bundle args = getArguments();
         if (args != null) {
-            mUid = args.getString(getString(R.string.arg_user_id));
+            mUid = args.getString(MainActivity.ARG_UID);
         }
         getUserInfo();
     }
 
-    public void setMyItemsTabOnClickListener(){
-        mMyItemsTab.setOnClickListener(v->{
-            Bundle args = new Bundle();
-            args.putString(getString(R.string.arg_user_id), mUid);
-            MyItemsFragment fragment = new MyItemsFragment();
-            fragment.setArguments(args);
 
-            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_my_items));
-            fragmentTransaction.addToBackStack(getString(R.string.fragment_my_items));
-            fragmentTransaction.commit();
-//            mFrameLayout.setVisibility(View.VISIBLE);
-            mClickHandler.myItemsTabClicked(fragment);
-
-        });
-    }
-
-    public void setMyLikesTabOnClickListener(){
-        mMyLikesTab.setOnClickListener(v->{
-            Bundle args = new Bundle();
-            args.putString(ARG_UID,mUid);
-            MyLikesFragment fragment = new MyLikesFragment();
-            fragment.setArguments(args);
-            mClickHandler.myLikesTabClicked(fragment);
-            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_my_likes));
-            fragmentTransaction.addToBackStack(getString(R.string.fragment_my_likes));
-            fragmentTransaction.commit();
-
-        });
-    }
-
-    public void setMyOfferTabOnClickListener(){
-        mOfferTab.setOnClickListener(v->{
-            Bundle args = new Bundle();
-            args.putString(ARG_UID,mUid);
-            OfferFragment fragment = new OfferFragment();
-            fragment.setArguments(args);
-            mClickHandler.myOfferTabClicked(fragment);
-            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_offer));
-            fragmentTransaction.addToBackStack(getString(R.string.fragment_offer));
-            fragmentTransaction.commit();
-
-        });
-    }
-
-    public void setMyProfileTabOnClickedListener(){
-        mMyProfileTab.setOnClickListener(v -> {
-            Bundle args = new Bundle();
-            args.putString(ARG_UID, mUid);
-            MyProfileFragment fragment = new MyProfileFragment();
-            fragment.setArguments(args);
-            mClickHandler.myProfileTabClicked(fragment);
-            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_my_profile_2));
-            fragmentTransaction.addToBackStack(getString(R.string.fragment_my_profile_2));
-            fragmentTransaction.commit();
-
-        });
-
-    }
 
     private void getUserInfo() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        Query query = reference.child(getString(R.string.node_users)).orderByKey().equalTo(mUid);
+        Query query = reference.child("Users").orderByKey().equalTo(FirebaseAuth.getInstance().getUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

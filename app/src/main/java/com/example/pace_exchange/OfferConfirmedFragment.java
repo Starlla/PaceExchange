@@ -78,8 +78,6 @@ public class OfferConfirmedFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Bundle args = getArguments();
-        if (args != null){ mUid = args.getString(ProfileFragment.ARG_UID);}
         init();
     }
 
@@ -117,46 +115,47 @@ public class OfferConfirmedFragment extends Fragment {
                 String currentOfferStatus = offerPostItem.getOfferStatus();
 
                 // Make Sure offer status is TRADED
-                if(currentOfferStatus.equals(Offer.STATUS_VALUE_TRADED)){
-                mDatabaseReference.child(getString(R.string.node_offer_confirmed))
-                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .child(offerId)
-                        .removeValue();
+                if(currentOfferStatus.equals(MainActivity.STATUS_VALUE_TRADED)){
+                    mDatabaseReference.child(getString(R.string.node_offer_confirmed))
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child(offerId)
+                            .removeValue();
 
-                // Check if offer confirmed record also remove by the other user, if so, remove offer
-                String otherUserId = senderId == FirebaseAuth.getInstance().getCurrentUser().getUid() ? receiverId : senderId;
-                Query query = mDatabaseReference.child(getString(R.string.node_offer_confirmed))
-                        .child(otherUserId)
-                        .equalTo(offerId);
+                    // Check if offer confirmed record also remove by the other user, if so, remove offer
+                    String otherUserId = senderId == FirebaseAuth.getInstance().getCurrentUser().getUid() ? receiverId : senderId;
+                    Query query = mDatabaseReference.child(getString(R.string.node_offer_confirmed))
+                            .child(otherUserId)
+                            .equalTo(offerId);
 
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (!dataSnapshot.hasChildren()) {
-                            mDatabaseReference.child(getString(R.string.node_offers))
-                                    .child(offerId)
-                                    .removeValue();
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.hasChildren()) {
+                                mDatabaseReference.child(getString(R.string.node_offers))
+                                        .child(offerId)
+                                        .removeValue();
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
                         }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-            }
+                    });
+                }
 
                 mMyOfferAdapter.notifyDataSetChanged();
             }
 
             // change to use Interface!!!!
             @Override
-            public void onImageClick(String postId, String userId) {
+            public void onImageClick(String postId, String userId, String postStatus) {
                 Bundle args = new Bundle();
-                args.putString(getString(R.string.arg_post_id), postId);
-                args.putString(getString(R.string.arg_user_id), userId);
-                args.putString(getString(R.string.arg_special_code), ViewPostFragment.NO_ACTION);
+                args.putString(MainActivity.ARG_POST_ID, postId);
+                args.putString(MainActivity.ARG_UID, userId);
+                args.putString(MainActivity.ARG_POST_STATUS, postStatus);
+                args.putString(MainActivity.ARG_SPECIAL_CODE, MainActivity.NO_ACTION);
                 ViewPostFragment fragment = new ViewPostFragment();
                 fragment.setArguments(args);
 
@@ -180,37 +179,39 @@ public class OfferConfirmedFragment extends Fragment {
                 String mUid = FirebaseAuth.getInstance().getUid();
 
                 //Mark Offer status to PARTIAL_FINISHED(1 side trader finish) or TRADED(both confirmed finished)
-                if(currentOfferStatus.equals(Offer.STATUS_VALUE_LOCKED)) {
+                if(currentOfferStatus.equals(MainActivity.STATUS_VALUE_LOCKED)) {
                     //I'm the sender
                     if (mUid .equals( senderUserId)) {
                         mDatabaseReference.child(getString(R.string.node_offers))
                                 .child(offerId)
-                                .child(getString(R.string.field_status)).setValue(Offer.STATUS_VALUE_SENDER_FINISHED);
+                                .child(getString(R.string.field_status)).setValue(MainActivity.STATUS_VALUE_SENDER_FINISHED);
                         //I'm the receiver
                     }
                     if (mUid .equals(receiverUserId)) {
                         mDatabaseReference.child(getString(R.string.node_offers))
                                 .child(offerId)
-                                .child(getString(R.string.field_status)).setValue(Offer.STATUS_VALUE_RECEIVER_FINISHED); }
+                                .child(getString(R.string.field_status)).setValue(MainActivity.STATUS_VALUE_RECEIVER_FINISHED); }
                     //Mark Offer Traded
-                } else if (currentOfferStatus.equals(Offer.STATUS_VALUE_SENDER_FINISHED) ||
-                            currentOfferStatus.equals(Offer.STATUS_VALUE_RECEIVER_FINISHED)) {
-                        mDatabaseReference.child(getString(R.string.node_offers))
-                                .child(offerId)
-                                .child(getString(R.string.field_status)).setValue(Offer.STATUS_VALUE_TRADED);
-                        //Change post status to TRADED
-                        mDatabaseReference.child(getString(R.string.node_posts))
-                                .child(senderPostId)
-                                .child(getString(R.string.field_status))
-                                .setValue(Post.STATUS_VALUE_TRADED);
-                        mDatabaseReference.child(getString(R.string.node_posts))
-                                .child(receiverPostId)
-                                .child(getString(R.string.field_status))
-                                .setValue(Post.STATUS_VALUE_TRADED);
-                    }
+                } else if (currentOfferStatus.equals(MainActivity.STATUS_VALUE_SENDER_FINISHED) ||
+                        currentOfferStatus.equals(MainActivity.STATUS_VALUE_RECEIVER_FINISHED)) {
+                    mDatabaseReference.child(getString(R.string.node_offers))
+                            .child(offerId)
+                            .child(getString(R.string.field_status)).setValue(MainActivity.STATUS_VALUE_TRADED);
+                    //Change post status to TRADED
+                    mDatabaseReference.child(getString(R.string.node_posts))
+                            .child(senderPostId)
+                            .child(getString(R.string.field_status))
+                            .setValue(MainActivity.STATUS_VALUE_TRADED);
+                    mDatabaseReference.child(getString(R.string.node_posts))
+                            .child(receiverPostId)
+                            .child(getString(R.string.field_status))
+                            .setValue(MainActivity.STATUS_VALUE_TRADED);
                 }
+                getOfferIds();
+            }
 
-                });
+
+        });
 
         mRecyclerView.setAdapter(mMyOfferAdapter);
     }
@@ -283,14 +284,13 @@ public class OfferConfirmedFragment extends Fragment {
                             mOffers.add(offer);
                             getTwoPostsFromOffer(offer.getReceiver_post_id(),offer.getSender_post_id(),
                                     offer.getOffer_id(),offer.getStatus());
-//                            mMyOfferAdapter.notifyDataSetChanged();
+                            mMyOfferAdapter.notifyDataSetChanged();
                         } else {
                             // Offer is deleted. Delete the record in table offer_confirmed in DB.
                             // ?????
                             deleteOfferConfirmedRecord(mOffersIds.get(mOffers.size()));
                         }
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
@@ -298,7 +298,7 @@ public class OfferConfirmedFragment extends Fragment {
                 });
             }
         }else{
-//            mMyOfferAdapter.notifyDataSetChanged(); //still need to notify the adapter if the list is empty
+            mMyOfferAdapter.notifyDataSetChanged(); //still need to notify the adapter if the list is empty
         }
 
     }
@@ -379,7 +379,3 @@ public class OfferConfirmedFragment extends Fragment {
 
 
 }
-
-
-
-

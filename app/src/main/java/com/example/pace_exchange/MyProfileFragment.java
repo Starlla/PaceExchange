@@ -46,6 +46,9 @@ import static android.support.constraint.Constraints.TAG;
 public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnPhotoSelectedListener,
         SelectGenderDialog.OnGenderSelectedListener,SelectYearDialog.OnYearSelectedListener{
 
+    private static final String ARG_UID = "uid";
+    private String mUid;
+
 
     @Override
     public void setGenderFemale() {
@@ -93,7 +96,6 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
     }
 
     private MyProfileFragmentButtonClickHandler mClickHandler;
-    String mUid;
     TextView mMyProfileNameView;
     TextView mMyProfileEmailView;
     TextView mMyProfileGenderView;
@@ -110,8 +112,9 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
+        Bundle args = getArguments();
+        if (args != null) {mUid = args.getString(MainActivity.ARG_UID);}
+        System.out.println(mUid+"~~~~");
     }
 
     @Override
@@ -198,10 +201,12 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        try {
-            mClickHandler = (MyProfileFragment.MyProfileFragmentButtonClickHandler) context;
-        } catch (ClassCastException e) {
-            new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
+        if(isAdded()) {
+            try {
+                mClickHandler = (MyProfileFragment.MyProfileFragmentButtonClickHandler) context;
+            } catch (ClassCastException e) {
+                throw new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
+            }
         }
 
     }
@@ -221,7 +226,7 @@ public class MyProfileFragment extends Fragment implements SelectPhotoDialog.OnP
     private void populateView() {
         Bundle args = getArguments();
         if (args != null)
-            mUid = args.getString(ProfileFragment.ARG_UID);
+            mUid = args.getString(MainActivity.ARG_UID);
         getUserInfo();
     }
 

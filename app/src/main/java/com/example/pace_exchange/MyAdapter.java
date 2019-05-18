@@ -44,60 +44,13 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.mTextView.setText(post.getTitle());
         Glide.with(mContext).load(post.getImage()).into(holder.mImageView);
         holder.mChecked.setVisibility(mSelectedPosition == position ? View.VISIBLE : View.GONE);
-        if (!post.getStatus().equals(Post.STATUS_VALUE_ACTIVE)) {
+        if (!post.getStatus().equals(MainActivity.STATUS_VALUE_ACTIVE)) {
             holder.mStatus.setVisibility(View.VISIBLE);
             holder.mStatus.setText(post.getStatus());
         }
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(mListener);
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Post post = mList.get(position);
-//                if (mContext.getClass() == MainActivity.class) {
-//                    Fragment fragment = ((MainActivity) mContext).currentFragment;
-//                    Log.d("Adapter currentFragment",fragment.getTag());
-//
-//                    if(fragment.getTag().equals(mContext.getString(R.string.fragment_shop))){
-//                        try {
-//                            ShopFragment mFragment = (ShopFragment) fragment;
-//                            mFragment.viewPost(post.getPost_id(), post.getUser_id(),post.getStatus());
-//                        } catch (ClassCastException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    if(fragment.getTag().equals(mContext.getString(R.string.fragment_my_items))){
-//                        try {
-//                            MyItemsFragment mFragment = (MyItemsFragment) fragment;
-//                            mFragment.viewPost(post.getPost_id(),post.getUser_id(),post.getStatus());
-//                        } catch (ClassCastException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    if(fragment.getTag().equals(mContext.getString(R.string.fragment_my_likes))){
-//                        try {
-//                            MyLikesFragment mFragment = (MyLikesFragment) fragment;
-//                            mFragment.viewPost(post.getPost_id(),post.getUser_id(),post.getStatus());
-//                        } catch (ClassCastException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                    if(fragment.getTag().equals(mContext.getString(R.string.fragment_offer_inventory))){
-//                        try {
-//                            OfferInventoryFragment mFragment = (OfferInventoryFragment) fragment;
-//                            mSelectedPosition = mSelectedPosition == position ? -1 : position;
-//                            notifyDataSetChanged();
-//                        } catch (ClassCastException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                }
-//
-//            }
-//        });
+
     }
 
     @Override

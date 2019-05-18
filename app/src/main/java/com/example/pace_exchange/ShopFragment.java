@@ -129,7 +129,7 @@ public class ShopFragment extends Fragment {
                         // Only display posts of others with a default status
                         final Post post = dss.getValue(Post.class);
                         if (!post.getUser_id().equals(mUid) &&
-                                post.getStatus() .equals(Post.STATUS_VALUE_ACTIVE) ) {
+                                post.getStatus() .equals(MainActivity.STATUS_VALUE_ACTIVE) ) {
                             mItems.add(post);
                         }
                     }
@@ -145,9 +145,9 @@ public class ShopFragment extends Fragment {
 
     public void viewPost(String postId, String userId, String postStatus) {
         Bundle args = new Bundle();
-        args.putString(getString(R.string.arg_post_id), postId);
-        args.putString(getString(R.string.arg_user_id), userId);
-        args.putString(getString(R.string.arg_post_status), postStatus);
+        args.putString(MainActivity.ARG_POST_ID, postId);
+        args.putString(MainActivity.ARG_UID, userId);
+        args.putString(MainActivity.ARG_POST_STATUS, postStatus);
         ViewPostFragment fragment = new ViewPostFragment();
         fragment.setArguments(args);
 

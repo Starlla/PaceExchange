@@ -30,12 +30,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/profile_tool_bar_layout">
-
         <RelativeLayout
+            android:layout_below="@+id/profile_tool_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/relLayout1"
@@ -279,7 +275,13 @@
             </RelativeLayout>
 
         </RelativeLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/container"
+            android:visibility="visible">
+        </FrameLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+
 
 </RelativeLayout>

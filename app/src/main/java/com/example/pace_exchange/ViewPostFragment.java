@@ -69,19 +69,15 @@ public class ViewPostFragment extends Fragment {
     private String currentUserId;
 
     public static final String NO_ACTION = "no_action";
-    public static final String WANT_POST_USER_UID = "want_post_user_uid";
     private static final String TAG = "ViewPostFragment";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPostId = (String) getArguments().get(getString(R.string.arg_post_id));
-        mPostUserId = (String) getArguments().get(getString(R.string.arg_user_id));
-        mPostStatus= (String) getArguments().get(getString(R.string.arg_post_status));
+
         databaseReference= FirebaseDatabase.getInstance().getReference();
         currentUserDBReference = databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
     }
 
     @Nullable
@@ -102,18 +98,30 @@ public class ViewPostFragment extends Fragment {
         mButtonContainer = view.findViewById(R.id.view_post_fragment_button_container);
         mPostStatusView =view.findViewById(R.id.view_post_post_status);
         setToolbar();
-        init();
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(getArguments() !=null) {
+            mPostId = (String) getArguments().get(MainActivity.ARG_POST_ID);
+            mPostUserId = (String) getArguments().get(MainActivity.ARG_UID);
+            mPostStatus = (String) getArguments().get(MainActivity.ARG_POST_STATUS);
+        }
+        init();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        try{
-            mListener = (ViewPostFragment.StartOfferButtonClickHandler) context;
-        }catch(ClassCastException e){
-            new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
+        if(isAdded()){
+            try {
+                mListener = (ViewPostFragment.StartOfferButtonClickHandler) context;
+            } catch (ClassCastException e) {
+                throw new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
 
+            }
         }
     }
 
@@ -135,13 +143,13 @@ public class ViewPostFragment extends Fragment {
             // View my post.
             mLike.setVisibility(View.GONE);
             mPostStartOffer.setVisibility(View.GONE);
-            if (mPostStatus.equals(Post.STATUS_VALUE_LOCKED)){
+            if (mPostStatus.equals(MainActivity.STATUS_VALUE_LOCKED)){
                 mPostStatusView.setVisibility(View.VISIBLE);
                 mButtonContainer.setVisibility(View.GONE);
-            } else if (mPostStatus.equals(Post.STATUS_VALUE_ACTIVE)) {
+            } else if (mPostStatus.equals(MainActivity.STATUS_VALUE_ACTIVE)) {
                 addUpdateClickListener();
                 addRemoveClickListener();
-            }else if(mPostStatus.equals(Post.STATUS_VALUE_TRADED)){
+            }else if(mPostStatus.equals(MainActivity.STATUS_VALUE_TRADED)){
                 mPostStatusView.setVisibility(View.VISIBLE);
                 mPostRemove.setVisibility(View.VISIBLE);
                 addRemoveClickListener();
@@ -154,10 +162,10 @@ public class ViewPostFragment extends Fragment {
             mPostRemove.setVisibility(View.INVISIBLE);
             getLikeInfo();
             addLikeAndOfferClickListener();
-            if (mPostStatus.equals(Post.STATUS_VALUE_LOCKED)) {
+            if (mPostStatus.equals(MainActivity.STATUS_VALUE_LOCKED)) {
                 mPostStatusView.setVisibility(View.VISIBLE);
                 mButtonContainer.setVisibility(View.GONE);
-            } else if (mPostStatus.equals(Post.STATUS_VALUE_ACTIVE)) {
+            } else if (mPostStatus.equals(MainActivity.STATUS_VALUE_ACTIVE)) {
                 mPostUpdate.setVisibility(View.INVISIBLE);
                 mPostRemove.setVisibility(View.INVISIBLE);
             }
@@ -198,7 +206,7 @@ public class ViewPostFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildren().iterator().hasNext()){
-                DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                    DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
                     if(singleSnapshot != null) {
                         mPost = singleSnapshot.getValue(Post.class);
                         mTitle.setText(mPost.getTitle());
@@ -259,7 +267,7 @@ public class ViewPostFragment extends Fragment {
             public void onClick(View v) {
                 Bundle args = new Bundle();
                 args.putString(getString(R.string.extra_post_id),mPostId);
-                args.putString(WANT_POST_USER_UID, mPostUserId);
+                args.putString(MainActivity.ARG_UID, mPostUserId);
                 OfferInventoryFragment fragment = new OfferInventoryFragment();
                 fragment.setArguments(args);
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -274,7 +282,7 @@ public class ViewPostFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
-                args.putString(getString(R.string.arg_user_id), mPostUserId);
+                args.putString(MainActivity.ARG_UID, mPostUserId);
                 MyItemsFragment fragment = new MyItemsFragment();
                 fragment.setArguments(args);
 

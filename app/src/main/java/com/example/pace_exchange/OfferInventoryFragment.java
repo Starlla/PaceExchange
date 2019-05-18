@@ -57,8 +57,9 @@ public class OfferInventoryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mPostIdWant = getArguments().getString(getString(R.string.extra_post_id));
-            mWantPostUserId = getArguments().getString(ViewPostFragment.WANT_POST_USER_UID);
+            mPostIdWant = getArguments().getString(MainActivity.ARG_POST_ID);
+            mWantPostUserId = getArguments().getString(MainActivity.ARG_UID);
+            System.out.println(mPostIdWant );
         }
     }
 
@@ -140,7 +141,7 @@ public class OfferInventoryFragment extends Fragment {
             mItems.clear();
         }
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        Query query = reference.child(getString(R.string.node_inventories))
+        Query query = reference.child("inventories")
                 .orderByKey()
                 .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -150,7 +151,7 @@ public class OfferInventoryFragment extends Fragment {
                     DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
                     for (DataSnapshot snapshot : singleSnapshot.getChildren()) {
                         //Only display active item
-                        String postId = snapshot.child(getString(R.string.field_post_id)).getValue().toString();
+                        String postId = snapshot.child("post_id").getValue().toString();
                         mPostIds.add(postId);
 
                     }
@@ -169,7 +170,7 @@ public class OfferInventoryFragment extends Fragment {
         if (mPostIds.size() > 0) {
             for (int i = 0; i < mPostIds.size(); i++) {
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-                Query query = reference.child(getString(R.string.node_posts))
+                Query query = reference.child("posts")
                         .orderByKey()
                         .equalTo(mPostIds.get(i));
 
@@ -180,7 +181,7 @@ public class OfferInventoryFragment extends Fragment {
                             DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
                             if (singleSnapshot != null) {
                                 Post post = singleSnapshot.getValue(Post.class);
-                                if(post.getStatus().equals(Post.STATUS_VALUE_ACTIVE)) {
+                                if(post.getStatus().equals(MainActivity.STATUS_VALUE_ACTIVE)) {
                                     mItems.add(post);
                                     mMyAdapter.notifyDataSetChanged();
                                 }
@@ -224,7 +225,7 @@ public class OfferInventoryFragment extends Fragment {
                     newOfferValue.put("sender_post_id",selectedPostId );
                     newOfferValue.put("receiver_uid", mWantPostUserId);
                     newOfferValue.put("sender_uid",uid );
-                    newOfferValue.put(getString(R.string.field_status),Post.STATUS_VALUE_ACTIVE );
+                    newOfferValue.put(getString(R.string.field_status),MainActivity.STATUS_VALUE_ACTIVE );
 
                     reference.child("offers")
                             .child(offer_id)

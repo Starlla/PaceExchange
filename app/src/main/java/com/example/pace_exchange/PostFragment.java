@@ -47,9 +47,11 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
     private ImageView mPostImage;
     private Button mPost;
     private Button mSave;
+    String mPostId;
     private Button mCancel;
     private ProgressBar mProgressBar;
     private byte[] mUploadBytes;
+    String mUid;
 
     private EditText mTitle, mDescription;
     private double mProgress = 0;
@@ -69,23 +71,19 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
     public void getImageBitmap(Bitmap bitmap) {
         Log.d(TAG, "getImageBitmap: setting the image to imageview");
         mPostImage.setImageBitmap(bitmap);
-
         mSelectedUri = null;
         mSelectedBitmap = bitmap;
-
     }
 
     @Override
     public void triggerImageUpload() {
-
     }
 
     interface PostFragmentButtonClickHandler{
-        void signOutButtonClicked();
     }
 
     PostFragmentButtonClickHandler mClickHandler;
-    String mPostId;
+
 
     @Override
     public void onAttach(Context context) {
@@ -109,25 +107,26 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
         mSave = view.findViewById(R.id.btn_save);
         mCancel = view.findViewById(R.id.btn_cancel);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-
-        mPostId = getArguments() == null ? "" : getArguments().getString(getString(R.string.arg_user_id));
-
+//        mPostId = getArguments() == null ? "" : getArguments().getString(MainActivity.ARG_UID);
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-
-        init();
-
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        init();
 
     }
 
     private void init(){
+        Bundle args = new Bundle();
+        if(args != null) {
+            mUid = args.getString(MainActivity.ARG_UID);
+            mPostId = args.getString(MainActivity.ARG_POST_ID);
+        }
         // For edit in view post fragment in my items fragment
-        if (!mPostId.isEmpty()) {
+        if (mPostId != null) {
             getPostInfo();
             mPost.setVisibility(View.GONE);
             mSave.setVisibility(View.VISIBLE);
@@ -311,7 +310,7 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
                     post.setPost_id(postId);
                     post.setTitle(mTitle.getText().toString());
                     post.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    post.setStatus(Post.STATUS_VALUE_ACTIVE);
+                    post.setStatus(MainActivity.STATUS_VALUE_ACTIVE);
 
                     reference.child(getString(R.string.node_posts))
                             .child(postId)

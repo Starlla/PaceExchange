@@ -45,7 +45,6 @@ public class MyLikesFragment extends Fragment {
     private static final int NUM_GRID_COLUMNS = 2;
     private static final int GRID_ITEM_MARGIN = Util.dpToPx(14);
     private static final String TAG = "MyLikesFragment";
-
     public MyLikesFragment() {
 
     }
@@ -65,7 +64,7 @@ public class MyLikesFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Bundle args = getArguments();
         if (args != null)
-            mUid = args.getString(ProfileFragment.ARG_UID);
+            mUid = args.getString(MainActivity.ARG_UID);
         init();
     }
 
@@ -75,7 +74,7 @@ public class MyLikesFragment extends Fragment {
         try{
             mListener = (MyLikesFragment.OnMyLikesFragmentInteractionListener) context;
         }catch(ClassCastException e){
-            new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
+             new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
         }
     }
 
@@ -130,7 +129,6 @@ public class MyLikesFragment extends Fragment {
         }
     };
 
-
     private void setToolbar(){
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
@@ -147,17 +145,15 @@ public class MyLikesFragment extends Fragment {
 
     public void viewPost(String postId, String userId, String postStatus) {
         Bundle args = new Bundle();
-        args.putString(getString(R.string.arg_post_id), postId);
-        args.putString(getString(R.string.arg_user_id), userId);
-        args.putString(getString(R.string.arg_post_status), postStatus);
+        args.putString(MainActivity.ARG_POST_ID, postId);
+        args.putString(MainActivity.ARG_UID, userId);
+        args.putString(MainActivity.ARG_POST_STATUS, postStatus);
         ViewPostFragment fragment = new ViewPostFragment();
         fragment.setArguments(args);
-
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_view_post));
         fragmentTransaction.addToBackStack(getString(R.string.fragment_view_post));
         fragmentTransaction.commit();
-//        mFrameLayout.setVisibility(View.VISIBLE);
     }
 
 

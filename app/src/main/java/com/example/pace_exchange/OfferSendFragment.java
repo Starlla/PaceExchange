@@ -48,8 +48,7 @@ public class OfferSendFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        if (args != null)
-            mUid = args.getString(ProfileFragment.ARG_UID);
+        if (args != null){}
     }
 
     @Override
@@ -99,7 +98,7 @@ public class OfferSendFragment extends Fragment {
         reference = FirebaseDatabase.getInstance().getReference();
         //reference for listening when items are added or removed from the offer list
         mDatabaseReference = FirebaseDatabase.getInstance().getReference()
-                .child(getString(R.string.node_offer_send))
+                .child("offer_send")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         mDatabaseReference.addValueEventListener(mValueEventListener);
     }
@@ -125,11 +124,11 @@ public class OfferSendFragment extends Fragment {
             }
 
             @Override
-            public void onImageClick(String postId, String userId) {
+            public void onImageClick(String postId, String userId,String postStatus) {
                 Bundle args = new Bundle();
-                args.putString(getString(R.string.arg_post_id), postId);
-                args.putString(getString(R.string.arg_user_id), userId);
-                args.putString(getString(R.string.arg_special_code), ViewPostFragment.NO_ACTION);
+                args.putString(MainActivity.ARG_POST_ID, postId);
+                args.putString(MainActivity.ARG_UID, userId);
+                args.putString(MainActivity.ARG_SPECIAL_CODE, MainActivity.NO_ACTION);
                 ViewPostFragment fragment = new ViewPostFragment();
                 fragment.setArguments(args);
 
@@ -162,7 +161,7 @@ public class OfferSendFragment extends Fragment {
     ValueEventListener mValueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            Log.d(TAG, "onDataChange: a change was made to this users offer received node.");
+            Log.d(TAG, "onDataChange: a change was made to this users offer_received node.");
             getOfferIds();
         }
         @Override

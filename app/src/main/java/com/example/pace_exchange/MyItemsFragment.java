@@ -49,7 +49,6 @@ public class MyItemsFragment extends Fragment {
     private static final int NUM_GRID_COLUMNS = 2;
     private static final int GRID_ITEM_MARGIN = Util.dpToPx(14);
     private static final String OTHER_USER_ITEMS= "other_user_items";
-    static final String ARG_UID = "UID";
 
     interface MyItemsFragmentButtonClickHandler{
         void signOutButtonClicked();
@@ -85,7 +84,9 @@ public class MyItemsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Bundle args = getArguments();
-        mUid = args.getString(getString(R.string.arg_user_id));
+        if(args != null) {
+            mUid = args.getString(MainActivity.ARG_UID);
+        }
         getUserInfo();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child(getString(R.string.node_posts));
         configureRecyclerView();
@@ -94,11 +95,12 @@ public class MyItemsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        try{
-            mClickHandler = (MyItemsFragment.MyItemsFragmentButtonClickHandler) context;
-
-        }catch(ClassCastException e){
-            new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
+        if(isAdded()) {
+            try {
+                mClickHandler = (MyItemsFragment.MyItemsFragmentButtonClickHandler) context;
+            } catch (ClassCastException e) {
+                throw new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
+            }
         }
     }
 
@@ -124,9 +126,7 @@ public class MyItemsFragment extends Fragment {
             }
         });
         mRecyclerView.setAdapter(mMyAdapter);
-
         Query query = mDatabaseReference.orderByChild(getString(R.string.field_user_id)).equalTo(mUid);
-
         query.addValueEventListener(mItemListener);
     }
 
@@ -171,9 +171,9 @@ public class MyItemsFragment extends Fragment {
 
     public void viewPost(String postId, String userId, String postStatus) {
         Bundle args = new Bundle();
-        args.putString(getString(R.string.arg_post_id), postId);
-        args.putString(getString(R.string.arg_user_id), userId);
-        args.putString(getString(R.string.arg_post_status), postStatus);
+        args.putString(MainActivity.ARG_POST_ID, postId);
+        args.putString(MainActivity.ARG_UID, userId);
+        args.putString(MainActivity.ARG_POST_STATUS, postStatus);
 
         ViewPostFragment fragment = new ViewPostFragment();
         fragment.setArguments(args);
@@ -188,12 +188,11 @@ public class MyItemsFragment extends Fragment {
     ValueEventListener mItemListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            Util.getPostIdsThenGetPosts(mUid, mPostIds, mPosts, mMyAdapter, getString(R.string.node_inventories));
+            Util.getPostIdsThenGetPosts(mUid, mPostIds, mPosts, mMyAdapter, "inventories");
         }
 
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
-
         }
     };
 }

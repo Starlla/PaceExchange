@@ -6,10 +6,12 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,6 +38,22 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
     String uid;
     String currentTag;
     TextView currentTabText;
+    public static final String NO_ACTION = "no_action";
+    static final String ARG_UID = "UID";
+    static final String ARG_POST_ID = "arg_post_id";
+    static final String ARG_POST_STATUS = "arg_post_status";
+    static final String ARG_NO_ITEM = "arg_no_item";
+    static final String ARG_SPECIAL_CODE = "arg_special_code";
+    //when post first created,the status is "ACTIVE"
+    public static final String STATUS_VALUE_ACTIVE = "ACTIVE";
+    public static final String STATUS_VALUE_INACTIVE = "INACTIVE";
+    public static final String STATUS_VALUE_LOCKED = "LOCKED";
+    public static final String STATUS_VALUE_NO_STATUS = "NO_STATUS";
+    public static final String STATUS_VALUE_TRADED = "TRADED";
+    public static final String STATUS_VALUE_SENDER_FINISHED = "SENDER FINISHED";
+    public static final String STATUS_VALUE_RECEIVER_FINISHED = "RECEIVER FINISHED";
+    private FrameLayout mFrameLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
         profileIconView =findViewById(R.id.profile_tab_icon);
         shopIconView =findViewById(R.id.shop_tab_icon);
         postIconView =findViewById(R.id.post_tab_icon);
+
 
         Intent intent = getIntent();
         Bundle bd = intent.getExtras();
@@ -63,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
 
     private void configureFragment(){
         Bundle args = new Bundle();
-        args.putString(getString(R.string.arg_user_id), uid);
+        args.putString(ARG_UID, uid);
 
         profileFragment = new ProfileFragment();
         profileFragment.setArguments(args);
@@ -134,24 +153,56 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
     }
 
     @Override
-    public void myItemsTabClicked(MyItemsFragment fragment) {
-        currentFragment = fragment;
+    public void myItemsTabClicked() {
+        Bundle args = new Bundle();
+        args.putString(ARG_UID, uid);
+        MyItemsFragment fragment = new MyItemsFragment();
+        fragment.setArguments(args);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_my_items));
+        fragmentTransaction.addToBackStack(getString(R.string.fragment_my_items));
+        fragmentTransaction.commit();
+//        mFrameLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void myLikesTabClicked(MyLikesFragment fragment) {
-        currentFragment = fragment;
+    public void myLikesTabClicked() {
+        Bundle args = new Bundle();
+        args.putString(ARG_UID,uid);
+        MyLikesFragment fragment = new MyLikesFragment();
+        fragment.setArguments(args);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_my_likes));
+        fragmentTransaction.addToBackStack(getString(R.string.fragment_my_likes));
+        fragmentTransaction.commit();
+//        mFrameLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void myOfferTabClicked(OfferFragment fragment) {
-
+    public void myOfferTabClicked() {
+        Bundle args = new Bundle();
+        args.putString(ARG_UID,uid);
+        OfferFragment fragment = new OfferFragment();
+        fragment.setArguments(args);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_offer));
+        fragmentTransaction.addToBackStack(getString(R.string.fragment_offer));
+        fragmentTransaction.commit();
+//        mFrameLayout.setVisibility(View.VISIBLE);
     }
 
 
     @Override
-    public void myProfileTabClicked(MyProfileFragment fragment) {
-        currentFragment = fragment;
+    public void myProfileTabClicked() {
+        Bundle args = new Bundle();
+        args.putString(ARG_UID, uid);
+        MyProfileFragment fragment =new MyProfileFragment();
+        fragment.setArguments(args);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_my_profile_2));
+        fragmentTransaction.addToBackStack(getString(R.string.fragment_my_profile_2));
+        fragmentTransaction.commit();
+//        mFrameLayout.setVisibility(View.VISIBLE);
     }
 
 

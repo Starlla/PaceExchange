@@ -41,7 +41,7 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
 
     interface OnGeneralSituationInterationListener{
         void onRemoveButtonClick(int position);
-        void onImageClick(String postId, String userId);
+        void onImageClick(String postId, String userId,String postStatus);
     }
 
     public void setReceivedOfferInteraction(OnReceivedOfferInteractionListener listener){
@@ -124,7 +124,7 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder viewHolder, int position) {
         OfferPostItem currentOffer = mOfferList.get(position);
-        if(!currentOffer.getOfferStatus().equals(Post.STATUS_VALUE_ACTIVE)){
+        if(!currentOffer.getOfferStatus().equals(MainActivity.STATUS_VALUE_ACTIVE)){
             viewHolder.mReceiverStatusText.setVisibility(View.VISIBLE);
             viewHolder.mReceiverStatusText.setText(currentOffer.getOfferStatus());
             viewHolder.mSenderStatusText.setVisibility(View.VISIBLE);
@@ -137,7 +137,8 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
         if (fragmentTag.equals(OfferSendFragment.TAG)) {
             viewHolder.mAcceptButton.setVisibility(View.GONE);
             viewHolder.mRejectButton.setVisibility(View.GONE);
-            if(currentOffer.getOfferStatus().equals(Post.STATUS_VALUE_INACTIVE)){
+            if(currentOffer.getOfferStatus().equals(MainActivity.STATUS_VALUE_INACTIVE)){
+                viewHolder.mRemoveButton.setVisibility(View.VISIBLE);
                 mGeneralListener.onRemoveButtonClick(position);
                 viewHolder.mRemoveButton.setOnClickListener(v->{
                     mGeneralListener.onRemoveButtonClick(position);
@@ -149,9 +150,10 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
                     mSendListener.onCancelButtonClick(position));
 
         } else if (fragmentTag.equals(OfferReceivedFragment.TAG)) {
-            if(currentOffer.getOfferStatus().equals(Post.STATUS_VALUE_INACTIVE)){
+            if(currentOffer.getOfferStatus().equals(MainActivity.STATUS_VALUE_INACTIVE)){
+                viewHolder.mRemoveButton.setVisibility(View.VISIBLE);
                 viewHolder.mRemoveButton.setOnClickListener(v->{
-                    mConfirmedListener.onFinishedButtonClick(position);
+                    mGeneralListener.onRemoveButtonClick(position);
                 });
             }
 
@@ -169,9 +171,9 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
             viewHolder.mAcceptButton.setVisibility(View.GONE);
             viewHolder.mRejectButton.setVisibility(View.GONE);
             viewHolder.mCancelButton.setVisibility(View.GONE);
-            if(currentOffer.getOfferStatus().equals(Post.STATUS_VALUE_LOCKED)
-                    ||(currentOffer.getOfferStatus().equals(Offer.STATUS_VALUE_SENDER_FINISHED) && FirebaseAuth.getInstance().getUid().equals(currentOffer.getReceiverPost().getUser_id()))
-                    || (currentOffer.getOfferStatus().equals(Offer.STATUS_VALUE_RECEIVER_FINISHED) && FirebaseAuth.getInstance().getUid().equals(currentOffer.getSenderPost().getUser_id()))
+            if(currentOffer.getOfferStatus().equals(MainActivity.STATUS_VALUE_LOCKED)
+                    ||(currentOffer.getOfferStatus().equals(MainActivity.STATUS_VALUE_SENDER_FINISHED) && FirebaseAuth.getInstance().getUid().equals(currentOffer.getReceiverPost().getUser_id()))
+                    || (currentOffer.getOfferStatus().equals(MainActivity.STATUS_VALUE_RECEIVER_FINISHED) && FirebaseAuth.getInstance().getUid().equals(currentOffer.getSenderPost().getUser_id()))
             ){
                 viewHolder.mFinishedButton.setVisibility(View.VISIBLE);
                 viewHolder.mRemoveButton.setVisibility(View.INVISIBLE);
@@ -180,11 +182,8 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
                 });
 
             }
-            if(currentOffer.getOfferStatus().equals(Offer.STATUS_VALUE_SENDER_FINISHED)){
 
-
-            }
-            if(currentOffer.getOfferStatus().equals(Offer.STATUS_VALUE_TRADED)){
+            if(currentOffer.getOfferStatus().equals(MainActivity.STATUS_VALUE_TRADED)){
                 viewHolder.mFinishedButton.setVisibility(View.INVISIBLE);
                 viewHolder.mRemoveButton.setVisibility(View.VISIBLE);
                 viewHolder.mRemoveButton.setOnClickListener(v->{
@@ -195,11 +194,11 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.Recycler
         }
         viewHolder.mReceiverImage.setOnClickListener(v ->
                 mGeneralListener.onImageClick(currentOffer.getReceiverPost().getPost_id(),
-                        currentOffer.getReceiverPost().getUser_id()));
+                        currentOffer.getReceiverPost().getUser_id(),currentOffer.getReceiverPost().getUser_id()));
 
         viewHolder.mSenderImage.setOnClickListener(v ->
                 mGeneralListener.onImageClick(currentOffer.getSenderPost().getPost_id(),
-                        currentOffer.getSenderPost().getUser_id()));
+                        currentOffer.getSenderPost().getUser_id(),currentOffer.getSenderPost().getStatus()));
         Glide.with(mContext).load(currentOffer.getReceiverPost().getImage()).into(viewHolder.mReceiverImage);
         Glide.with(mContext).load(currentOffer.getSenderPost().getImage()).into(viewHolder.mSenderImage);
     }

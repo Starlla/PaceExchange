@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pace_exchange.util.MyPagerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class OfferFragment extends Fragment {
@@ -25,6 +26,8 @@ public class OfferFragment extends Fragment {
 
     //vars
     public MyPagerAdapter mPagerAdapter;
+    String mUid;
+    public static final String ARG_UID = "uid";
 
     private OnFragmentInteractionListener mListener;
 
@@ -35,7 +38,7 @@ public class OfferFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+//            mUid = MainActivity.ARG_UID;
         }
     }
 
@@ -46,6 +49,7 @@ public class OfferFragment extends Fragment {
         mTabLayout = (TabLayout) view.findViewById(R.id.offer_tabs);
         mViewPager  = (ViewPager) view.findViewById(R.id.viewpager_container);
         toolbar = view.findViewById(R.id.offer_toolbar);
+        mUid = FirebaseAuth.getInstance().getUid();
         return view;
     }
 
@@ -57,10 +61,19 @@ public class OfferFragment extends Fragment {
     }
 
     private void setupViewPager(){
+        Bundle args = new Bundle();
+
         mPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
-        mPagerAdapter.addFragment(new OfferReceivedFragment());
-        mPagerAdapter.addFragment(new OfferSendFragment());
-        mPagerAdapter.addFragment(new OfferConfirmedFragment());
+        OfferReceivedFragment mOfferReceivedFragment = new OfferReceivedFragment();
+        OfferSendFragment mOfferSendFragment = new OfferSendFragment();
+        OfferConfirmedFragment mOfferConfirmedFragment = new OfferConfirmedFragment();
+//        mOfferReceivedFragment.setArguments(args);
+//        mOfferSendFragment.setArguments(args);
+//        mOfferSendFragment.setArguments(args);
+
+        mPagerAdapter.addFragment(mOfferReceivedFragment);
+        mPagerAdapter.addFragment(mOfferSendFragment);
+        mPagerAdapter.addFragment(mOfferConfirmedFragment);
         //Add Fragment to ViewPager
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -72,11 +85,13 @@ public class OfferFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-       try{
-            mListener = (OfferFragment.OnFragmentInteractionListener) context;
-        } catch(ClassCastException e){
-           new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
-       }
+        if(isAdded()) {
+            try {
+                mListener = (OfferFragment.OnFragmentInteractionListener) context;
+            } catch (ClassCastException e) {
+                throw new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
+            }
+        }
     }
 
     @Override
