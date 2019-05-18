@@ -123,7 +123,8 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
             mUid = args.getString(MainActivity.ARG_UID);
             mPostId = args.getString(MainActivity.ARG_POST_ID);
             System.out.println("ababbababba"+ mPostId);
-        }else{mPostId="";}
+        }
+        mPostId = mPostId == null?"":args.getString(MainActivity.ARG_POST_ID);
 
         // For edit in view post fragment in my items fragment
         if (mPostId !="") {
