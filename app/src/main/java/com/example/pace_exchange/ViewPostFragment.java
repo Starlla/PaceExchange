@@ -65,7 +65,8 @@ public class ViewPostFragment extends Fragment {
     private String mPostUserId;
     private Post mPost;
     private boolean mIsInMyLikes;
-    private StartOfferButtonClickHandler mListener;
+    private StartOfferButtonClickHandler mStartOfferListener;
+    private UpdateButtonClickHandler mUpdateListener;
     private String currentUserId;
 
     public static final String NO_ACTION = "no_action";
@@ -117,9 +118,10 @@ public class ViewPostFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
             try {
-                mListener = (ViewPostFragment.StartOfferButtonClickHandler) context;
+                mStartOfferListener = (ViewPostFragment.StartOfferButtonClickHandler) context;
+                mUpdateListener = (ViewPostFragment.UpdateButtonClickHandler)context;
             } catch (ClassCastException e) {
-                throw new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
+                 new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
             }
 
     }
@@ -128,7 +130,7 @@ public class ViewPostFragment extends Fragment {
         getUserInfo();
         getPostInfo();
         mSenderItemUserIdMap = new HashMap<>();
-        String specialCode = (String) getArguments().get(getString(R.string.arg_special_code));
+        String specialCode = (String) getArguments().get(MainActivity.ARG_SPECIAL_CODE);
         if (specialCode != null && specialCode == NO_ACTION) {
             if(!mPostStatus.equals(MainActivity.STATUS_VALUE_ACTIVE)){
                 mPostStatusView.setVisibility(View.VISIBLE);
@@ -141,7 +143,8 @@ public class ViewPostFragment extends Fragment {
             } else {
                 mLike.setVisibility(View.GONE);
             }
-        } else if (mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+        } else
+        if (mPostUserId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             // View my post.
             mLike.setVisibility(View.GONE);
             mPostStartOffer.setVisibility(View.GONE);
@@ -268,9 +271,9 @@ public class ViewPostFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
-                args.putString(getString(R.string.extra_post_id),mPostId);
+                args.putString(MainActivity.ARG_POST_ID,mPostId);
                 args.putString(MainActivity.ARG_UID, mPostUserId);
-                mListener.startOfferButtonClicked(args);
+                mStartOfferListener.startOfferButtonClicked(args);
             }
         });
 
@@ -295,14 +298,9 @@ public class ViewPostFragment extends Fragment {
         mPostUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Change to use Interface to pass args!!!
                 Bundle args = new Bundle();
                 args.putString(MainActivity.ARG_POST_ID, mPostId);
-                PostFragment fragment = new PostFragment();
-                fragment.setArguments(args);
-
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment).commit();
+                mUpdateListener.updateButtonClicked(args);
             }
         });
     }
@@ -460,6 +458,11 @@ public class ViewPostFragment extends Fragment {
     public interface StartOfferButtonClickHandler{
         void startOfferButtonClicked(Bundle args);
     }
+
+    public interface UpdateButtonClickHandler{
+        void updateButtonClicked(Bundle args);
+    }
+
 
 
 //    private void initAndExecuteAsyncTask() {

@@ -128,6 +128,7 @@ public class OfferSendFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString(MainActivity.ARG_POST_ID, postId);
                 args.putString(MainActivity.ARG_UID, userId);
+                args.putString(MainActivity.ARG_POST_STATUS, postStatus);
                 args.putString(MainActivity.ARG_SPECIAL_CODE, MainActivity.NO_ACTION);
                 ViewPostFragment fragment = new ViewPostFragment();
                 fragment.setArguments(args);
@@ -257,7 +258,7 @@ public class OfferSendFragment extends Fragment {
         Log.d(TAG, "getPosts: getting post information for: receiver post: "
                 + receiverPostId +" sender post " + senderPostId);
 
-        Query query = reference.child(getString(R.string.node_posts))
+        Query query = reference.child("posts")
                 .orderByKey()
                 .equalTo(receiverPostId);
 

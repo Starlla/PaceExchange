@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements ProfileFragment.ProfileFragmentButtonClickHandler,
-        ShopFragment.ShopFragmentButtonClickHandler,ViewPostFragment.StartOfferButtonClickHandler{
+        ShopFragment.ShopFragmentButtonClickHandler,ViewPostFragment.StartOfferButtonClickHandler,ViewPostFragment.UpdateButtonClickHandler{
     private static final int REQUEST_CODE = 1;
 
     private ImageView currentTabView;
@@ -243,6 +243,14 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.P
         fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.fragment_offer_inventory));
         fragmentTransaction.addToBackStack(getString(R.string.fragment_offer_inventory));
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void updateButtonClicked(Bundle args) {
+        PostFragment fragment = new PostFragment();
+        fragment.setArguments(args);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment).commit();
 
     }
 }

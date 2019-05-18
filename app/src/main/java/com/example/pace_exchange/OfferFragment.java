@@ -37,9 +37,6 @@ public class OfferFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-//            mUid = MainActivity.ARG_UID;
-        }
     }
 
     @Override
@@ -61,7 +58,6 @@ public class OfferFragment extends Fragment {
     }
 
     private void setupViewPager(){
-        Bundle args = new Bundle();
 
         mPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
         OfferReceivedFragment mOfferReceivedFragment = new OfferReceivedFragment();
@@ -89,7 +85,7 @@ public class OfferFragment extends Fragment {
             try {
                 mListener = (OfferFragment.OnFragmentInteractionListener) context;
             } catch (ClassCastException e) {
-                throw new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
+                 new ClassCastException("the activity that  this fragment is attached to must be a FirstFragmentButtonClickHandler");
             }
         }
     }
