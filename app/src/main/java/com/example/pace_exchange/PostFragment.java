@@ -118,11 +118,10 @@ public class PostFragment extends Fragment implements SelectPhotoDialog.OnPhotoS
     }
 
     private void init(){
-        Bundle args = new Bundle();
+       Bundle args = getArguments();
         if(args != null) {
             mUid = args.getString(MainActivity.ARG_UID);
             mPostId = args.getString(MainActivity.ARG_POST_ID);
-            System.out.println("ababbababba"+ mPostId);
         }
         mPostId = mPostId == null?"":args.getString(MainActivity.ARG_POST_ID);
 
