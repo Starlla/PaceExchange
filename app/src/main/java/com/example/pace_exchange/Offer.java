@@ -20,7 +20,6 @@ public class Offer {
         this.status = status;
     }
 
-
     public Offer() {
     }
 
